@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="hi" class="scroll-smooth">
 <head>
@@ -6,8 +7,6 @@
   <title>THE MedRise — High-Yield NEET Biology Intelligence</title>
   
   <meta name="description" content="Decoded NCERT Handwritten Biology Vault, Daily NCERT Traps & Mock Drill for Serious NEET Aspirants.">
-  <meta property="og:title" content="THE MedRise — NEET Biology Intelligence">
-  <meta property="og:description" content="100% NCERT Decoded Flowcharts, Organelle Traps & High-Yield Revision Deck.">
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -50,15 +49,14 @@
 </head>
 <body class="min-h-screen hero-grid relative antialiased selection:bg-cyan-400 selection:text-black">
 
-  <!-- AMBIENT BACKGROUND GLOWS -->
-  <div class="fixed top-0 left-1/4 w-[600px] h-[600px] glow-cyan pointer-events-none -z-10 blur-3xl"></div>
-  <div class="fixed bottom-10 right-1/4 w-[600px] h-[600px] glow-emerald pointer-events-none -z-10 blur-3xl"></div>
+  <!-- Ambient Glows -->
+  <div class="fixed top-0 left-1/4 w-[500px] h-[500px] glow-cyan pointer-events-none -z-10 blur-3xl"></div>
+  <div class="fixed bottom-10 right-1/4 w-[500px] h-[500px] glow-emerald pointer-events-none -z-10 blur-3xl"></div>
 
-  <!-- NAVIGATION HEADER -->
+  <!-- NAVIGATION -->
   <header class="border-b border-white/5 bg-[#08090d]/85 backdrop-blur-md sticky top-0 z-40 px-6 py-4">
     <div class="max-w-6xl mx-auto flex items-center justify-between">
-      <!-- Secret Logo Area (Triple Click opens Admin Portal) -->
-      <div id="secretLogoTrigger" class="flex items-center gap-3 cursor-pointer select-none">
+      <div onclick="openPinModal()" class="flex items-center gap-3 cursor-pointer select-none">
         <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-400 via-sky-500 to-emerald-400 flex items-center justify-center font-black text-black text-base shadow-lg shadow-cyan-500/20">
           MR
         </div>
@@ -70,7 +68,6 @@
         </div>
       </div>
 
-      <!-- Quick Actions -->
       <div class="flex items-center gap-3">
         <a href="#dailyQuiz" class="hidden sm:inline-flex text-xs font-semibold px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 hover:border-cyan-400/40 text-slate-300 transition items-center gap-1.5">
           <span class="text-cyan-400">⚡</span> Daily Drill
@@ -82,10 +79,10 @@
     </div>
   </header>
 
-  <!-- VIEW 1: PUBLIC MAIN STUDENT PLATFORM -->
+  <!-- VIEW 1: STUDENT MAIN VIEW -->
   <div id="studentView" class="max-w-6xl mx-auto px-4 sm:px-6 pt-10 pb-20 space-y-12">
     
-    <!-- HERO SECTION (Outlier Style Grand Banner) -->
+    <!-- Hero Banner -->
     <section class="text-center pt-8 pb-4 max-w-4xl mx-auto space-y-6">
       <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-950/40 text-emerald-300 text-xs font-medium">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
@@ -112,7 +109,6 @@
         </button>
       </div>
 
-      <!-- Trust Bar -->
       <div class="pt-6 grid grid-cols-3 gap-2 max-w-lg mx-auto border-t border-white/5 text-center">
         <div>
           <span class="block text-lg sm:text-xl font-black text-white mono">38</span>
@@ -129,10 +125,8 @@
       </div>
     </section>
 
-    <!-- BENTO GRID SECTION -->
+    <!-- Bento Grid -->
     <section class="grid grid-cols-1 md:grid-cols-3 gap-5">
-      
-      <!-- Big Card: Handwritten Deck Details -->
       <div class="md:col-span-2 outlier-card p-6 sm:p-8 flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
@@ -143,12 +137,10 @@
               Class 11 & 12 Complete
             </span>
           </div>
-
           <h2 class="text-xl sm:text-2xl font-bold text-white mb-2">Line-by-Line Decoded High-Yield Biology</h2>
           <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-6">
             NTA har saal direct textbook ki tricky sentences se statement questions banata hai. Hamne har complex paragraph ko step-by-step visual pathways aur flowchart boxes me tod diya hai.
           </p>
-
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
             <div class="bg-[#101217] p-3.5 rounded-xl border border-white/5">
               <span class="text-emerald-400 font-bold block text-sm mb-1">⚡ Trap Alert Annotations</span>
@@ -160,7 +152,6 @@
             </div>
           </div>
         </div>
-
         <div class="flex items-center gap-3 pt-2">
           <button onclick="openModal('checkoutModal')" class="flex-1 py-3 bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-extrabold text-xs sm:text-sm rounded-xl hover:opacity-95 transition">
             Get Complete Deck Now
@@ -171,7 +162,6 @@
         </div>
       </div>
 
-      <!-- Side Card: Upcoming Test Series Blueprint -->
       <div class="outlier-card p-6 sm:p-8 flex flex-col justify-between border-amber-500/30">
         <div>
           <div class="flex items-center justify-between mb-4">
@@ -180,25 +170,16 @@
             </span>
             <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
           </div>
-
           <h3 class="text-lg font-bold text-white mb-2">NEET Mock Test Series</h3>
           <p class="text-xs text-slate-400 leading-relaxed mb-4">
             Zero out-of-syllabus questions. Strictly NCERT statement-based, assertion-reason & matching pairs curated directly by top mentors.
           </p>
-
           <div class="space-y-2 text-xs text-slate-300">
-            <div class="flex items-center gap-2">
-              <span class="text-emerald-400 font-bold">✓</span> Chapter-wise DPP Vault
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="text-emerald-400 font-bold">✓</span> Full 100-Question Unit Tests
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="text-emerald-400 font-bold">✓</span> Trap Analysis Reports
-            </div>
+            <div class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> Chapter-wise DPP Vault</div>
+            <div class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> Full 100-Question Unit Tests</div>
+            <div class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> Trap Analysis Reports</div>
           </div>
         </div>
-
         <div class="pt-6">
           <button onclick="openModal('communityModal')" class="w-full py-2.5 rounded-xl bg-[#181a22] border border-amber-500/40 hover:bg-amber-500/10 text-amber-300 text-xs font-bold transition">
             Join Early Waitlist 🔔
@@ -206,7 +187,6 @@
         </div>
       </div>
 
-      <!-- Telegram Community Card -->
       <div class="outlier-card p-6 flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between mb-3">
@@ -214,16 +194,13 @@
             <span class="text-base">✈️</span>
           </div>
           <h4 class="text-base font-bold text-white mb-1">Telegram Biology Channel</h4>
-          <p class="text-xs text-slate-400 mb-4">
-            Daily tricky questions, handwritten audio capsules aur quick chapter revision cards.
-          </p>
+          <p class="text-xs text-slate-400 mb-4">Daily tricky questions, handwritten audio capsules aur quick chapter revision cards.</p>
         </div>
         <button onclick="openModal('communityModal')" class="w-full py-2.5 rounded-xl bg-sky-500/10 border border-sky-500/30 hover:bg-sky-500/20 text-sky-300 text-xs font-bold transition">
           Join Official Telegram
         </button>
       </div>
 
-      <!-- Instagram Reels Card -->
       <div class="outlier-card p-6 flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between mb-3">
@@ -231,16 +208,13 @@
             <span class="text-base">📸</span>
           </div>
           <h4 class="text-base font-bold text-white mb-1">60s NCERT Traps</h4>
-          <p class="text-xs text-slate-400 mb-4">
-            Ek minute ke rapid reels jo examiner ki favorite confusing lines ko hamesha ke liye clear kar denge.
-          </p>
+          <p class="text-xs text-slate-400 mb-4">Ek minute ke rapid reels jo examiner ki favorite confusing lines ko hamesha ke liye clear kar denge.</p>
         </div>
         <button onclick="openModal('communityModal')" class="w-full py-2.5 rounded-xl bg-pink-500/10 border border-pink-500/30 hover:bg-pink-500/20 text-pink-300 text-xs font-bold transition">
           Follow @the.medrise
         </button>
       </div>
 
-      <!-- Free Asset Card -->
       <div class="outlier-card p-6 flex flex-col justify-between border-cyan-500/30">
         <div>
           <div class="flex items-center justify-between mb-3">
@@ -248,18 +222,15 @@
             <span class="mono text-[10px] text-slate-500">14 Pages PDF</span>
           </div>
           <h4 class="text-base font-bold text-white mb-1">Cell: Unit of Life</h4>
-          <p class="text-xs text-slate-400 mb-4">
-            Handwritten diagrams, organelle comparison table, and statement trap sheet.
-          </p>
+          <p class="text-xs text-slate-400 mb-4">Handwritten diagrams, organelle comparison table, and statement trap sheet.</p>
         </div>
         <button onclick="openModal('sampleModal')" class="w-full py-2.5 rounded-xl bg-cyan-400 text-black text-xs font-extrabold hover:bg-cyan-300 transition">
           Instant Free Download
         </button>
       </div>
-
     </section>
 
-    <!-- INTERACTIVE DAILY NCERT DRILL (Spacious Outlier Style) -->
+    <!-- Interactive Daily Quiz -->
     <section id="dailyQuiz" class="outlier-card p-6 sm:p-8 border-cyan-500/40 relative overflow-hidden">
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/5 pb-5 mb-6">
         <div>
@@ -273,26 +244,14 @@
         </div>
       </div>
 
-      <!-- Quiz Interactive Card Container -->
       <div id="quizBox" class="max-w-3xl mx-auto space-y-4">
         <div class="flex items-center justify-between text-xs text-slate-400">
           <span id="questionNumber" class="mono font-bold text-cyan-400 text-sm">Question 1 of 3</span>
           <span class="text-[10px] bg-white/5 border border-white/10 px-2.5 py-1 rounded-md text-slate-300">Repeated NTA Trap Pattern</span>
         </div>
-
-        <p id="questionText" class="text-base sm:text-lg font-semibold text-white leading-relaxed">
-          Loading Question...
-        </p>
-
-        <!-- Options Container -->
-        <div id="optionsContainer" class="space-y-2.5 pt-2">
-          <!-- Dynamically Injected -->
-        </div>
-
-        <!-- Explanation Card (Reveals after click) -->
+        <p id="questionText" class="text-base sm:text-lg font-semibold text-white leading-relaxed">Loading Question...</p>
+        <div id="optionsContainer" class="space-y-2.5 pt-2"></div>
         <div id="explanationBox" class="hidden p-4 rounded-xl text-xs sm:text-sm leading-relaxed border mt-4"></div>
-
-        <!-- Next Question Action -->
         <div class="flex justify-end pt-3">
           <button id="nextBtn" onclick="nextQuestion()" class="hidden px-6 py-2.5 bg-gradient-to-r from-cyan-400 to-emerald-400 text-black text-xs sm:text-sm font-extrabold rounded-xl hover:opacity-95 transition">
             Next Question →
@@ -301,7 +260,7 @@
       </div>
     </section>
 
-    <!-- PRICING CONVERSION VAULT -->
+    <!-- Notes Vault CTA -->
     <section id="notesVault" class="outlier-card p-6 sm:p-10 border-emerald-500/40 bg-gradient-to-b from-[#13151c] to-[#0a0c10]">
       <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
         <div class="space-y-2 max-w-xl">
@@ -310,10 +269,9 @@
           </span>
           <h3 class="text-2xl sm:text-3xl font-black text-white">Full NCERT Biology Master Vault</h3>
           <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
-            38 Complete Class 11 & 12 Chapters. High-definition printable PDFs, flowcharts, formula sheets, and upcoming 2026/27 revisions included.
+            38 Complete Class 11 & 12 Chapters. High-definition printable PDFs, flowcharts, formula sheets, and upcoming 2026 revisions included.
           </p>
         </div>
-
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5 w-full md:w-auto justify-between md:justify-end">
           <div class="text-left md:text-right">
             <span class="text-xs line-through text-slate-500 block mono">Regular ₹999</span>
@@ -327,16 +285,19 @@
       </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- Footer with Hidden Admin Door -->
     <footer class="pt-10 border-t border-white/5 text-center text-xs text-slate-500 space-y-2">
       <p>© 2026 THE MedRise. Strictly focused on NCERT Biology Excellence.</p>
-      <p class="text-[11px] text-slate-600">Built for future doctors who value speed, retention, and clarity.</p>
+      <p class="text-[11px] text-slate-600">
+        Built for future doctors who value speed, retention, and clarity
+        <span onclick="openPinModal()" class="cursor-pointer text-slate-700 hover:text-cyan-400 select-none">.</span>
+      </p>
     </footer>
 
   </div>
 
-  <!-- VIEW 2: CONFIDENTIAL OWNER ADMIN PORTAL (Secret Access Only) -->
-  <div id="adminView" style="display: none;" class="max-w-5xl mx-auto px-4 pt-8 pb-20 space-y-6">
+  <!-- VIEW 2: OWNER ADMIN DASHBOARD -->
+  <div id="adminView" class="hidden max-w-5xl mx-auto px-4 pt-8 pb-20 space-y-6">
     <div class="outlier-card p-6 border-amber-500/40 bg-gradient-to-r from-[#1c1913] to-[#121318]">
       <div class="flex items-center justify-between flex-wrap gap-4">
         <div class="flex items-center gap-3">
@@ -354,7 +315,6 @@
       </div>
     </div>
 
-    <!-- Revenue & Lead Analytics -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
       <div class="outlier-card p-5">
         <span class="text-xs text-slate-400 block mb-1">Total Revenue</span>
@@ -375,3 +335,201 @@
         <span class="text-xs text-slate-400 block mb-1">Gateway Engine</span>
         <span class="text-base font-bold text-emerald-400 block">Cosmofeed / UPI</span>
         <span class="text-[10px] text-slate-500 block mt-1">Ready for Auto-Delivery</span>
+      </div>
+    </div>
+
+    <div class="outlier-card p-6 space-y-3">
+      <h3 class="text-sm font-bold text-white">Owner Integration Instructions</h3>
+      <p class="text-xs text-slate-400 leading-relaxed">
+        1. <strong>Cosmofeed Link:</strong> Jab tera payment page banega toh checkout modal me button link daal denge.<br>
+        2. <strong>Sample Notes Link:</strong> Google Drive link yahan connect hoga.<br>
+        3. <strong>Official Channels:</strong> Telegram and Instagram connect ho jayenge.
+      </p>
+    </div>
+  </div>
+
+  <!-- MODALS -->
+  <!-- Admin PIN Modal -->
+  <div id="pinModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="outlier-card max-w-sm w-full p-6 border-amber-500/40 relative">
+      <div class="flex items-center justify-between mb-4">
+        <span class="text-xs mono text-amber-400 font-bold uppercase tracking-wider">Admin Security Check</span>
+        <button onclick="closeModal('pinModal')" class="text-slate-400 hover:text-white text-xl">✕</button>
+      </div>
+      <p class="text-xs text-slate-400 mb-4">Enter 4-digit Owner PIN to unlock creator portal:</p>
+      <input id="pinInput" type="password" maxlength="4" placeholder="••••" class="w-full text-center text-xl font-bold mono bg-[#0d0f14] border border-white/20 rounded-xl px-3 py-2 text-white mb-2 focus:outline-none focus:border-amber-400">
+      <p id="pinError" class="hidden text-[11px] text-red-400 text-center mb-3">Galat PIN! Dubara try karo.</p>
+      <button onclick="verifyPin()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-black font-extrabold text-xs uppercase tracking-wider hover:opacity-95 transition">
+        Unlock Portal
+      </button>
+    </div>
+  </div>
+
+  <!-- Sample Modal -->
+  <div id="sampleModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="outlier-card max-w-md w-full p-6 border-cyan-500/40 relative">
+      <div class="flex items-center justify-between mb-4">
+        <span class="text-xs mono text-cyan-400 font-bold uppercase">Sample Preview</span>
+        <button onclick="closeModal('sampleModal')" class="text-slate-400 hover:text-white text-xl">✕</button>
+      </div>
+      <h4 class="text-lg font-bold text-white mb-1">Cell: The Unit of Life (Handwritten)</h4>
+      <p class="text-xs text-slate-400 mb-4">High-yield notes with organelle comparison matrix and decoded NCERT lines.</p>
+      <button onclick="alert('Google Drive sample link jald connect ho raha hai!'); closeModal('sampleModal');" class="w-full py-3 rounded-xl bg-cyan-400 text-black font-extrabold text-xs uppercase tracking-wider hover:bg-cyan-300 transition">
+        Download Sample PDF
+      </button>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div id="checkoutModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="outlier-card max-w-md w-full p-6 border-emerald-500/40 relative">
+      <div class="flex items-center justify-between mb-4">
+        <span class="text-xs mono text-emerald-400 font-bold uppercase">Instant Access • ₹199</span>
+        <button onclick="closeModal('checkoutModal')" class="text-slate-400 hover:text-white text-xl">✕</button>
+      </div>
+      <h4 class="text-lg font-bold text-white mb-1">Unlock 38 Biology Chapters</h4>
+      <p class="text-xs text-slate-400 mb-4">UPI se pay karte hi download access WhatsApp aur Email par mil jayega.</p>
+      <button onclick="alert('Cosmofeed link sync hone wala hai!'); closeModal('checkoutModal');" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-black text-xs uppercase tracking-wider hover:opacity-95 transition">
+        Proceed to UPI Pay (₹199)
+      </button>
+    </div>
+  </div>
+
+  <!-- Community Modal -->
+  <div id="communityModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="outlier-card max-w-sm w-full p-6 border-white/10 relative text-center space-y-4">
+      <div class="w-12 h-12 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 mx-auto flex items-center justify-center text-xl font-bold">🧬</div>
+      <div>
+        <h4 class="text-base font-bold text-white mb-1">The MedRise Official Hub</h4>
+        <p class="text-xs text-slate-400">Telegram aur Instagram links launch par add ho jayenge.</p>
+      </div>
+      <button onclick="closeModal('communityModal')" class="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold text-xs transition">
+        Got It
+      </button>
+    </div>
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    const questions = [
+      {
+        q: "According to strictly NCERT, which of the following cell organelles is NOT considered part of the endomembrane system?",
+        options: ["Endoplasmic reticulum", "Peroxisome", "Golgi apparatus", "Lysosomes"],
+        correct: 1,
+        exp: "NCERT Fact: Endomembrane system includes ER, Golgi, Lysosomes and Vacuoles. Peroxisomes, Mitochondria and Chloroplast are NOT part of it because their functions are not coordinated with these."
+      },
+      {
+        q: "Middle lamella is chiefly composed of which chemical substance that cements neighbouring cells together?",
+        options: ["Calcium pectate", "Hemicellulose & Cellulose", "Suberin and Lignin", "Magnesium carbonate"],
+        correct: 0,
+        exp: "NCERT Direct Line: The middle lamella is a layer mainly composed of calcium pectate which holds or glues the different neighbouring cells together."
+      },
+      {
+        q: "Where in a eukaryotic cell can you find 70S ribosomes?",
+        options: ["Outer surface of Rough ER", "Cytoplasm and nucleolus", "Mitochondrial matrix & Chloroplast stroma", "Only inside Lysosomes"],
+        correct: 2,
+        exp: "NCERT Statement: Eukaryotic cytoplasm has 80S ribosomes, while organelle ribosomes present in mitochondria and chloroplasts are 70S (resembling prokaryotes)."
+      }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+    let answered = false;
+
+    function loadQuiz() {
+      answered = false;
+      const q = questions[currentQ];
+      document.getElementById('questionNumber').innerText = `Question ${currentQ + 1} of ${questions.length}`;
+      document.getElementById('questionText').innerText = q.q;
+      const optContainer = document.getElementById('optionsContainer');
+      optContainer.innerHTML = '';
+      document.getElementById('explanationBox').classList.add('hidden');
+      document.getElementById('nextBtn').classList.add('hidden');
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-3.5 rounded-xl border border-white/5 bg-[#0e1015] hover:border-slate-500 text-xs sm:text-sm text-slate-200 transition flex items-center justify-between";
+        btn.innerHTML = `<span><strong class="text-cyan-400 mr-2">${String.fromCharCode(65 + idx)}.</strong> ${opt}</span> <span id="icon-${idx}"></span>`;
+        btn.onclick = () => selectOption(idx, btn);
+        optContainer.appendChild(btn);
+      });
+    }
+
+    function selectOption(idx, btnElement) {
+      if (answered) return;
+      answered = true;
+      const q = questions[currentQ];
+      const expBox = document.getElementById('explanationBox');
+
+      if (idx === q.correct) {
+        score++;
+        btnElement.classList.add('bg-emerald-950/70', 'border-emerald-500', 'text-emerald-200');
+        document.getElementById(`icon-${idx}`).innerHTML = "✅";
+        expBox.className = "p-4 rounded-xl text-xs sm:text-sm leading-relaxed border mt-4 bg-emerald-950/40 border-emerald-500/40 text-emerald-200";
+      } else {
+        btnElement.classList.add('bg-red-950/70', 'border-red-500', 'text-red-200');
+        document.getElementById(`icon-${idx}`).innerHTML = "❌";
+        const buttons = document.getElementById('optionsContainer').children;
+        buttons[q.correct].classList.add('border-emerald-500', 'text-emerald-300');
+        document.getElementById(`icon-${q.correct}`).innerHTML = "✅";
+        expBox.className = "p-4 rounded-xl text-xs sm:text-sm leading-relaxed border mt-4 bg-red-950/40 border-red-500/40 text-red-200";
+      }
+
+      document.getElementById('quizScoreText').innerText = `${score} / ${questions.length} Correct`;
+      expBox.innerHTML = `<strong>NCERT Breakdown:</strong> ${q.exp}`;
+      expBox.classList.remove('hidden');
+      document.getElementById('nextBtn').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+      currentQ++;
+      if (currentQ < questions.length) {
+        loadQuiz();
+      } else {
+        document.getElementById('quizBox').innerHTML = `
+          <div class="text-center py-10 space-y-4">
+            <span class="text-4xl">🎉</span>
+            <h4 class="text-lg font-black text-white">Diagnostic Completed!</h4>
+            <p class="text-xs text-slate-300">Score: <span class="mono font-bold text-emerald-400 text-base">${score} / ${questions.length}</span></p>
+            <button onclick="currentQ=0; score=0; loadQuiz();" class="px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold rounded-xl text-cyan-400 transition">
+              Restart Drill 🔄
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    // Admin Access Engine
+    const SECRET_PIN = "1122";
+    function openPinModal() {
+      document.getElementById('pinInput').value = '';
+      document.getElementById('pinError').classList.add('hidden');
+      openModal('pinModal');
+      setTimeout(() => document.getElementById('pinInput').focus(), 100);
+    }
+
+    function verifyPin() {
+      const entered = document.getElementById('pinInput').value;
+      if (entered === SECRET_PIN) {
+        closeModal('pinModal');
+        document.getElementById('studentView').classList.add('hidden');
+        document.getElementById('adminView').classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        document.getElementById('pinError').classList.remove('hidden');
+      }
+    }
+
+    function lockAdmin() {
+      document.getElementById('adminView').classList.add('hidden');
+      document.getElementById('studentView').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.addEventListener('load', loadQuiz);
+  </script>
+</body>
+</html>
