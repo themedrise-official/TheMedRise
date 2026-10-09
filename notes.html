@@ -183,28 +183,30 @@
       </button>
     </div>
   </nav>
+  <!-- BOTTOM APP NAVIGATION BAR -->
+  <nav class="fixed bottom-0 left-0 right-0 z-50 bg-[#08090d]/95 backdrop-blur-xl border-t border-white/10 px-4 py-2.5">
+    <div class="max-w-md mx-auto grid grid-cols-4 text-center">
+      <a href="index.html" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white">
+        <span class="text-base">🏠</span>
+        <span class="text-[10px] font-bold">Home</span>
+      </a>
+      <a href="notes.html" class="flex flex-col items-center gap-1 text-cyan-400 font-bold">
+        <span class="text-base">📚</span>
+        <span class="text-[10px]">Vault</span>
+      </a>
+      <a href="mocktest.html" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white">
+        <span class="text-base">⏱️</span>
+        <span class="text-[10px] font-bold">Mock Test</span>
+      </a>
+      <a href="dashboard.html" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white">
+        <span class="text-base">👤</span>
+        <span class="text-[10px] font-bold">Profile</span>
+      </a>
+    </div>
+  </nav>
 
   <script>
-    function applyConfig() {
-      const price = localStorage.getItem('themedrise_price') || '₹199';
-      document.querySelectorAll('.displayPrice').forEach(el => el.innerText = price);
-    }
-    function handlePaymentRedirect() {
-      const url = localStorage.getItem('themedrise_payment');
-      if (url) window.open(url, '_blank');
-      else alert("Payment gateway link setup karein Admin Portal se!");
-    }
-    function handleSampleDownload() {
-      let leads = parseInt(localStorage.getItem('themedrise_leads_count') || '0') + 1;
-      localStorage.setItem('themedrise_leads_count', leads);
-      const url = localStorage.getItem('themedrise_sample');
-      if (url) window.open(url, '_blank');
-      else alert("Sample PDF Google Drive link Admin Portal me add karein!");
-    }
-    function handleTelegramRedirect() {
-      const url = localStorage.getItem('themedrise_telegram');
-      if (url) window.open(url, '_blank');
-      else alert("Telegram link add karein Admin Portal se!");
+    
     }
     window.addEventListener('load', applyConfig);
   </script>
