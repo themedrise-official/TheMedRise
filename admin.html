@@ -3,234 +3,312 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The MedRise — Master Creator Deck</title>
+  <title>The MedRise — Master Creator Studio</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #060709; color: #e2e8f0; }
     .mono { font-family: 'JetBrains Mono', monospace; }
-    .card { background: rgba(18, 20, 26, 0.9); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; backdrop-filter: blur(12px); }
+    .glass-card { 
+      background: linear-gradient(180deg, rgba(19, 22, 31, 0.85) 0%, rgba(10, 12, 16, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08); 
+      border-radius: 18px; 
+      backdrop-filter: blur(14px);
+    }
+    .input-field {
+      background: #090a0e;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #fff;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+    .input-field:focus { border-color: #38bdf8; }
   </style>
 </head>
-<body class="min-h-screen p-4 sm:p-6 antialiased">
+<body class="min-h-screen p-4 sm:p-6 lg:p-8 antialiased pb-28">
 
-  <!-- 1. LOGIN PAD SCREEN -->
-  <div id="loginScreen" class="min-h-[85vh] flex items-center justify-center">
-    <div class="card max-w-xs w-full p-6 border-amber-500/40 text-center space-y-4">
-      <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 mx-auto flex items-center justify-center text-xl font-black">👑</div>
-      <div>
-        <h1 class="text-lg font-bold text-white">Owner Portal Login</h1>
-        <p class="text-xs text-slate-400">Security PIN: 1122</p>
-      </div>
+  <div class="max-w-6xl mx-auto space-y-6">
 
-      <!-- Display for PIN -->
-      <div class="h-12 bg-[#090a0d] border border-white/20 rounded-xl flex items-center justify-center text-2xl font-bold mono tracking-widest text-amber-400" id="pinDisplay">
-        ----
-      </div>
-      <p id="errText" class="hidden text-xs text-red-400 font-bold">Galat PIN! Dubara try karein.</p>
-
-      <!-- Visual Numeric Keypad for Mobile -->
-      <div class="grid grid-cols-3 gap-2 pt-2">
-        <button onclick="pressDigit('1')" class="py-3 bg-white/5 hover:bg-white/10 active:bg-amber-400 active:text-black rounded-xl text-lg font-bold text-white transition">1</button>
-        <button onclick="pressDigit('2')" class="py-3 bg-white/5 hover:bg-white/10 active:bg-amber-400 active:text-black rounded-xl text-lg font-bold text-white transition">2</button>
-        <button onclick="pressDigit('3')" class="py-3 bg-white/5 hover:bg-white/10 active:bg-amber-400 active:text-black rounded-xl text-lg font-bold text-white transition">3</button>
-        <button onclick="pressDigit('4')" class="py-3 bg-white/5 hover:bg-white/10 active:bg-amber-400 active:text-black rounded-xl text-lg font-bold text-white transition">4</button>
-        <button onclick="pressDigit('5')" class="py-3 bg-white/5 hover:bg-white/10 active:bg-amber-400 active:text-black rounded-xl text-lg font-bold text-white transition">5</button>
-        <button onclick="pressDigit('6')" class="py-3 bg-white/5 hover:bg-white/10 active:bg-amber-400 active:text-black rounded-xl text-lg font-bold text-white transition">6</button>
-        <button onclick="pressDigit('7')" class="py-3 bg-white/5 hover:bg-white/10 active:bg-amber-400 active:text-black rounded-xl text-lg font-bold text-white transition">7</button>
-        <button onclick="pressDigit('8')" class="py-3 bg-white/5 hover:bg-white/10 active:bg-amber-400 active:text-black rounded-xl text-lg font-bold text-white transition">8</button>
-        <button onclick="pressDigit('9')" class="py-3 bg-white/5 hover:bg-white/10 active:bg-amber-400 active:text-black rounded-xl text-lg font-bold text-white transition">9</button>
-        <button onclick="clearPin()" class="py-3 bg-red-950/40 text-red-400 rounded-xl text-xs font-bold">Clear</button>
-        <button onclick="pressDigit('0')" class="py-3 bg-white/5 hover:bg-white/10 active:bg-amber-400 active:text-black rounded-xl text-lg font-bold text-white transition">0</button>
-        <button onclick="submitPin()" class="py-3 bg-amber-400 hover:bg-amber-300 text-black rounded-xl text-xs font-black">OK ➔</button>
-      </div>
-
-      <a href="index.html" class="block text-xs text-slate-500 hover:text-slate-400 pt-2">← Back to Site</a>
-    </div>
-  </div>
-
-  <!-- 2. MAIN ADMIN DASHBOARD -->
-  <div id="adminDeck" class="hidden max-w-5xl mx-auto space-y-6 pb-20">
-    
-    <!-- Top Header -->
-    <div class="card p-6 border-amber-500/40 bg-gradient-to-r from-[#1c1913] to-[#121318] flex items-center justify-between flex-wrap gap-4">
-      <div class="flex items-center gap-3">
-        <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-black text-xl">👑</div>
-        <div>
-          <h2 class="text-lg font-bold text-white">The MedRise — Master Creator Deck</h2>
-          <p class="text-xs text-slate-400">Authenticated Session</p>
-        </div>
-      </div>
-      <div class="flex items-center gap-2">
-        <a href="index.html" target="_blank" class="text-xs bg-white/5 hover:bg-white/10 px-3.5 py-2 rounded-xl text-slate-300 border border-white/10 font-semibold">Live Site ↗</a>
-        <button onclick="handleLogout()" class="mono text-xs bg-red-950/80 hover:bg-red-900 text-red-300 px-4 py-2 rounded-xl border border-red-700/50 font-semibold">🔒 Logout</button>
-      </div>
-    </div>
-
-    <!-- Analytics Cards -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-      <div class="card p-5 border-emerald-500/30">
-        <span class="text-xs text-slate-400 block mb-1">Total Revenue</span>
-        <span id="statRevenue" class="text-2xl font-black text-emerald-400 mono">₹0.00</span>
-        <span class="text-[10px] text-slate-500 block mt-1">Calculated Sales</span>
-      </div>
-
-      <div class="card p-5 border-cyan-500/30">
-        <div class="flex items-center justify-between">
-          <span class="text-xs text-slate-400 block mb-1">Paid Students</span>
-          <button onclick="adjustCounter('sales', 1)" class="text-[10px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded hover:bg-emerald-500/30 font-bold">+1 Sale</button>
-        </div>
-        <span id="statSales" class="text-2xl font-black text-white mono">0</span>
-        <span class="text-[10px] text-emerald-400 block mt-1">₹199 Orders</span>
-      </div>
-
-      <div class="card p-5 border-sky-500/30">
-        <div class="flex items-center justify-between">
-          <span class="text-xs text-slate-400 block mb-1">Sample Leads</span>
-          <button onclick="adjustCounter('leads', 1)" class="text-[10px] bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded hover:bg-cyan-500/30 font-bold">+1 Lead</button>
-        </div>
-        <span id="statLeads" class="text-2xl font-black text-cyan-400 mono">0</span>
-        <span class="text-[10px] text-slate-500 block mt-1">Downloads</span>
-      </div>
-
-      <div class="card p-5 border-white/10">
-        <span class="text-xs text-slate-400 block mb-1">Gateway Engine</span>
-        <span class="text-base font-bold text-emerald-400 block">Cosmofeed / UPI</span>
-        <span class="text-[10px] text-slate-500 block mt-1">Ready</span>
-      </div>
-    </div>
-
-    <!-- Links Manager -->
-    <div class="card p-6 space-y-4 border-cyan-500/40">
-      <h3 class="text-sm font-bold text-white flex items-center gap-2"><span>🔗</span> Platform Links Manager</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Telegram Link</label>
-          <input id="inputTelegram" type="text" placeholder="https://t.me/TheMedRise" class="w-full bg-[#0d0f14] border border-white/10 rounded-xl px-3 py-2 text-xs text-white">
+    <!-- STUDIO TOP BAR -->
+    <header class="glass-card p-5 border-amber-500/40 bg-gradient-to-r from-[#1c1811] via-[#12141a] to-[#0d0f14] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div class="flex items-center gap-3.5">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-400 to-amber-600 flex items-center justify-center font-black text-black text-xl shadow-lg shadow-amber-500/20">
+          👑
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Instagram Link</label>
-          <input id="inputInstagram" type="text" placeholder="https://instagram.com/the.medrise" class="w-full bg-[#0d0f14] border border-white/10 rounded-xl px-3 py-2 text-xs text-white">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Payment Checkout Link (Cosmofeed/UPI)</label>
-          <input id="inputPayment" type="text" placeholder="https://cosmofeed.com/vp/..." class="w-full bg-[#0d0f14] border border-white/10 rounded-xl px-3 py-2 text-xs text-white">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Sample PDF Link (Drive/GitHub)</label>
-          <input id="inputSample" type="text" placeholder="https://drive.google.com/..." class="w-full bg-[#0d0f14] border border-white/10 rounded-xl px-3 py-2 text-xs text-white">
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl font-black text-white tracking-tight">The MedRise Creator Studio</h1>
+            <span class="text-[10px] mono bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold px-2 py-0.5 rounded-full animate-pulse">● LIVE</span>
+          </div>
+          <p class="text-xs text-slate-400">Mission Control & Ecosystem Deck</p>
         </div>
       </div>
-      <div class="flex justify-end">
-        <button onclick="saveLinks()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-extrabold text-xs uppercase tracking-wider">
+      <div class="flex items-center gap-2.5">
+        <a href="index.html" target="_blank" class="text-xs font-bold px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition">
+          Live Website ↗
+        </a>
+        <a href="dashboard.html" target="_blank" class="text-xs font-bold px-4 py-2.5 rounded-xl bg-cyan-950/60 hover:bg-cyan-900/60 text-cyan-300 border border-cyan-500/30 transition">
+          Student Portal ↗
+        </a>
+      </div>
+    </header>
+
+    <!-- SECTION 1: ANALYTICS & OVERVIEW (YOUTUBE STUDIO / STRIPE STYLE) -->
+    <section class="space-y-3">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-400 mono">Platform Analytics & Growth</h2>
+        <span class="text-[11px] text-slate-500">Auto-calculated from storage</span>
+      </div>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
+        <!-- Revenue Card -->
+        <div class="glass-card p-5 border-emerald-500/30 relative overflow-hidden">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-semibold text-slate-400">Total Net Revenue</span>
+            <span class="text-emerald-400 text-sm">💰</span>
+          </div>
+          <div class="text-2xl sm:text-3xl font-black text-emerald-400 mono tracking-tight" id="statRevenue">₹0.00</div>
+          <span class="text-[10px] text-slate-500 block mt-2">Calculated from (Paid × Price)</span>
+        </div>
+
+        <!-- Paid Students -->
+        <div class="glass-card p-5 border-cyan-500/30">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-semibold text-slate-400">Paid Enrolments</span>
+            <div class="flex gap-1">
+              <button onclick="changeCounter('sales', 1)" class="px-2 py-0.5 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 font-bold text-xs">+1</button>
+              <button onclick="changeCounter('sales', -1)" class="px-1.5 py-0.5 rounded bg-white/5 hover:bg-white/10 text-slate-400 text-xs">-1</button>
+            </div>
+          </div>
+          <div class="text-2xl sm:text-3xl font-black text-white mono" id="statSales">0</div>
+          <span class="text-[10px] text-cyan-400 block mt-2">Vault Unlocked Aspirants</span>
+        </div>
+
+        <!-- Free Sample Leads -->
+        <div class="glass-card p-5 border-sky-500/30">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-semibold text-slate-400">Sample PDF Leads</span>
+            <button onclick="changeCounter('leads', 1)" class="px-2 py-0.5 rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 font-bold text-xs">+1 Lead</button>
+          </div>
+          <div class="text-2xl sm:text-3xl font-black text-sky-400 mono" id="statLeads">0</div>
+          <span class="text-[10px] text-slate-500 block mt-2">Ch 01 Free Downloads</span>
+        </div>
+
+        <!-- Conversion Rate -->
+        <div class="glass-card p-5 border-amber-500/30">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-semibold text-slate-400">Conversion Rate</span>
+            <span class="text-amber-400 text-sm">📈</span>
+          </div>
+          <div class="text-2xl sm:text-3xl font-black text-amber-300 mono" id="statConv">0.0%</div>
+          <span class="text-[10px] text-slate-500 block mt-2">Leads to Paid Ratio</span>
+        </div>
+      </div>
+
+      <!-- Quick Adjuster Drawer -->
+      <div class="glass-card p-4 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <span class="text-slate-400">⚡ <strong>Manual Sync:</strong> Direct payment receipts check karke yahan se student count override kar sakte ho.</span>
+        <div class="flex items-center gap-2">
+          <button onclick="setCustomSales()" class="px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-slate-200 font-semibold">Set Custom Paid Count</button>
+          <button onclick="resetStats()" class="px-2 py-1 text-red-400 hover:underline text-[11px]">Reset Data</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: PLATFORM LINKS & MONETIZATION HUB -->
+    <section class="glass-card p-6 border-cyan-500/30 space-y-4">
+      <div class="flex items-center justify-between border-b border-white/5 pb-3">
+        <div>
+          <h2 class="text-sm font-black text-white flex items-center gap-2"><span>🔗</span> Social Links, Telegram & Checkout Gateways</h2>
+          <p class="text-xs text-slate-400">Ye links poori website ke buttons par instantly badal jayenge</p>
+        </div>
+        <button onclick="saveAllLinks()" class="px-4 py-2 bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-extrabold text-xs rounded-xl shadow-md hover:scale-105 transition">
           Save Links 💾
         </button>
       </div>
-    </div>
 
-    <!-- Pricing Controller -->
-    <div class="card p-6 space-y-4 border-emerald-500/40">
-      <h3 class="text-sm font-bold text-white flex items-center gap-2"><span>📢</span> Pricing & Live Banner</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="md:col-span-2">
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Top Announcement Notice</label>
-          <input id="inputBannerText" type="text" placeholder="NEET 2026 Biology Crash Notes Batch live now!" class="w-full bg-[#0d0f14] border border-white/10 rounded-xl px-3 py-2 text-xs text-white">
-        </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Banner Toggle</label>
-          <select id="inputBannerToggle" class="w-full bg-[#0d0f14] border border-white/10 rounded-xl px-3 py-2 text-xs text-white">
-            <option value="false">Hide Banner ❌</option>
-            <option value="true">Show Live Banner 🔔</option>
-          </select>
+          <label class="block text-xs font-bold text-slate-300 mb-1.5">✈️ Telegram Official Community Link</label>
+          <input id="linkTelegram" type="text" placeholder="https://t.me/TheMedRise" class="input-field">
+          <span class="text-[10px] text-slate-500 mt-1 block">Homepage ke community card aur channels me link hoga.</span>
         </div>
+
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Notes Price</label>
-          <input id="inputPrice" type="text" placeholder="₹199" class="w-full bg-[#0d0f14] border border-white/10 rounded-xl px-3 py-2 text-xs text-white">
+          <label class="block text-xs font-bold text-slate-300 mb-1.5">📸 Instagram Biology Page Link</label>
+          <input id="linkInstagram" type="text" placeholder="https://instagram.com/the.medrise" class="input-field">
+          <span class="text-[10px] text-slate-500 mt-1 block">Reels aur 60s trap button me use hoga.</span>
         </div>
+
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Badge Tagline</label>
-          <input id="inputBadge" type="text" placeholder="Permanent Lifetime Access" class="w-full bg-[#0d0f14] border border-white/10 rounded-xl px-3 py-2 text-xs text-white">
+          <label class="block text-xs font-bold text-emerald-400 mb-1.5">💳 Cosmofeed / UPI Payment Checkout Gateway</label>
+          <input id="linkPayment" type="text" placeholder="https://cosmofeed.com/vp/..." class="input-field border-emerald-500/40">
+          <span class="text-[10px] text-emerald-500/80 mt-1 block">Sabhi 'Unlock Master Deck / Get Notes' buttons par yeh khulega.</span>
         </div>
+
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Offer Subtext</label>
-          <input id="inputSubtext" type="text" placeholder="One-time launch price" class="w-full bg-[#0d0f14] border border-white/10 rounded-xl px-3 py-2 text-xs text-white">
+          <label class="block text-xs font-bold text-cyan-400 mb-1.5">📂 Free Chapter 01 Sample PDF (Google Drive / GitHub)</label>
+          <input id="linkSample" type="text" placeholder="https://drive.google.com/..." class="input-field border-cyan-500/40">
+          <span class="text-[10px] text-cyan-500/80 mt-1 block">Free Sample PDF download button par yeh link trigger hoga.</span>
         </div>
       </div>
-      <div class="flex justify-end">
-        <button onclick="saveSiteConfig()" class="px-5 py-2.5 rounded-xl bg-emerald-400 text-black font-extrabold text-xs uppercase tracking-wider">
-          Save Price & Banner ⚡
+    </section>
+
+    <!-- SECTION 3: TOP ANNOUNCEMENT BANNER & NOTES PRICING -->
+    <section class="glass-card p-6 border-emerald-500/30 space-y-4">
+      <div class="flex items-center justify-between border-b border-white/5 pb-3">
+        <div>
+          <h2 class="text-sm font-black text-white flex items-center gap-2"><span>📢</span> Live Offer Banner & Vault Pricing Deck</h2>
+          <p class="text-xs text-slate-400">Website ke pricing taglines aur upar aane wali announcement ka control</p>
+        </div>
+        <button onclick="savePricingAndBanner()" class="px-4 py-2 bg-emerald-400 hover:bg-emerald-300 text-black font-extrabold text-xs rounded-xl shadow-md transition">
+          Update Price & Banner ⚡
         </button>
       </div>
-    </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="md:col-span-2">
+          <label class="block text-xs font-bold text-slate-300 mb-1.5">Top Announcement Bar Notice</label>
+          <input id="bannerText" type="text" placeholder="e.g. NEET 2026 Biology Crash Notes Batch live now!" class="input-field">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1.5">Banner Visibility</label>
+          <select id="bannerShow" class="input-field">
+            <option value="false">❌ Hide Announcement Banner</option>
+            <option value="true">🔔 Show Live Announcement Banner</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1.5">Notes Vault Price (e.g. ₹199)</label>
+          <input id="notesPrice" type="text" placeholder="₹199" class="input-field mono">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1.5">Offer Badge Tagline</label>
+          <input id="offerBadge" type="text" placeholder="Permanent Lifetime Access" class="input-field">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1.5">Offer Subtitle</label>
+          <input id="offerSubtext" type="text" placeholder="One-time launch price" class="input-field">
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: MOCK TEST & DAILY DRILL QUESTION ENGINE -->
+    <section class="glass-card p-6 border-amber-500/30 space-y-5">
+      <div class="flex items-center justify-between border-b border-white/5 pb-3">
+        <div>
+          <h2 class="text-sm font-black text-white flex items-center gap-2"><span>⚡</span> NEET Mock Drill & Question Bank Manager</h2>
+          <p class="text-xs text-slate-400">Questions add karein aur unka NCERT Trap Solution set karein</p>
+        </div>
+        <span class="mono text-xs bg-amber-500/20 text-amber-300 font-bold px-3 py-1 rounded-lg">
+          Live Questions: <span id="qCountDisplay">0</span>
+        </span>
+      </div>
+
+      <!-- Add Question Form -->
+      <div class="bg-[#090b0f] p-4 sm:p-5 rounded-2xl border border-white/5 space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Question Statement</label>
+          <textarea id="qText" rows="2" placeholder="e.g. Which cell organelle is NOT considered part of the endomembrane system?" class="input-field"></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <input id="qOpt0" type="text" placeholder="Option A" class="input-field">
+          <input id="qOpt1" type="text" placeholder="Option B" class="input-field">
+          <input id="qOpt2" type="text" placeholder="Option C" class="input-field">
+          <input id="qOpt3" type="text" placeholder="Option D" class="input-field">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Correct Answer</label>
+            <select id="qCorrect" class="input-field">
+              <option value="0">Option A</option>
+              <option value="1">Option B</option>
+              <option value="2">Option C</option>
+              <option value="3">Option D</option>
+            </select>
+          </div>
+
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-bold text-slate-300 mb-1">NCERT Trap Solution & Page Reference</label>
+            <input id="qExp" type="text" placeholder="e.g. NCERT Page 133: ER, Golgi, Lysosomes & Vacuoles are coordinated..." class="input-field">
+          </div>
+        </div>
+
+        <button onclick="addNewQuestion()" class="w-full py-3 bg-amber-400 hover:bg-amber-300 text-black font-black text-xs uppercase tracking-wider rounded-xl transition shadow-md">
+          + Add Question to Live Mock Test & Daily Drill 🚀
+        </button>
+      </div>
+
+      <!-- Existing Questions List -->
+      <div class="space-y-3 pt-2">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Current Question Bank</h3>
+          <button onclick="resetDefaultQuestions()" class="text-xs text-red-400 hover:underline">Reset to Default NEET Drill</button>
+        </div>
+        <div id="questionsContainer" class="space-y-2 max-h-72 overflow-y-auto pr-1"></div>
+      </div>
+    </section>
 
   </div>
 
+  <!-- JAVASCRIPT MASTER BRAIN -->
   <script>
-    let currentInput = "";
-    const SECRET_PIN = "1122";
-
-    function pressDigit(d) {
-      if (currentInput.length < 4) {
-        currentInput += d;
-        updateDisplay();
+    const defaultQuestions = [
+      {
+        q: "According to strictly NCERT, which of the following cell organelles is NOT considered part of the endomembrane system?",
+        options: ["Endoplasmic reticulum", "Peroxisome", "Golgi apparatus", "Lysosomes"],
+        correct: 1,
+        exp: "NCERT Fact: Endomembrane system includes ER, Golgi, Lysosomes and Vacuoles. Peroxisomes, Mitochondria and Chloroplast are NOT part of it."
+      },
+      {
+        q: "Middle lamella is chiefly composed of which chemical substance that cements neighbouring cells together?",
+        options: ["Calcium pectate", "Hemicellulose & Cellulose", "Suberin and Lignin", "Magnesium carbonate"],
+        correct: 0,
+        exp: "NCERT Direct Line: The middle lamella is a layer mainly composed of calcium pectate which holds or glues neighbouring cells together."
+      },
+      {
+        q: "Where in a eukaryotic cell can you find 70S ribosomes?",
+        options: ["Outer surface of Rough ER", "Cytoplasm and nucleolus", "Mitochondrial matrix & Chloroplast stroma", "Only inside Lysosomes"],
+        correct: 2,
+        exp: "NCERT Statement: Eukaryotic cytoplasm has 80S ribosomes, while mitochondria and chloroplasts possess 70S ribosomes."
       }
-      if (currentInput.length === 4) {
-        setTimeout(submitPin, 200);
-      }
-    }
+    ];
 
-    function clearPin() {
-      currentInput = "";
-      updateDisplay();
-      document.getElementById('errText').classList.add('hidden');
-    }
-
-    function updateDisplay() {
-      const disp = document.getElementById('pinDisplay');
-      if (currentInput.length === 0) disp.innerText = "----";
-      else disp.innerText = "•".repeat(currentInput.length) + "-".repeat(4 - currentInput.length);
-    }
-
-    function submitPin() {
-      if (currentInput === SECRET_PIN) {
-        unlockDashboard();
-      } else {
-        document.getElementById('errText').classList.remove('hidden');
-        currentInput = "";
-        updateDisplay();
-      }
-    }
-
-    function unlockDashboard() {
-      document.getElementById('loginScreen').classList.add('hidden');
-      document.getElementById('adminDeck').classList.remove('hidden');
-      sessionStorage.setItem('medrise_auth', 'true');
-      loadAllData();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function handleLogout() {
-      sessionStorage.removeItem('medrise_auth');
-      window.location.reload();
-    }
-
-    function loadAllData() {
+    function initStudio() {
       renderStats();
       populateInputs();
+      renderQuestions();
     }
 
+    // 1. ANALYTICS
     function renderStats() {
       const sales = parseInt(localStorage.getItem('themedrise_sales_count') || '0');
       const leads = parseInt(localStorage.getItem('themedrise_leads_count') || '0');
       const priceStr = localStorage.getItem('themedrise_price') || '₹199';
       const cleanPrice = parseInt(priceStr.replace(/[^0-9]/g, '')) || 199;
-      
+
       document.getElementById('statSales').innerText = sales;
       document.getElementById('statLeads').innerText = leads;
       document.getElementById('statRevenue').innerText = `₹${(sales * cleanPrice).toLocaleString('en-IN')}.00`;
+
+      const total = sales + leads;
+      const rate = total > 0 ? ((sales / total) * 100).toFixed(1) : "0.0";
+      document.getElementById('statConv').innerText = `${rate}%`;
     }
 
-    function adjustCounter(type, change) {
+    function changeCounter(type, change) {
       if (type === 'sales') {
         let count = Math.max(0, parseInt(localStorage.getItem('themedrise_sales_count') || '0') + change);
         localStorage.setItem('themedrise_sales_count', count);
@@ -241,43 +319,55 @@
       renderStats();
     }
 
-    function populateInputs() {
-      document.getElementById('inputTelegram').value = localStorage.getItem('themedrise_telegram') || '';
-      document.getElementById('inputInstagram').value = localStorage.getItem('themedrise_instagram') || '';
-      document.getElementById('inputPayment').value = localStorage.getItem('themedrise_payment') || '';
-      document.getElementById('inputSample').value = localStorage.getItem('themedrise_sample') || '';
-      document.getElementById('inputPrice').value = localStorage.getItem('themedrise_price') || '₹199';
-      document.getElementById('inputBadge').value = localStorage.getItem('themedrise_badge') || 'Permanent Lifetime Access';
-      document.getElementById('inputSubtext').value = localStorage.getItem('themedrise_subtext') || 'One-time launch price';
-      document.getElementById('inputBannerText').value = localStorage.getItem('themedrise_banner_text') || 'NEET 2026 Biology Crash Notes Batch live now!';
-      document.getElementById('inputBannerToggle').value = localStorage.getItem('themedrise_banner_show') || 'false';
-    }
-
-    function saveLinks() {
-      localStorage.setItem('themedrise_telegram', document.getElementById('inputTelegram').value.trim());
-      localStorage.setItem('themedrise_instagram', document.getElementById('inputInstagram').value.trim());
-      localStorage.setItem('themedrise_payment', document.getElementById('inputPayment').value.trim());
-      localStorage.setItem('themedrise_sample', document.getElementById('inputSample').value.trim());
-      alert("✅ Links successfully save ho gayi!");
-    }
-
-    function saveSiteConfig() {
-      localStorage.setItem('themedrise_price', document.getElementById('inputPrice').value.trim() || '₹199');
-      localStorage.setItem('themedrise_badge', document.getElementById('inputBadge').value.trim() || 'Permanent Lifetime Access');
-      localStorage.setItem('themedrise_subtext', document.getElementById('inputSubtext').value.trim() || 'One-time launch price');
-      localStorage.setItem('themedrise_banner_text', document.getElementById('inputBannerText').value.trim() || 'NEET 2026 Biology Crash Notes Batch live now!');
-      localStorage.setItem('themedrise_banner_show', document.getElementById('inputBannerToggle').value);
-      renderStats();
-      alert("✅ Price & Banner save ho gaya!");
-    }
-
-    // Direct Bypass via URL hash #1122
-    window.addEventListener('load', () => {
-      if (window.location.hash === '#1122' || sessionStorage.getItem('medrise_auth') === 'true') {
-        unlockDashboard();
+    function setCustomSales() {
+      const val = prompt("Enter total paid students count:", localStorage.getItem('themedrise_sales_count') || '0');
+      if (val !== null && !isNaN(val)) {
+        localStorage.setItem('themedrise_sales_count', parseInt(val));
+        renderStats();
       }
-    });
-  </script>
-</body>
-</html>
+    }
 
+    function resetStats() {
+      if (confirm("Kya aap saare analytics data (Sales & Leads) reset karna chahte hain?")) {
+        localStorage.setItem('themedrise_sales_count', '0');
+        localStorage.setItem('themedrise_leads_count', '0');
+        renderStats();
+      }
+    }
+
+    // 2. INPUT POPULATION
+    function populateInputs() {
+      document.getElementById('linkTelegram').value = localStorage.getItem('themedrise_telegram') || '';
+      document.getElementById('linkInstagram').value = localStorage.getItem('themedrise_instagram') || '';
+      document.getElementById('linkPayment').value = localStorage.getItem('themedrise_payment') || '';
+      document.getElementById('linkSample').value = localStorage.getItem('themedrise_sample') || '';
+
+      document.getElementById('notesPrice').value = localStorage.getItem('themedrise_price') || '₹199';
+      document.getElementById('offerBadge').value = localStorage.getItem('themedrise_badge') || 'Permanent Lifetime Access';
+      document.getElementById('offerSubtext').value = localStorage.getItem('themedrise_subtext') || 'One-time launch price';
+      document.getElementById('bannerText').value = localStorage.getItem('themedrise_banner_text') || 'NEET 2026 Biology Crash Notes Batch live now!';
+      document.getElementById('bannerShow').value = localStorage.getItem('themedrise_banner_show') || 'false';
+    }
+
+    // 3. SAVING DATA
+    function saveAllLinks() {
+      localStorage.setItem('themedrise_telegram', document.getElementById('linkTelegram').value.trim());
+      localStorage.setItem('themedrise_instagram', document.getElementById('linkInstagram').value.trim());
+      localStorage.setItem('themedrise_payment', document.getElementById('linkPayment').value.trim());
+      localStorage.setItem('themedrise_sample', document.getElementById('linkSample').value.trim());
+      alert("✅ Saari Platform Links (Telegram, Insta, Payment, Sample) successfully update ho gayi!");
+    }
+
+    function savePricingAndBanner() {
+      localStorage.setItem('themedrise_price', document.getElementById('notesPrice').value.trim() || '₹199');
+      localStorage.setItem('themedrise_badge', document.getElementById('offerBadge').value.trim() || 'Permanent Lifetime Access');
+      localStorage.setItem('themedrise_subtext', document.getElementById('offerSubtext').value.trim() || 'One-time launch price');
+      localStorage.setItem('themedrise_banner_text', document.getElementById('bannerText').value.trim() || 'NEET 2026 Biology Crash Notes Batch live now!');
+      localStorage.setItem('themedrise_banner_show', document.getElementById('bannerShow').value);
+      renderStats();
+      alert("✅ Price & Top Banner poori website par live update ho gaya!");
+    }
+
+    // 4. QUESTIONS MANAGER
+    function getQuestions() {
+      return JSON.parse(localStorage.getItem('themedrise_que
