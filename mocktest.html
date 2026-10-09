@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="hi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEET Mock Simulation — THE MedRise</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="manifest" href="manifest.json">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #060709; color: #e2e8f0; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .card { background: rgba(18, 20, 26, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 18px; backdrop-filter: blur(12px); }
+  </style>
+</head>
+<body class="min-h-screen pb-28 antialiased selection:bg-cyan-400 selection:text-black">
+
+  <!-- Header with Live Exam Timer -->
+  <header class="border-b border-white/5 bg-[#08090d]/90 backdrop-blur-md sticky top-0 z-40 px-6 py-3.5">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-400 to-emerald-400 flex items-center justify-center font-black text-black text-xs">MR</div>
+        <span class="text-sm font-bold text-white">NEET Simulation Drill</span>
+      </a>
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-1.5 bg-[#141720] border border-amber-500/30 px-3 py-1 rounded-xl text-xs font-bold text-amber-300 mono">
+          <span>⏱️</span> <span id="timerDisplay">20:00</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 pt-6 space-y-6">
+    
+    <!-- Test Window -->
+    <div id="testBox" class="card p-6 sm:p-8 space-y-6 border-cyan-500/30">
+      <div class="flex items-center justify-between border-b border-white/5 pb-4">
+        <div>
+          <span id="qBadge" class="mono text-xs text-cyan-400 font-bold">Question 1</span>
+          <span class="text-[10px] ml-2 bg-emerald-950/60 border border-emerald-700/40 text-emerald-300 px-2 py-0.5 rounded">+4 / -1 Marking</span>
+        </div>
+        <span class="text-[11px] text-slate-400 mono" id="progressStatus">1 of 3</span>
+      </div>
+
+      <p id="qText" class="text-base sm:text-lg font-semibold text-white leading-relaxed">Loading test questions...</p>
+
+      <div id="optionsList" class="space-y-3 pt-2"></div>
+
+      <div class="flex items-center justify-between pt-4 border-t border-white/5">
+        <button onclick="prevQuestion()" id="prevBtn" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-xs font-semibold rounded-xl text-slate-300">
+          ← Previous
+        </button>
+        <button onclick="nextQuestion()" id="nextBtn" class="px-6 py-2.5 bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-extrabold text-xs rounded-xl shadow">
+          Next Question →
+        </button>
+        <button onclick="finishTest()" id="submitBtn" class="hidden px-6 py-2.5 bg-emerald-400 hover:bg-emerald-300 text-black font-black text-xs uppercase tracking-wider rounded-xl">
+          Submit Test 🏁
+        </button>
+      </div>
+    </div>
+
+    <!-- Final Score Report (Hidden until finish) -->
+    <div id="resultBox" class="hidden card p-8 text-center space-y-6 border-emerald-500/40">
+      <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-3xl mx-auto">🏆</div>
+      <div>
+        <h2 class="text-2xl font-black text-white">Diagnostic Score Report</h2>
+        <p class="text-xs text-slate-400">Strictly NCERT NEET Evaluation</p>
+      </div>
+      
+      <div class="grid grid-cols-3 gap-3 max-w-sm mx-auto">
+        <div class="bg-[#101217] p-3 rounded-xl border border-white/5">
+          <span class="block text-xl font-black text-white mono" id="repScore">0</span>
+          <span class="text-[10px] text-slate-400 uppercase">Marks</span>
+        </div>
+        <div class="bg-[#101217] p-3 rounded-xl border border-white/5">
+          <span class="block text-xl font-black text-emerald-400 mono" id="repCorrect">0</span>
+          <span class="text-[10px] text-slate-400 uppercase">Correct (+4)</span>
+        </div>
+        <div class="bg-[#101217] p-3 rounded-xl border border-white/5">
+          <span class="block text-xl font-black text-red-400 mono" id="repWrong">0</span>
+          <span class="text-[10px] text-slate-400 uppercase">Wrong (-1)</span>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <a href="notes.html" class="inline-block px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-black text-xs uppercase tracking-wider">
+          Revise Decoded Notes Vault →
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom App Navigation Bar -->
+  <nav class="fixed bottom-0 left-0 right-0 z-50 bg-[#08090d]/95 backdrop-blur-xl border-t border-white/10 px-4 py-2.5">
+    <div class="max-w-md mx-auto grid grid-cols-4 text-center">
+      <a href="index.html" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white">
+        <span class="text-base">🏠</span>
+        <span class="text-[10px] font-bold">Home</span>
+      </a>
+      <a href="notes.html" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white">
+        <span class="text-base">📚</span>
+        <span class="text-[10px] font-bold">Vault</span>
+      </a>
+      <a href="mocktest.html" class="flex flex-col items-center gap-1 text-cyan-400 font-bold">
+        <span class="text-base">⏱️</span>
+        <span class="text-[10px]">Mock Test</span>
+      </a>
+      <button onclick="handleTelegramRedirect()" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white">
+        <span class="text-base">✈️</span>
+        <span class="text-[10px] font-bold">Telegram</span>
+      </button>
+    </div>
+  </nav>
+
+  <script>
+    const defaultQuestions = [
+      {
+        q: "According to strictly NCERT, which of the following cell organelles is NOT considered part of the endomembrane system?",
+        options: ["Endoplasmic reticulum", "Peroxisome", "Golgi apparatus", "Lysosomes"],
+        correct: 1,
+        exp: "NCERT Fact: Endomembrane system includes ER, Golgi, Lysosomes and Vacuoles."
+      },
+      {
+        q: "Middle lamella is chiefly composed of which chemical substance that cements neighbouring cells together?",
+        options: ["Calcium pectate", "Hemicellulose & Cellulose", "Suberin and Lignin", "Magnesium carbonate"],
+        correct: 0,
+        exp: "NCERT Direct Line: Middle lamella is composed of calcium pectate."
+      },
+      {
+        q: "Where in a eukaryotic cell can you find 70S ribosomes?",
+        options: ["Outer surface of Rough ER", "Cytoplasm and nucleolus", "Mitochondrial matrix & Chloroplast stroma", "Only inside Lysosomes"],
+        correct: 2,
+        exp: "NCERT Statement: Eukaryotic organelle ribosomes present in mitochondria and chloroplasts are 70S."
+      }
+    ];
+
+    let questions = JSON.parse(localStorage.getItem('themedrise_questions')) || defaultQuestions;
+    let userAnswers = {};
+    let currentIndex = 0;
+    let timeLeft = 1200; // 20 minutes
+
+    function renderQuestion() {
+      const q = questions[currentIndex];
+      document.getElementById('qBadge').innerText = `Question ${currentIndex + 1}`;
+      document.getElementById('progressStatus').innerText = `${currentIndex + 1} of ${questions.length}`;
+      document.getElementById('qText').innerText = q.q;
+
+      const optList = document.getElementById('optionsList');
+      optList.innerHTML = '';
+
+      q.options.forEach((opt, idx) => {
+        const isSelected = userAnswers[currentIndex] === idx;
+        const btn = document.createElement('button');
+        btn.className = `w-full text-left p-3.5 rounded-xl border text-xs sm:text-sm transition flex items-center justify-between ${
+          isSelected ? 'bg-cyan-950/70 border-cyan-400 text-cyan-200' : 'bg-[#0d0f14] border-white/5 hover:border-slate-500 text-slate-200'
+        }`;
+        btn.innerHTML = `<span><strong class="text-cyan-400 mr-2">${String.fromCharCode(65 + idx)}.</strong> ${opt}</span>`;
+        btn.onclick = () => {
+          userAnswers[currentIndex] = idx;
+          renderQuestion();
+        };
+        optList.appendChild(btn);
+      });
+
+      document.getElementById('prevBtn').style.display = currentIndex === 0 ? 'none' : 'block';
+      if (currentIndex === questions.length - 1) {
+        document.getElementById('nextBtn').classList.add('hidden');
+        document.getElementById('submitBtn').classList.remove('hidden');
+      } else {
+        document.getElementById('nextBtn').classList.remove('hidden');
+        document.getElementById('submitBtn').classList.add('hidden');
+      }
+    }
+
+    function prevQuestion() {
+      if (currentIndex > 0) { currentIndex--; renderQuestion(); }
+    }
+    function nextQuestion() {
+      if (currentIndex < questions.length - 1) { currentIndex++; renderQuestion(); }
+    }
+
+    function finishTest() {
+      let correct = 0;
+      let wrong = 0;
+
+      questions.forEach((q, idx) => {
+        if (userAnswers[idx] !== undefined) {
+          if (userAnswers[idx] === q.correct) correct++;
+          else wrong++;
+        }
+      });
+
+      const totalMarks = (correct * 4) - (wrong * 1);
+      document.getElementById('testBox').classList.add('hidden');
+      document.getElementById('resultBox').classList.remove('hidden');
+      document.getElementById('repScore').innerText = `${totalMarks} / ${questions.length * 4}`;
+      document.getElementById('repCorrect').innerText = correct;
+      document.getElementById('repWrong').innerText = wrong;
+    }
+
+    // Timer
+    setInterval(() => {
+      if (timeLeft > 0) {
+        timeLeft--;
+        const m = Math.floor(timeLeft / 60);
+        const s = timeLeft % 60;
+        document.getElementById('timerDisplay').innerText = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+      }
+    }, 1000);
+
+    function handleTelegramRedirect() {
+      const url = localStorage.getItem('themedrise_telegram');
+      if (url) window.open(url, '_blank');
+      else alert("Telegram link add karein Admin Portal se!");
+    }
+
+    window.addEventListener('load', renderQuestion);
+  </script>
+</body>
+        </html>
+        
