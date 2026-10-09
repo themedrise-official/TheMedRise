@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="hi" class="scroll-smooth">
 <head>
@@ -53,10 +52,18 @@
   <div class="fixed top-0 left-1/4 w-[500px] h-[500px] glow-cyan pointer-events-none -z-10 blur-3xl"></div>
   <div class="fixed bottom-10 right-1/4 w-[500px] h-[500px] glow-emerald pointer-events-none -z-10 blur-3xl"></div>
 
+  <!-- Announcement Bar (Controlled by Admin) -->
+  <div id="bannerBar" class="hidden bg-gradient-to-r from-cyan-600 via-sky-600 to-emerald-600 text-black font-bold text-xs py-2 px-4 text-center">
+    <div class="max-w-6xl mx-auto flex items-center justify-center gap-2">
+      <span class="animate-bounce">📢</span>
+      <span id="bannerText">NEET 2026 Biology Crash Notes Batch live now!</span>
+    </div>
+  </div>
+
   <!-- NAVIGATION -->
   <header class="border-b border-white/5 bg-[#08090d]/85 backdrop-blur-md sticky top-0 z-40 px-6 py-4">
     <div class="max-w-6xl mx-auto flex items-center justify-between">
-      <div onclick="openPinModal()" class="flex items-center gap-3 cursor-pointer select-none">
+      <div onclick="openPinModal()" class="flex items-center gap-3 cursor-pointer select-none" title="Creator Access">
         <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-400 via-sky-500 to-emerald-400 flex items-center justify-center font-black text-black text-base shadow-lg shadow-cyan-500/20">
           MR
         </div>
@@ -72,9 +79,9 @@
         <a href="#dailyQuiz" class="hidden sm:inline-flex text-xs font-semibold px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 hover:border-cyan-400/40 text-slate-300 transition items-center gap-1.5">
           <span class="text-cyan-400">⚡</span> Daily Drill
         </a>
-        <a href="#notesVault" class="text-xs font-extrabold px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-emerald-400 text-black shadow-md hover:opacity-95 transition">
-          Get Notes Vault (₹199)
-        </a>
+        <button onclick="handlePaymentRedirect()" class="text-xs font-extrabold px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-emerald-400 text-black shadow-md hover:opacity-95 transition">
+          Get Notes (<span class="displayPrice">₹199</span>)
+        </button>
       </div>
     </div>
   </header>
@@ -86,7 +93,7 @@
     <section class="text-center pt-8 pb-4 max-w-4xl mx-auto space-y-6">
       <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-950/40 text-emerald-300 text-xs font-medium">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-        Strictly NCERT • Designed for 360/360 in Biology
+        Strictly NCERT • Target 360/360 in Biology
       </div>
 
       <h1 class="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-[1.15]">
@@ -101,10 +108,10 @@
       </p>
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-2">
-        <button onclick="openModal('checkoutModal')" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-black text-sm tracking-wide shadow-lg shadow-cyan-500/20 hover:scale-[1.02] transition">
-          Unlock Master Deck — ₹199 Lifetime
+        <button onclick="handlePaymentRedirect()" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-black text-sm tracking-wide shadow-lg shadow-cyan-500/20 hover:scale-[1.02] transition">
+          Unlock Master Deck — <span class="displayPrice">₹199</span> Lifetime
         </button>
-        <button onclick="openModal('sampleModal')" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#14161d] hover:bg-[#1a1d26] border border-white/10 hover:border-slate-500 text-slate-200 font-semibold text-sm transition">
+        <button onclick="handleSampleDownload()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#14161d] hover:bg-[#1a1d26] border border-white/10 hover:border-slate-500 text-slate-200 font-semibold text-sm transition">
           Free Chapter 01 Sample PDF
         </button>
       </div>
@@ -153,10 +160,10 @@
           </div>
         </div>
         <div class="flex items-center gap-3 pt-2">
-          <button onclick="openModal('checkoutModal')" class="flex-1 py-3 bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-extrabold text-xs sm:text-sm rounded-xl hover:opacity-95 transition">
-            Get Complete Deck Now
+          <button onclick="handlePaymentRedirect()" class="flex-1 py-3 bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-extrabold text-xs sm:text-sm rounded-xl hover:opacity-95 transition">
+            Get Complete Deck (<span class="displayPrice">₹199</span>)
           </button>
-          <button onclick="openModal('sampleModal')" class="px-5 py-3 rounded-xl border border-white/10 hover:border-slate-400 text-xs sm:text-sm font-semibold text-slate-300 transition">
+          <button onclick="handleSampleDownload()" class="px-5 py-3 rounded-xl border border-white/10 hover:border-slate-400 text-xs sm:text-sm font-semibold text-slate-300 transition">
             Preview
           </button>
         </div>
@@ -172,7 +179,7 @@
           </div>
           <h3 class="text-lg font-bold text-white mb-2">NEET Mock Test Series</h3>
           <p class="text-xs text-slate-400 leading-relaxed mb-4">
-            Zero out-of-syllabus questions. Strictly NCERT statement-based, assertion-reason & matching pairs curated directly by top mentors.
+            Zero out-of-syllabus questions. Strictly NCERT statement-based, assertion-reason & matching pairs curated directly by mentors.
           </p>
           <div class="space-y-2 text-xs text-slate-300">
             <div class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> Chapter-wise DPP Vault</div>
@@ -181,7 +188,164 @@
           </div>
         </div>
         <div class="pt-6">
-          <button onclick="openModal('communityModal')" class="w-full py-2.5 rounded-xl bg-[#181a22] border border-amber-500/40 hover:bg-amber-500/10 text-amber-300 text-xs font-bold transition">
+          <button onclick="handleTelegramRedirect()" class="w-full py-2.5 rounded-xl bg-[#181a22] border border-amber-500/40 hover:bg-amber-500/10 text-amber-300 text-xs font-bold transition">
+            Join Early Waitlist 🔔
+          </button>
+        </div>
+      </div>
+
+      <div class="outlier-card p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Community Hub</span>
+            <span class="text-base">✈️</span>
+          </div>
+          <h4 class="text-base font-bold text-white mb-1">Telegram Biology Channel</h4>
+          <p class="text-xs text-slate-400 mb-4">Daily tricky questions, handwritten audio capsules aur quick chapter revision cards.</p>
+        </div>
+        <button onclick="handleTelegramRedirect()" class="w-full py-2.5 rounded-xl bg-sky-500/10 border border-sky-500/30 hover:bg-sky-500/20 text-sky-300 text-xs font-bold transition">
+          Join Official Telegram
+        </button>
+      </div>
+
+      <div class="outlier-card p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold text-pink-400 uppercase tracking-wider">Visual Prep</span>
+            <span class="text-base">📸</span>
+          </div>
+          <h4 class="text-base font-bold text-white mb-1">60s NCERT Traps</h4>
+          <p class="text-xs text-slate-400 mb-4">Ek minute ke rapid reels jo examiner ki favorite confusing lines ko hamesha ke liye clear kar denge.</p>
+        </div>
+        <button onclick="handleInstagramRedirect()" class="w-full py-2.5 rounded-xl bg-pink-500/10 border border-pink-500/30 hover:bg-pink-500/20 text-pink-300 text-xs font-bold transition">
+          Follow @the.medrise
+        </button>
+      </div>
+
+      <div class="outlier-card p-6 flex flex-col justify-between border-cyan-500/30">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider">Free Asset</span>
+            <span class="mono text-[10px] text-slate-500">14 Pages PDF</span>
+          </div>
+          <h4 class="text-base font-bold text-white mb-1">Cell: Unit of Life</h4>
+          <p class="text-xs text-slate-400 mb-4">Handwritten diagrams, organelle comparison table, and statement trap sheet.</p>
+        </div>
+        <button onclick="handleSampleDownload()" class="w-full py-2.5 rounded-xl bg-cyan-400 text-black text-xs font-extrabold hover:bg-cyan-300 transition">
+          Instant Free Download
+        </button>
+      </div>
+    </section>
+
+    <!-- Interactive Daily Quiz -->
+    <section id="dailyQuiz" class="outlier-card p-6 sm:p-8 border-cyan-500/40 relative overflow-hidden">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/5 pb-5 mb-6">
+        <div>
+          <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider block mb-1">Interactive Diagnostic</span>
+          <h3 class="text-xl sm:text-2xl font-black text-white">Daily NCERT Trap Drill</h3>
+          <p class="text-xs text-slate-400">Strictly NCERT Statement & Confusion Trap Questions</p>
+        </div>
+        <div class="bg-[#101217] border border-white/10 px-4 py-2 rounded-xl text-right">
+          <span class="text-[10px] mono text-slate-400 block uppercase">Accuracy Score</span>
+          <span id="quizScoreText" class="text-sm font-black mono text-emerald-400">0 Correct</span>
+        </div>
+      </div>
+
+      <div id="quizBox" class="max-w-3xl mx-auto space-y-4">
+        <div class="flex items-center justify-between text-xs text-slate-400">
+          <span id="questionNumber" class="mono font-bold text-cyan-400 text-sm">Question 1</span>
+          <span class="text-[10px] bg-white/5 border border-white/10 px-2.5 py-1 rounded-md text-slate-300">Repeated NTA Trap Pattern</span>
+        </div>
+        <p id="questionText" class="text-base sm:text-lg font-semibold text-white leading-relaxed">Loading Question...</p>
+        <div id="optionsContainer" class="space-y-2.5 pt-2"></div>
+        <div id="explanationBox" class="hidden p-4 rounded-xl text-xs sm:text-sm leading-relaxed border mt-4"></div>
+        <div class="flex justify-end pt-3">
+          <button id="nextBtn" onclick="nextQuestion()" class="hidden px-6 py-2.5 bg-gradient-to-r from-cyan-400 to-emerald-400 text-black text-xs sm:text-sm font-extrabold rounded-xl hover:opacity-95 transition">
+            Next Question →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notes Vault CTA -->
+    <section id="notesVault" class="outlier-card p-6 sm:p-10 border-emerald-500/40 bg-gradient-to-b from-[#13151c] to-[#0a0c10]">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+        <div class="space-y-2 max-w-xl">
+          <span id="offerBadge" class="text-xs font-bold mono uppercase tracking-wider text-emerald-400 bg-emerald-950/80 border border-emerald-800/40 px-3 py-1 rounded-lg inline-block">
+            Permanent Lifetime Access
+          </span>
+          <h3 class="text-2xl sm:text-3xl font-black text-white">Full NCERT Biology Master Vault</h3>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+            38 Complete Class 11 & 12 Chapters. High-definition printable PDFs, flowcharts, formula sheets, and upcoming 2026 revisions included.
+          </p>
+        </div>
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5 w-full md:w-auto justify-between md:justify-end">
+          <div class="text-left md:text-right">
+            <span class="text-xs line-through text-slate-500 block mono">Regular ₹999</span>
+            <span class="text-3xl sm:text-4xl font-black text-white mono displayPrice">₹199</span>
+            <span id="offerSubtext" class="text-[10px] text-emerald-400 block font-semibold">One-time launch price</span>
+          </div>
+          <button onclick="handlePaymentRedirect()" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-black text-sm hover:scale-105 transition shadow-xl shadow-emerald-500/20">
+            Instant Access Now
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-10 border-t border-white/5 text-center text-xs text-slate-500 space-y-2">
+      <p>© 2026 THE MedRise. Strictly focused on NCERT Biology Excellence.</p>
+      <p class="text-[11px] text-slate-600">
+        Built for future doctors who value speed, retention, and clarity
+        <span onclick="openPinModal()" class="cursor-pointer text-slate-700 hover:text-cyan-400 select-none">.</span>
+      </p>
+    </footer>
+
+  </div>
+
+  <!-- VIEW 2: OWNER ADMIN DASHBOARD & ADVANCED CMS -->
+  <div id="adminView" class="hidden max-w-5xl mx-auto px-4 pt-8 pb-20 space-y-6">
+    <div class="outlier-card p-6 border-amber-500/40 bg-gradient-to-r from-[#1c1913] to-[#121318]">
+      <div class="flex items-center justify-between flex-wrap gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-black text-xl">
+            👑
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white">The MedRise — Master Control Deck</h2>
+            <p class="text-xs text-slate-400">Full Real-Time Site & Exam Controller</p>
+          </div>
+        </div>
+        <button onclick="lockAdmin()" class="mono text-xs bg-red-950/80 hover:bg-red-900 text-red-300 px-4 py-2 rounded-xl border border-red-700/50 font-semibold transition">
+          🔒 Lock Dashboard
+        </button>
+      </div>
+    </div>
+
+    <!-- 1. LIVE LINKS MANAGER -->
+    <div class="outlier-card p-6 space-y-4 border-cyan-500/40">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <span>🔗</span> Platform Links Manager
+        </h3>
+        <span class="text-[11px] text-slate-400">Real-time button links</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Telegram Community Link</label>
+          <input id="inputTelegram" type="text" placeholder="https://t.me/TheMedRise" class="w-full bg-[#0d0f14] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Instagram Page Link</label>
+          <input id="inputInstagram" type="text" placeholder="https://instagram.com/the.medrise" class="w-full bg-[#0d0f14] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Cosmofeed / UPI Payment Checkout Link</label>
+          <input id="inputPayment" type="text" placeholder="https://cosmofeed.com/vp/..." class="w-full bg-[#0d0f14] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-400">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Free Sample PDF Link (Google Dfull py-2.5 rounded-xl bg-[#181a22] border border-amber-500/40 hover:bg-amber-500/10 text-amber-300 text-xs font-bold transition">
             Join Early Waitlist 🔔
           </button>
         </div>
