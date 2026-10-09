@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE MedRise — NEET Biology Intelligence</title>
+  
+  <!-- SEO & Social Preview Tags for WhatsApp/Telegram Shares -->
+  <meta name="description" content="High-Yield Handwritten NEET Biology Vault. Strictly NCERT line-by-line decoded flowcharts & NTA trap alerts.">
+  <meta property="og:title" content="THE MedRise — NEET Biology Notes Vault">
+  <meta property="og:description" content="Stop drowning in 1000-page coaching bundles. 38 Chapters decoded in 15-min mindmaps.">
+  <meta property="og:type" content="website">
+
+  <!-- Tailwind CSS & Modern Web Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body { 
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; 
+      background-color: #0c0d10; 
+      color: #e2e8f0; 
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .outlier-card { 
+      background: #17181c; 
+      border: 1px solid #23252d; 
+      border-radius: 14px; 
+      transition: all 0.2s ease-in-out; 
+    }
+    .outlier-card:hover { 
+      border-color: #383c4a; 
+      background: #1a1c22; 
+    }
+    .science-bg {
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.07) 0%, transparent 35%),
+        radial-gradient(circle at 90% 80%, rgba(52, 211, 153, 0.07) 0%, transparent 35%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100' opacity='0.03'%3E%3Cpath d='M50 10 L65 35 L50 60 L35 35 Z' fill='none' stroke='%23ffffff' stroke-width='1.2'/%3E%3Ccircle cx='50' cy='35' r='4' fill='%23ffffff'/%3E%3Cpath d='M15 80 Q30 65 45 80 T75 80' fill='none' stroke='%23ffffff' stroke-width='1.2'/%3E%3Ccircle cx='85' cy='20' r='6' fill='none' stroke='%23ffffff' stroke-width='1.2'/%3E%3C/svg%3E");
+    }
+  </style>
+</head>
+<body class="science-bg min-h-screen pb-24 antialiased selection:bg-teal-400 selection:text-black">
+
+  <!-- TOP APP BAR -->
+  <header class="border-b border-[#20222a] bg-[#111216]/95 backdrop-blur sticky top-0 z-40 px-4 py-3">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-500 to-emerald-400 flex items-center justify-center font-bold text-black text-sm shadow-md">🧬</div>
+        <div class="leading-none">
+          <span class="text-[9px] tracking-[0.25em] text-slate-400 font-bold block uppercase">THE</span>
+          <span class="text-lg font-extrabold tracking-tight">
+            <span class="text-sky-400">Med</span><span class="text-emerald-400">Rise</span>
+          </span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-[11px] bg-[#1d1f26] border border-[#2a2d36] text-slate-300 px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>NEET Batch Live</span>
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- VIEW 1: STUDENT LANDING VIEW -->
+  <div id="studentView" class="max-w-4xl mx-auto px-4 pt-5 space-y-4">
+    <!-- Brand Identity Hero Banner -->
+    <div class="outlier-card p-5 relative overflow-hidden">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-[#1f242d] to-[#12141a] border border-[#2d323e] flex items-center justify-center text-xl font-bold tracking-wider text-sky-400 shrink-0">
+          MR
+        </div>
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <h1 class="text-xl sm:text-2xl font-bold text-white tracking-tight">NEET Biology Intelligence Vault</h1>
+            <span class="bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 text-[10px] font-semibold px-2 py-0.5 rounded-full">
+              Strictly NCERT
+            </span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-xl">
+            1000-page coaching bundle ko bhool jao. Pure Hinglish decoded flowcharts aur NTA line-trap breakdown.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Free Sample Notice -->
+    <div class="bg-[#121915] border border-emerald-800/40 rounded-xl px-4 py-3 flex items-center justify-between text-xs">
+      <div class="flex items-center gap-2.5">
+        <span class="w-5 h-5 rounded-md bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-[10px]">✓</span>
+        <span class="text-emerald-200">
+          <strong>Free Sample PDF Ready:</strong> Cell: The Unit of Life (Handwritten Notes)
+        </span>
+      </div>
+      <button onclick="openModal('sampleModal')" class="text-emerald-400 font-semibold hover:underline shrink-0 ml-2">Preview →</button>
+    </div>
+
+    <!-- Bento Grid Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+      <div class="md:col-span-2 outlier-card p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">🔬 Handcrafted Master Deck</span>
+            <span class="text-[10px] mono text-sky-400 bg-sky-950/60 border border-sky-800/40 px-2 py-0.5 rounded">38 Chapters • 100% NCERT</span>
+          </div>
+          <h2 class="text-base sm:text-lg font-bold text-white mb-1.5">Class 11 & 12 Handwritten Notes</h2>
+          <p class="text-xs text-slate-400 mb-4 leading-relaxed">Har diagram ke peeche ki hidden NCERT lines decoded. Har chapter sirf 20 minute mein revise hoga without unnecessary external theory.</p>
+          <div class="grid grid-cols-2 gap-2 text-xs mb-4">
+            <div class="bg-[#121317] p-2.5 rounded-lg border border-[#22242c]">
+              <span class="text-emerald-400 font-bold block text-xs">15-Min Mindmaps</span>
+              <span class="text-slate-400 text-[10px]">Exam night revision maps</span>
+            </div>
+            <div class="bg-[#121317] p-2.5 rounded-lg border border-[#22242c]">
+              <span class="text-sky-400 font-bold block text-xs">NTA Trap Alerts</span>
+              <span class="text-slate-400 text-[10px]">Statement question traps eliminated</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 pt-2">
+          <button onclick="openModal('checkoutModal')" class="flex-1 bg-gradient-to-r from-sky-400 to-emerald-400 hover:from-sky-300 hover:to-emerald-300 text-black font-extrabold text-xs py-2.5 rounded-lg text-center transition">
+            Unlock Full Deck (₹199)
+          </button>
+          <button onclick="openModal('sampleModal')" class="text-xs text-slate-300 hover:text-white px-3 py-2.5 rounded-lg border border-[#272932] hover:border-slate-500 transition">
+            Free Sample
+          </button>
+        </div>
+      </div>
+
+      <div class="outlier-card p-5 flex flex-col justify-between">
+        <div>
+          <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5 mb-3">⚡ Trust Metrics</span>
+          <div class="space-y-2.5">
+            <div class="bg-[#121317] p-3 rounded-lg border border-[#22242c]">
+              <span class="text-xl font-black text-white block mono">4+ Years</span>
+              <span class="text-[10px] text-slate-400">NEET Question Blueprint Research</span>
+            </div>
+            <div class="bg-[#121317] p-3 rounded-lg border border-[#22242c]">
+              <span class="text-xl font-black text-emerald-400 block mono">360/360</span>
+              <span class="text-[10px] text-slate-400">Pure Biology Target Alignment</span>
+            </div>
+          </div>
+        </div>
+        <p class="text-[11px] text-slate-500 mt-3 italic">"Zero coaching fluff. Strictly wahi jo test paper mein chhapta hai."</p>
+      </div>
+
+      <div id="sample" class="outlier-card p-5">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-semibold text-sky-400">FREE ASSET</span>
+          <span class="text-[10px] mono text-slate-500">PDF • 14 Pages</span>
+        </div>
+        <h3 class="text-sm font-bold text-white mb-1">Cell: The Unit of Life</h3>
+        <p class="text-xs text-slate-400 mb-4">Complete handwritten sample notes with organelle trap tables.</p>
+        <button onclick="openModal('sampleModal')" class="w-full bg-[#1e2027] hover:bg-[#252831] border border-[#2a2d36] text-sky-300 font-semibold text-xs py-2 rounded-lg transition">
+          Direct Download PDF
+        </button>
+      </div>
+
+      <div class="outlier-card p-5">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-semibold text-emerald-400">COMMUNITY</span>
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        </div>
+        <h3 class="text-sm font-bold text-white mb-1">Telegram Community</h3>
+        <p class="text-xs text-slate-400 mb-4">Daily NCERT tricky polls, doubt clearance aur audio chapter briefs.</p>
+        <button onclick="openModal('communityModal')" class="w-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 font-semibold text-xs py-2 rounded-lg transition">
+          Join Telegram Hub
+        </button>
+      </div>
+
+      <div class="outlier-card p-5">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-semibold text-slate-400">INSTAGRAM</span>
+          <span class="text-[10px] mono text-slate-500">@the.medrise</span>
+        </div>
+        <h3 class="text-sm font-bold text-white mb-1">60s NCERT Traps</h3>
+        <p class="text-xs text-slate-400 mb-4">Quick reel breakdowns taaki exam hall mein silly mistakes zero ho.</p>
+        <button onclick="openModal('communityModal')" class="w-full bg-[#1e2027] hover:bg-[#252831] border border-[#2a2d36] text-slate-300 font-semibold text-xs py-2 rounded-lg transition">
+          Follow Instagram
+        </button>
+      </div>
+    </div>
+
+    <!-- Pricing Tile -->
+    <div id="pricing" class="outlier-card p-5 bg-gradient-to-b from-[#17181c] to-[#111216] border-emerald-500/30">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <span class="text-[10px] mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/40">LIFETIME ACCESS</span>
+          <h3 class="text-base sm:text-lg font-bold text-white mt-1">Class 11 + 12 Complete Notes Vault</h3>
+          <p class="text-xs text-slate-400">38 chapters, mind maps, formula charts and printable high-res PDFs.</p>
+        </div>
+        <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+          <div class="text-right">
+            <span class="text-[11px] line-through text-slate-500 block">₹999</span>
+            <span class="text-2xl font-black text-white mono">₹199</span>
+          </div>
+          <button onclick="openModal('checkoutModal')" class="bg-gradient-to-r from-emerald-400 to-teal-400 hover:opacity-90 text-black font-extrabold text-xs px-4 py-2.5 rounded-xl transition shadow-md shadow-emerald-500/10">
+            Instant Access
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW 2: ADMIN CREATOR DASHBOARD VIEW -->
+  <div id="adminView" class="hidden max-w-4xl mx-auto px-4 pt-5 space-y-4">
+    <div class="outlier-card p-5 border-amber-500/40 bg-gradient-to-r from-[#1b1915] to-[#17181c]">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg">👑</div>
+          <div>
+            <h2 class="text-base font-bold text-white">The MedRise — Creator Portal</h2>
+            <p class="text-xs text-slate-400">Direct Store Operations & Revenue Overview</p>
+          </div>
+        </div>
+        <span class="mono text-xs bg-amber-500/20 text-amber-300 px-2.5 py-1 rounded-full border border-amber-500/40 font-semibold">Active Vault</span>
+      </div>
+    </div>
+
+    <!-- Analytics Numbers -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div class="outlier-card p-4">
+        <span class="text-[11px] text-slate-400 block mb-1">Total Net Revenue</span>
+        <span class="text-xl sm:text-2xl font-black text-emerald-400 mono">₹0.00</span>
+        <span class="text-[10px] text-slate-500 block mt-1">Direct Bank Payouts</span>
+      </div>
+      <div class="outlier-card p-4">
+        <span class="text-[11px] text-slate-400 block mb-1">Paid Students</span>
+        <span class="text-xl sm:text-2xl font-black text-white mono">0</span>
+        <span class="text-[10px] text-emerald-400 block mt-1">₹199 Vault Orders</span>
+      </div>
+      <div class="outlier-card p-4">
+        <span class="text-[11px] text-slate-400 block mb-1">Free Leads</span>
+        <span class="text-xl sm:text-2xl font-black text-sky-400 mono">0</span>
+        <span class="text-[10px] text-slate-500 block mt-1">Sample Downloads</span>
+      </div>
+      <div class="outlier-card p-4">
+        <span class="text-[11px] text-slate-400 block mb-1">Gateway Status</span>
+        <span class="text-base font-bold text-emerald-400 block">Cosmofeed</span>
+        <span class="text-[10px] text-slate-500 block mt-1">Ready for UPI</span>
+      </div>
+    </div>
+
+    <!-- Control Center Box -->
+    <div class="outlier-card p-5">
+      <h3 class="text-sm font-bold text-white mb-2">Operations Guide</h3>
+      <p class="text-xs text-slate-400 leading-relaxed mb-3">
+        Jab tera Cosmofeed payment link aur Telegram channel ban jaye, toh GitHub par jakar bas <code>openModal(...)</code> ki jagah direct links paste kar dena. Teri live site bina restart kiye turant update ho jayegi.
+      </p>
+      <div class="bg-[#101115] border border-[#252832] p-3 rounded-lg text-xs mono text-slate-300">
+        Status: GitHub Repository Connected (TheMedRise)
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING VIEW SWITCHER -->
+  <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 bg-[#14161c]/95 backdrop-blur border border-[#2f3340] rounded-full p-1.5 shadow-2xl flex items-center gap-1.5">
+    <button id="btnStudent" onclick="switchView('student')" class="px-4 py-1.5 rounded-full text-xs font-bold transition bg-emerald-400 text-black">
+      👨‍🎓 Student View
+    </button>
+    <button id="btnAdmin" onclick="switchView('admin')" class="px-4 py-1.5 rounded-full text-xs font-bold transition text-slate-400 hover:text-white">
+      🛡️ Admin Dashboard
+    </button>
+  </div>
+
+  <!-- POPUP MODAL 1: SAMPLE PREVIEW -->
+  <div id="sampleModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="outlier-card max-w-md w-full p-5 border-sky-500/40 relative">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-xs mono text-sky-400 font-bold">CHAPTER 01 • SAMPLE NOTES</span>
+        <button onclick="closeModal('sampleModal')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+      <h4 class="text-base font-bold text-white mb-1">Cell: The Unit of Life (Decoded)</h4>
+      <p class="text-xs text-slate-400 mb-4">Ye sample PDF direct Google Drive se sync ho raha hai. Isme handwritten organelle traps aur high-yield tables included hain.</p>
+      <div class="bg-[#101115] p-3 rounded-lg border border-[#232630] mb-4 space-y-1.5 text-xs text-slate-300">
+        <div>✓ Endomembrane system line-trap decoded</div>
+        <div>✓ Ribosome 70S vs 80S quick formula table</div>
+        <div>✓ NCERT lines vs NEET Previous Year Questions</div>
+      </div>
+      <button onclick="alert('Drive link jald sync hoga!'); closeModal('sampleModal');" class="w-full bg-sky-400 hover:bg-sky-300 text-black font-extrabold text-xs py-2.5 rounded-lg transition">
+        Download Sample PDF
+      </button>
+    </div>
+  </div>
+
+  <!-- POPUP MODAL 2: CHECKOUT / ACCESS -->
+  <div id="checkoutModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="outlier-card max-w-md w-full p-5 border-emerald-500/40 relative">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-xs mono text-emerald-400 font-bold">LIFETIME ACCESS • ₹199</span>
+        <button onclick="closeModal('checkoutModal')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+      <h4 class="text-base font-bold text-white mb-1">Complete NEET Biology Master Vault</h4>
+      <p class="text-xs text-slate-400 mb-4">UPI, GPay, PhonePe ya Paytm se payment karne ke baad instant download link aapke WhatsApp aur email par bhej diya jata hai.</p>
+      <div class="space-y-2 mb-4">
+        <input type="text" placeholder="Aapka Name" class="w-full bg-[#101115] border border-[#282b36] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-400">
+        <input type="tel" placeholder="WhatsApp Number (Delivery ke liye)" class="w-full bg-[#101115] border border-[#282b36] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-400">
+      </div>
+      <button onclick="alert('Cosmofeed live checkout link connect hone wala hai!'); closeModal('checkoutModal');" class="w-full bg-gradient-to-r from-emerald-400 to-teal-400 text-black font-extrabold text-xs py-2.5 rounded-lg transition">
+        Proceed to UPI Pay (₹199)
+      </button>
+    </div>
+  </div>
+
+  <!-- POPUP MODAL 3: COMMUNITY -->
+  <div id="communityModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="outlier-card max-w-sm w-full p-5 border-emerald-500/40 relative">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-xs mono text-emerald-400 font-bold">MEDRISE COMMUNITY</span>
+        <button onclick="closeModal('communityModal')" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+      <h4 class="text-sm font-bold text-white mb-1">The MedRise Hub</h4>
+      <p class="text-xs text-slate-400 mb-4">Hamara Telegram aur Instagram channel jald public hone wala hai. Notes launch alerts ke liye jud jao.</p>
+      <button onclick="closeModal('communityModal')" class="w-full bg-[#20222a] border border-[#2a2d36] text-white font-semibold text-xs py-2 rounded-lg">
+        Got It
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function switchView(mode) {
+      const student = document.getElementById('studentView');
+      const admin = document.getElementById('adminView');
+      const btnS = document.getElementById('btnStudent');
+      const btnA = document.getElementById('btnAdmin');
+      if (mode === 'student') {
+        student.classList.remove('hidden');
+        admin.classList.add('hidden');
+        btnS.className = "px-4 py-1.5 rounded-full text-xs font-bold transition bg-emerald-400 text-black";
+        btnA.className = "px-4 py-1.5 rounded-full text-xs font-bold transition text-slate-400 hover:text-white";
+      } else {
+        student.classList.add('hidden');
+        admin.classList.remove('hidden');
+        btnA.className = "px-4 py-1.5 rounded-full text-xs font-bold transition bg-amber-400 text-black";
+        btnS.className = "px-4 py-1.5 rounded-f
