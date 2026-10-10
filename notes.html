@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06101f">
+  <meta name="description" content="MedRise Notes Vault — organised NEET Biology revision notes.">
+  <title>Notes Vault | MedRise</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg:#050c16; --surface:#0a1625; --surface2:#0d1d30; --text:#f3f7ff;
+      --muted:#a9bdd8; --border:#1d3652; --blue:#168bff; --cyan:#08d5ed;
+      --green:#11d6a0; --gold:#ffbd45; --shadow:0 12px 30px #0003;
+    }
+    [data-theme="light"] {
+      color-scheme:light; --bg:#f5f8fd; --surface:#fff; --surface2:#edf4ff;
+      --text:#101c31; --muted:#5e7395; --border:#d9e6f7; --blue:#0878f9;
+      --cyan:#00aeca; --green:#079e78; --gold:#a66a00; --shadow:0 10px 26px #173a6310;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.5;transition:background .2s,color .2s}
+    button,input{font:inherit}
+    button,a{-webkit-tap-highlight-color:transparent}
+    a{color:inherit;text-decoration:none}
+    button{cursor:pointer}
+    .wrap{width:min(1040px,100% - 32px);margin:auto}
+    .topbar{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 91%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+    .top-inner{height:76px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:11px;min-width:0}
+    .brand-mark{height:45px;width:45px;display:grid;place-items:center;border:1px solid var(--cyan);border-radius:14px;background:linear-gradient(145deg,#0d2035,#020711);color:white;font-size:19px;font-weight:800;letter-spacing:-1.5px;flex-shrink:0}
+    .brand-mark span{color:var(--cyan)}
+    .brand-name{font-size:23px;font-weight:800;letter-spacing:-1px;line-height:1.1}
+    .brand-name span{color:var(--blue)}
+    .brand-tag{font-size:11px;color:var(--muted);margin-top:4px}
+    .icon-btn{width:44px;height:44px;border-radius:14px;border:1px solid var(--border);background:var(--surface);color:var(--text);display:grid;place-items:center;font-size:20px}
+    .hero{padding:30px 0 20px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px}
+    .eyebrow{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan);font-weight:800}
+    h1{font-size:clamp(32px,6vw,48px);line-height:1.05;letter-spacing:-1.7px;margin:8px 0 12px}
+    .gradient{background:linear-gradient(90deg,var(--cyan),var(--blue));background-clip:text;-webkit-background-clip:text;color:transparent}
+    .hero p{max-width:530px;margin:0;color:var(--muted);font-size:15px}
+    .hero-art{width:125px;height:120px;display:grid;place-items:center;position:relative;font-size:70px;filter:drop-shadow(0 8px 18px #078bff22)}
+    .hero-art:before{content:"";position:absolute;inset:10px;border-radius:32px;background:linear-gradient(145deg,#087cff22,#00d5ed12);border:1px solid var(--border);transform:rotate(-8deg)}
+    .hero-art span{position:relative}
+    .pill-row{display:flex;gap:8px;overflow-x:auto;padding:5px 0 12px;scrollbar-width:none}
+    .pill-row::-webkit-scrollbar{display:none}
+    .pill{white-space:nowrap;border:1px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text);padding:9px 12px;font-size:12px;font-weight:600}
+    .pill[aria-pressed="true"]{background:linear-gradient(120deg,var(--cyan),var(--blue));border-color:transparent;color:white}
+    .search{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:15px;padding:0 15px;margin:5px 0 14px}
+    .search span{font-size:20px;color:var(--muted)}
+    .search input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:var(--text);padding:14px 0;font-size:14px}
+    .search input::placeholder{color:var(--muted)}
+    .class-tabs{display:grid;grid-template-columns:1fr 1fr;padding:4px;border:1px solid var(--border);border-radius:16px;background:var(--surface);margin-bottom:24px}
+    .class-tab{padding:12px 10px;border:0;border-radius:12px;background:transparent;color:var(--muted);font-weight:700}
+    .class-tab[aria-pressed="true"]{background:linear-gradient(115deg,var(--cyan),var(--blue));color:#fff}
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 13px}
+    .section-head h2{font-size:20px;letter-spacing:-.6px;margin:0}
+    .count{font-size:12px;color:var(--muted);border:1px solid var(--border);background:var(--surface);padding:6px 10px;border-radius:999px;white-space:nowrap}
+    .chapter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .chapter{min-width:0;display:grid;grid-template-columns:40px minmax(0,1fr);gap:12px;padding:15px;border:1px solid var(--border);border-radius:18px;background:var(--surface);box-shadow:var(--shadow)}
+    .number{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--surface2);border:1px solid var(--border);font-weight:800;color:var(--blue)}
+    .chapter-main{min-width:0}
+    .chapter-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+    .chapter h3{font-size:14px;line-height:1.35;margin:1px 0 7px}
+    .chapter p{font-size:12px;line-height:1.5;color:var(--muted);margin:0 0 12px}
+    .status{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;font-size:10px;font-weight:700;border-radius:999px;padding:5px 8px;background:color-mix(in srgb,var(--green) 12%,var(--surface));color:var(--green);border:1px solid color-mix(in srgb,var(--green) 28%,var(--border))}
+    .status.soon{color:var(--gold);background:color-mix(in srgb,var(--gold) 10%,var(--surface));border-color:color-mix(in srgb,var(--gold) 30%,var(--border))}
+    .chapter-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .type{font-size:10px;color:var(--muted)}
+    .small-btn{border:1px solid var(--blue);border-radius:10px;padding:7px 10px;color:var(--blue);font-size:11px;font-weight:700;background:transparent;white-space:nowrap}
+    .small-btn:disabled{border-color:var(--border);color:var(--muted);cursor:not-allowed}
+    .promo{display:flex;align-items:center;gap:14px;margin:24px 0 100px;padding:18px;border:1px solid var(--border);border-radius:18px;background:linear-gradient(115deg,var(--surface),var(--surface2))}
+    .pdf-icon{height:48px;width:42px;display:grid;place-items:center;border-radius:12px;background:color-mix(in srgb,var(--blue) 12%,var(--surface));font-size:23px;flex-shrink:0}
+    .promo-copy{flex:1;min-width:0}
+    .promo h2{font-size:15px;margin:0 0 4px}
+    .promo p{font-size:12px;color:var(--muted);margin:0}
+    .promo .small-btn{flex-shrink:0}
+    .empty{grid-column:1/-1;text-align:center;padding:32px 18px;border:1px dashed var(--border);border-radius:16px;color:var(--muted)}
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:9;border-top:1px solid var(--border);background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(18px);padding:8px max(16px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom));display:flex;justify-content:center}
+    .nav-inner{width:min(520px,100%);display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+    .nav-link{display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 3px;border-radius:12px;color:var(--muted);font-size:10px;font-weight:600}
+    .nav-link .nav-icon{font-size:21px;line-height:1.2}
+    .nav-link.active{color:var(--cyan)}
+    .nav-link:focus-visible,button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+    .toast{position:fixed;left:50%;bottom:94px;transform:translate(-50%,12px);width:min(420px,calc(100% - 32px));padding:12px 15px;border:1px solid var(--border);border-radius:13px;background:var(--surface2);color:var(--text);box-shadow:var(--shadow);font-size:13px;opacity:0;pointer-events:none;transition:.2s;z-index:30}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    .note-modal{position:fixed;inset:0;z-index:40;background:#0009;display:none;align-items:center;justify-content:center;padding:20px}
+    .note-modal.open{display:flex}
+    .modal-card{width:min(420px,100%);background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:23px;box-shadow:var(--shadow)}
+    .modal-card h2{font-size:20px;margin:0 0 8px}
+    .modal-card p{color:var(--muted);font-size:14px}
+    .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
+    .primary{border:0;border-radius:11px;background:linear-gradient(115deg,var(--cyan),var(--blue));color:white;padding:10px 14px;font-weight:700}
+    .secondary{border:1px solid var(--border);border-radius:11px;background:transparent;color:var(--text);padding:10px 14px;font-weight:700}
+    .footnote{font-size:11px;color:var(--muted);text-align:center;margin:-78px 0 96px}
+    @media(max-width:600px){.wrap{width:calc(100% - 24px)}.top-inner{height:68px}.brand-mark{width:41px;height:41px}.brand-name{font-size:21px}.brand-tag{font-size:10px}.hero{padding-top:25px;grid-template-columns:minmax(0,1fr) 75px;gap:5px}.hero-art{width:78px;height:88px;font-size:50px}.hero-art:before{inset:7px;border-radius:24px}h1{font-size:36px}.hero p{font-size:13px}.chapter-grid{grid-template-columns:1fr;gap:10px}.chapter{padding:13px}.chapter h3{font-size:14px}.promo{padding:14px;gap:10px}.promo .small-btn{font-size:10px;padding:7px}.section-head h2{font-size:18px}}
+    @media(min-width:900px){.hero{padding-top:45px}.chapter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.bottom-nav{position:static;border:1px solid var(--border);border-radius:18px;margin:0 auto 24px;width:min(520px,calc(100% - 32px));padding:8px}.footnote{margin:0 0 25px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap top-inner">
+      <a class="brand" href="index.html" aria-label="MedRise home">
+        <div class="brand-mark" aria-hidden="true">M<span>R</span></div>
+        <div><div class="brand-name">Med<span>Rise</span></div><div class="brand-tag">Get Your Dream with MedRise</div></div>
+      </a>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch to light mode" title="Change theme">☼</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Your revision library</div>
+        <h1>Notes <span class="gradient">Vault</span></h1>
+        <p>NCERT-based study material for focused NEET Biology revision.</p>
+      </div>
+      <div class="hero-art" aria-hidden="true"><span>📒</span></div>
+    </section>
+
+    <div class="pill-row" id="filters" aria-label="Filter chapters">
+      <button class="pill" data-filter="all" aria-pressed="true">All</button>
+      <button class="pill" data-filter="Botany" aria-pressed="false">🌿 Botany</button>
+      <button class="pill" data-filter="Zoology" aria-pressed="false">🧬 Zoology</button>
+      <button class="pill" data-filter="available" aria-pressed="false">🟢 Available</button>
+      <button class="pill" data-filter="soon" aria-pressed="false">⌛ Coming Soon</button>
+      <button class="pill" data-filter="free" aria-pressed="false">Free</button>
+      <button class="pill" data-filter="paid" aria-pressed="false">Paid</button>
+    </div>
+
+    <label class="search">
+      <span aria-hidden="true">⌕</span>
+      <input id="searchInput" type="search" placeholder="Search chapters, topics or keywords..." autocomplete="off" aria-label="Search chapters">
+    </label>
+
+    <div class="class-tabs" role="group" aria-label="Choose class">
+      <button class="class-tab" data-class="11" aria-pressed="true">▢ Class 11</button>
+      <button class="class-tab" data-class="12" aria-pressed="false">▢ Class 12</button>
+    </div>
+
+    <section aria-labelledby="chapterHeading">
+      <div class="section-head">
+        <h2 id="chapterHeading">Class 11 — Chapters</h2>
+        <span class="count" id="chapterCount">0 Chapters</span>
+      </div>
+      <div class="chapter-grid" id="chapterGrid" aria-live="polite"></div>
+    </section>
+
+    <section class="promo" aria-label="Sample notes">
+      <div class="pdf-icon" aria-hidden="true">📄</div>
+      <div class="promo-copy"><h2>Sample Notes</h2><p>Preview sample pages before accessing full notes.</p></div>
+      <button class="small-btn" id="sampleButton" type="button">View Sample →</button>
+    </section>
+    <p class="footnote">Samjho. Revise karo. Aage badho.</p>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a class="nav-link" href="index.html"><span class="nav-icon">⌂</span><span>Home</span></a>
+      <a class="nav-link active" href="notes.html" aria-current="page"><span class="nav-icon">▤</span><span>Vault</span></a>
+      <a class="nav-link" href="mocktest.html" data-page="quiz"><span class="nav-icon">◴</span><span>Quiz</span></a>
+      <a class="nav-link" href="dashboard.html" data-page="profile"><span class="nav-icon">♙</span><span>Profile</span></a>
+    </div>
+  </nav>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="note-modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalMessage">
+    <div class="modal-card">
+      <h2 id="modalTitle">Coming Soon</h2>
+      <p id="modalMessage">This feature is not available yet.</p>
+      <div class="modal-actions"><button class="secondary" id="closeModal" type="button">Close</button><button class="primary" id="modalOk" type="button">Got it</button></div>
+    </div>
+  </div>
+
+  <script>
+    /*
+      SETUP NOTES:
+      1. Add real PDF URLs in the `file` field for FREE chapters when ready.
+      2. Add a sample PDF URL to SAMPLE_PDF when one exists.
+      3. Paid content stays locked until secure server-side payment verification is connected.
+      4. A chapter marked `available: true` is still shown as Coming Soon if its file URL is missing.
+    */
+    const CHAPTERS = [
+      {id:1, cls:11, name:"The Living World", type:"Botany", desc:"Characteristics of living organisms, diversity, taxonomy", available:false, price:"Free", file:""},
+      {id:2, cls:11, name:"Biological Classification", type:"Botany", desc:"Five-kingdom classification, salient features", available:false, price:"Free", file:""},
+      {id:3, cls:11, name:"Plant Kingdom", type:"Botany", desc:"Algae, bryophytes, pteridophytes, gymnosperms", available:false, price:"Free", file:""},
+      {id:4, cls:11, name:"Animal Kingdom", type:"Zoology", desc:"Non-chordates to chordates overview", available:false, price:"Free", file:""},
+      {id:5, cls:11, name:"Morphology of Flowering Plants", type:"Botany", desc:"Root, stem, leaf, inflorescence, flower, fruits and seeds", available:false, price:"Paid", file:""},
+      {id:6, cls:11, name:"Anatomy of Flowering Plants", type:"Botany", desc:"Plant tissues and internal structure", available:false, price:"Paid", file:""},
+      {id:7, cls:11, name:"Structural Organisation in Animals", type:"Zoology", desc:"Animal tissues and structural organisation", available:false, price:"Paid", file:""},
+      {id:8, cls:11, name:"Cell: The Unit of Life", type:"Botany", desc:"Cell theory, organelles and cell structure", available:false, price:"Free", file:""},
+      {id:9, cls:11, name:"Biomolecules", type:"Botany", desc:"Proteins, carbohydrates, lipids and enzymes", available:false, price:"Free", file:""},
+      {id:10, cls:11, name:"Cell Cycle and Cell Division", type:"Botany", desc:"Cell cycle, mitosis and meiosis", available:false, price:"Free", file:""},
+      {id:11, cls:11, name:"Photosynthesis in Higher Plants", type:"Botany", desc:"Light reactions, carbon fixation and pathways", available:false, price:"Paid", file:""},
+      {id:12, cls:11, name:"Respiration in Plants", type:"Botany", desc:"Glycolysis, Krebs cycle and energy release", available:false, price:"Paid", file:""},
+      {id:13, cls:11, name:"Plant Growth and Development", type:"Botany", desc:"Growth regulators and plant development", available:false, price:"Paid", file:""},
+      {id:14, cls:11, name:"Breathing and Exchange of Gases", type:"Zoology", desc:"Respiration, gas transport and exchange", available:false, price:"Free", file:""},
+      {id:15, cls:11, name:"Body Fluids and Circulation", type:"Zoology", desc:"Blood, lymph, heart and circulation", available:false, price:"Free", file:""},
+      {id:16, cls:11, name:"Excretory Products and Their Elimination", type:"Zoology", desc:"Kidney, nephron and urine formation", available:false, price:"Free", file:""},
+      {id:17, cls:11, name:"Locomotion and Movement", type:"Zoology", desc:"Muscles, skeleton and movement", available:false, price:"Paid", file:""},
+      {id:18, cls:11, name:"Neural Control and Coordination", type:"Zoology", desc:"Neurons, nervous system and reflexes", available:false, price:"Paid", file:""},
+      {id:19, cls:11, name:"Chemical Coordination and Integration", type:"Zoology", desc:"Endocrine glands and hormones", available:false, price:"Paid", file:""},
+      {id:20, cls:12, name:"Sexual Reproduction in Flowering Plants", type:"Botany", desc:"Flower structure, pollination and fertilisation", available:false, price:"Free", file:""},
+      {id:21, cls:12, name:"Human Reproduction", type:"Zoology", desc:"Reproductive systems, gametogenesis and development", available:false, price:"Free", file:""},
+      {id:22, cls:12, name:"Reproductive Health", type:"Zoology", desc:"Contraception, reproductive health and infertility", available:false, price:"Free", file:""},
+      {id:23, cls:12, name:"Principles of Inheritance and Variation", type:"Botany", desc:"Mendelian genetics, inheritance and variation", available:false, price:"Paid", file:""},
+      {id:24, cls:12, name:"Molecular Basis of Inheritance", type:"Botany", desc:"DNA, RNA, replication and gene expression", available:false, price:"Paid", file:""},
+      {id:25, cls:12, name:"Evolution", type:"Zoology", desc:"Origin of life, evidence and evolutionary theory", available:false, price:"Paid", file:""},
+      {id:26, cls:12, name:"Human Health and Disease", type:"Zoology", desc:"Immunity, common diseases and prevention", available:false, price:"Free", file:""},
+      {id:27, cls:12, name:"Microbes in Human Welfare", type:"Botany", desc:"Microbes in food, industry and environment", available:false, price:"Paid", file:""},
+      {id:28, cls:12, name:"Biotechnology: Principles and Processes", type:"Botany", desc:"Tools, vectors and recombinant DNA technology", available:false, price:"Paid", file:""},
+      {id:29, cls:12, name:"Biotechnology and Its Applications", type:"Botany", desc:"Applications in medicine, agriculture and research", available:false, price:"Paid", file:""},
+      {id:30, cls:12, name:"Organisms and Populations", type:"Botany", desc:"Population interactions and adaptations", available:false, price:"Free", file:""},
+      {id:31, cls:12, name:"Ecosystem", type:"Botany", desc:"Energy flow, productivity and nutrient cycles", available:false, price:"Free", file:""},
+      {id:32, cls:12, name:"Biodiversity and Conservation", type:"Botany", desc:"Biodiversity patterns, threats and conservation", available:false, price:"Free", file:""}
+    ];
+    const SAMPLE_PDF = "";
+    const state = { cls:11, filter:"all", query:"" };
+    const $ = id => document.getElementById(id);
+    let toastTimer;
+    function showMessage(title, message) {
+      $("modalTitle").textContent = title;
+      $("modalMessage").textContent = message;
+      $("modal").classList.add("open");
+      $("closeModal").focus();
+    }
+    function closeMessage() { $("modal").classList.remove("open"); }
+    function toast(message) {
+      const el = $("toast");
+      el.textContent = message;
+      el.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove("show"), 2800);
+    }
+    function isReady(chapter) {
+      return chapter.available === true && typeof chapter.file === "string" && chapter.file.trim().length > 0;
+    }
+    function chapterStatus(chapter) {
+      if (!isReady(chapter)) return {label:"⌛ Coming Soon", soon:true};
+      return {label:"● Available", soon:false};
+    }
+    function render() {
+      const query = state.query.trim().toLowerCase();
+      const list = CHAPTERS.filter(ch => {
+        if (ch.cls !== state.cls) return false;
+        if (state.filter === "Botany" || state.filter === "Zoology") if (ch.type !== state.filter) return false;
+        if (state.filter === "available" && !isReady(ch)) return false;
+        if (state.filter === "soon" && isReady(ch)) return false;
+        if (state.filter === "free" && ch.price !== "Free") return false;
+        if (state.filter === "paid" && ch.price !== "Paid") return false;
+        return !query || (ch.name + " " + ch.desc + " " + ch.type + " " + ch.price).toLowerCase().includes(query);
+      });
+      $("chapterHeading").textContent = `Class ${state.cls} — Chapters`;
+      $("chapterCount").textContent = `${list.length} Chapter${list.length === 1 ? "" : "s"}`;
+      const grid = $("chapterGrid");
+      grid.replaceChildren();
+      if (!list.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "No chapters match your search. Try another keyword or filter.";
+        grid.appendChild(empty);
+        return;
+      }
+      list.forEach(ch => {
+        const ready = isReady(ch), status = chapterStatus(ch);
+        const card = document.createElement("article");
+        card.className = "chapter";
+        const number = document.createElement("div");
+        number.className = "number";
+        number.textContent = String(ch.id);
+        number.setAttribute("aria-hidden","true");
+        const main = document.createElement("div");
+        main.className = "chapter-main";
+        const top = document.createElement("div");
+        top.className = "chapter-top";
+        const title = document.createElement("h3");
+        title.textContent = ch.name;
+        const badge = document.createElement("span");
+        badge.className = "status" + (status.soon ? " soon" : "");
+        badge.textContent = status.label;
+        top.append(title,badge);
+        const desc = document.createElement("p");
+        desc.textContent = ch.desc;
+        const bottom = document.createElement("div");
+        bottom.className = "chapter-bottom";
+        const type = document.createElement("span");
+        type.className = "type";
+        type.textContent = `${ch.type} · ${ch.price}`;
+        const btn = document.createElement("button");
+        btn.className = "small-btn";
+        btn.type = "button";
+        btn.textContent = ready ? "View Notes →" : (ch.price === "Paid" ? "Locked 🔒" : "Coming Soon");
+        btn.disabled = !ready;
+        btn.setAttribute("aria-label", `${ready ? "View" : "Unavailable"} notes for ${ch.name}`);
+        if (ready) btn.addEventListener("click", () => window.open(ch.file, "_blank", "noopener,noreferrer"));
+        else btn.addEventListener("click", () => showMessage(ch.price === "Paid" ? "Paid Notes Locked" : "Notes Coming Soon", ch.price === "Paid" ? "Paid notes will unlock only after secure payment verification is connected. No payment has been taken." : "The notes PDF for this chapter has not been added yet. Please check back later."));
+        bottom.append(type,btn);
+        main.append(top,desc,bottom);
+        card.append(number,main);
+        grid.appendChild(card);
+      });
+    }
+    function setPressed(selector, attr, value) {
+      document.querySelectorAll(selector).forEach(el => el.setAttribute("aria-pressed", String(el.getAttribute(attr) === String(value))));
+    }
+    document.querySelectorAll("[data-class]").forEach(btn => btn.addEventListener("click", () => {
+      state.cls = Number(btn.dataset.class);
+      document.querySelectorAll("[data-class]").forEach(el => el.setAttribute("aria-pressed", String(el === btn)));
+      render();
+    }));
+    document.querySelectorAll("[data-filter]").forEach(btn => btn.addEventListener("click", () => {
+      state.filter = btn.dataset.filter;
+      document.querySelectorAll("[data-filter]").forEach(el => el.setAttribute("aria-pressed", String(el === btn)));
+      render();
+    }));
+    $("searchInput").addEventListener("input", e => { state.query = e.target.value; render(); });
+    $("sampleButton").addEventListener("click", () => {
+      if (SAMPLE_PDF.trim()) window.open(SAMPLE_PDF, "_blank", "noopener,noreferrer");
+      else showMessage("Sample Coming Soon", "A sample PDF has not been added yet. This button will open the sample when the real PDF is configured.");
+    });
+    $("closeModal").addEventListener("click", closeMessage);
+    $("modalOk").addEventListener("click", closeMessage);
+    $("modal").addEventListener("click", e => { if (e.target === $("modal")) closeMessage(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closeMessage(); });
+    const themeToggle = $("themeToggle");
+    function applyTheme(theme) {
+      document.documentElement.dataset.theme = theme;
+      themeToggle.textContent = theme === "dark" ? "☼" : "☾";
+      themeToggle.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+      try { localStorage.setItem("medrise-theme", theme); } catch (_) {}
+    }
+    let initialTheme = "dark";
+    try { initialTheme = localStorage.getItem("medrise-theme") || "dark"; } catch (_) {}
+    applyTheme(initialTheme === "light" ? "light" : "dark");
+    themeToggle.addEventListener("click", () => applyTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark"));
+    document.querySelectorAll('a[data-page]').forEach(link => link.addEventListener("click", async e => {
+      e.preventDefault();
+      const page = link.dataset.page;
+      const title = page === "quiz" ? "Quiz Coming Soon" : "Profile Coming Soon";
+      const message = page === "quiz" ? "The quiz page is not ready yet. This link has not opened a missing page." : "The profile dashboard is not ready yet. This link has not opened a missing page.";
+      showMessage(title, message);
+    }));
+    render();
+  </script>
+</body>
+</html>
