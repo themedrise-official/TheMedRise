@@ -178,13 +178,6 @@
   </div>
 
   <script>
-    /*
-      SETUP NOTES:
-      1. Add real PDF URLs in the `file` field for FREE chapters when ready.
-      2. Add a sample PDF URL to SAMPLE_PDF when one exists.
-      3. Paid content stays locked until secure server-side payment verification is connected.
-      4. A chapter marked `available: true` is still shown as Coming Soon if its file URL is missing.
-    */
     const CHAPTERS = [
       {id:1, cls:11, name:"The Living World", type:"Botany", desc:"Characteristics of living organisms, diversity, taxonomy", available:false, price:"Free", file:""},
       {id:2, cls:11, name:"Biological Classification", type:"Botany", desc:"Five-kingdom classification, salient features", available:false, price:"Free", file:""},
@@ -229,7 +222,7 @@
       $("modal").classList.add("open");
       $("closeModal").focus();
     }
-    function closeMessage() { $("modal").classList.remove("open"); }
+        function closeMessage() { $("modal").classList.remove("open"); }
     function toast(message) {
       const el = $("toast");
       el.textContent = message;
@@ -349,3 +342,5 @@
   </script>
 </body>
 </html>
+
+    
