@@ -1,291 +1,387 @@
+
 <!DOCTYPE html>
-<html lang="hi" class="scroll-smooth">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Learning Profile — THE MedRise</title>
-  
-  <meta name="theme-color" content="#060709">
-  <link rel="manifest" href="manifest.json">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-  
-  <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #060709; color: #e2e8f0; }
-    .mono { font-family: 'JetBrains Mono', monospace; }
-    .card { 
-      background: linear-gradient(180deg, rgba(23, 25, 32, 0.75) 0%, rgba(13, 14, 18, 0.85) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.08); 
-      border-radius: 20px; 
-      backdrop-filter: blur(14px);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#09111c">
+<meta name="description" content="The MedRise Student Dashboard">
+<title>Student Dashboard | The MedRise</title>
+<style>
+:root{
+  color-scheme:dark;--bg:#09111c;--panel:#101b29;--panel2:#172536;
+  --text:#f3f5f8;--muted:#a2afbf;--line:#293849;
+  --gold:#d9bd7b;--cyan:#54cbdc;--green:#63d5b0;--red:#e79b9b;
+}
+body.light{
+  color-scheme:light;--bg:#f2f4f7;--panel:#fff;--panel2:#e8eef3;
+  --text:#152333;--muted:#586a7d;--line:#d7e0e8;
+  --gold:#98762f;--cyan:#087f9a;--green:#168665;--red:#bb4545;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.55}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+button{cursor:pointer}
+.container{width:min(1120px,calc(100% - 30px));margin:auto}
+header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(15px);border-bottom:1px solid var(--line)}
+.nav{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:42px;height:42px;display:grid;place-items:center;border:1px solid var(--cyan);border-radius:13px;background:var(--panel2);font-weight:900;letter-spacing:-2px}
+.logo span{color:var(--cyan)}
+.the{display:block;font-size:9px;letter-spacing:3px;color:var(--muted)}
+.brand-name{font-size:19px;font-weight:850;line-height:1.2}
+.rise{color:var(--cyan)}
+.nav-actions{display:flex;gap:8px;align-items:center}
+.icon-btn{width:39px;height:39px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 13px;border:1px solid var(--line);border-radius:11px;background:var(--panel);color:var(--text);font-size:12px;font-weight:750}
+.primary{background:var(--gold);color:#17202a;border-color:var(--gold)}
+main{padding-top:27px}
+.profile{
+ display:flex;align-items:center;gap:19px;padding:23px;
+ border:1px solid var(--line);border-radius:20px;
+ background:radial-gradient(ellipse at 100% 0%,#54cbdc12,transparent 45%),var(--panel);
+}
+.avatar{
+ width:95px;height:95px;flex-shrink:0;display:grid;place-items:center;
+ border-radius:50%;background:linear-gradient(135deg,#242a31,#101720);
+ border:1px solid #d9bd7b65;color:var(--gold);font-size:31px;font-weight:800;
+}
+.profile-info{min-width:0;flex:1}
+.profile-name{font-size:clamp(23px,4vw,34px);font-weight:800;letter-spacing:-1px;overflow-wrap:anywhere}
+.email{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.profile-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.tag{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font-size:10px;color:var(--muted)}
+.tag.gold{color:var(--gold);border-color:#d9bd7b55}
+.section-title{display:flex;justify-content:space-between;align-items:end;gap:10px;margin:27px 0 13px}
+.section-title h2{font:600 25px Georgia,serif;margin:0}
+.section-title p{font-size:12px;color:var(--muted);margin:4px 0 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.card{min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+.card-head{display:flex;align-items:center;gap:9px;padding:12px 15px;background:var(--panel2);border-bottom:1px solid var(--line);font-size:12px;font-weight:800}
+.card-icon{width:29px;height:29px;display:grid;place-items:center;border:1px solid var(--line);border-radius:9px;color:var(--gold);background:var(--bg);font-size:15px}
+.card-body{padding:17px}
+.big-number{font-size:31px;font-weight:850;letter-spacing:-1px}
+.big-number small{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:0}
+.muted{color:var(--muted);font-size:12px}
+.progress-track{height:7px;border-radius:20px;background:var(--line);overflow:hidden;margin:12px 0 7px}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold-soft),var(--cyan));border-radius:20px;transition:width .3s}
+.stat-row{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+.mini-stat{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.mini-stat strong{display:block;font-size:20px;color:var(--gold)}
+.mini-stat span{font-size:11px;color:var(--muted)}
+.score-circle{width:94px;height:94px;border-radius:50%;display:grid;place-items:center;border:5px solid var(--line);position:relative;margin:auto}
+.score-circle strong{font-size:23px}
+.score-circle span{display:block;font-size:10px;text-align:center;color:var(--muted)}
+.score-flex{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:17px}
+.score-flex .score-circle{border-top-color:var(--gold);border-right-color:var(--cyan)}
+.score-meta strong{display:block;font-size:14px}
+.subject-row{display:flex;justify-content:space-between;gap:10px;font-size:12px;margin-top:12px}
+.subject-row span:last-child{color:var(--muted)}
+.purchase-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.purchase-row:last-child{border-bottom:0}
+.file-icon{width:40px;height:44px;border-radius:9px;background:var(--panel2);display:grid;place-items:center;color:var(--cyan);font-size:19px;flex-shrink:0}
+.purchase-row .info{flex:1;min-width:0}
+.purchase-row strong{display:block;font-size:13px;overflow-wrap:anywhere}
+.purchase-row small{display:block;color:var(--muted);font-size:11px}
+.status{font-size:10px;color:var(--green);border:1px solid #63d5b055;border-radius:7px;padding:4px 7px}
+.status.demo{color:var(--gold);border-color:#d9bd7b55}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.actions .btn{flex:1}
+.recommendation{padding:16px;border:1px solid #d9bd7b55;border-radius:14px;background:color-mix(in srgb,var(--gold) 5%,var(--panel))}
+.recommendation strong{font-size:14px}
+.recommendation p{font-size:12px;color:var(--muted);margin:5px 0 12px}
+.social-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.social-link{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font-size:12px;font-weight:750;display:flex;align-items:center;gap:9px}
+.social-link span{color:var(--gold);font-size:17px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0}
+input{min-width:0;width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--text)}
+.note{padding:12px;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:11px;margin-top:14px}
+footer{padding:28px 0 40px;margin-top:30px;border-top:1px solid var(--line)}
+footer p{font-size:11px;color:var(--muted)}
+.bottom-nav{position:fixed;bottom:9px;left:50%;transform:translateX(-50%);z-index:15;width:min(470px,calc(100% - 22px));display:grid;grid-template-columns:repeat(4,1fr);padding:9px 5px calc(9px + env(safe-area-inset-bottom));border:1px solid var(--line);border-radius:17px;background:color-mix(in srgb,var(--panel) 95%,transparent);backdrop-filter:blur(16px)}
+.bottom-nav a{display:grid;justify-items:center;gap:2px;color:var(--muted);font-size:10px}
+.bottom-nav a span:first-child{font-size:18px}
+.bottom-nav a:hover{color:var(--gold)}
+.notice{position:fixed;z-index:30;bottom:85px;left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100% - 24px);padding:12px 15px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;font-size:12px;display:none}
+@media(max-width:680px){
+ .profile{padding:16px;gap:13px}.avatar{width:70px;height:70px;font-size:25px}
+ .grid{grid-template-columns:1fr}.section-title h2{font-size:23px}
+ .profile-name{font-size:23px}.nav .btn{padding:9px;font-size:11px}
+}
+@media(max-width:380px){.avatar{width:57px;height:57px;font-size:21px}.social-list{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}}
+</style>
 </head>
-<body class="min-h-screen pb-28 antialiased selection:bg-cyan-400 selection:text-black">
 
-  <!-- TOP HEADER -->
-  <header class="border-b border-white/5 bg-[#08090d]/90 backdrop-blur-md sticky top-0 z-40 px-6 py-4">
-    <div class="max-w-4xl mx-auto flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-cyan-400 to-emerald-400 flex items-center justify-center font-black text-black text-sm">MR</div>
-        <span class="text-lg font-black text-white">Med<span class="text-cyan-400">Rise</span> <span class="text-xs text-slate-400 font-semibold">Portal</span></span>
-      </a>
-      <span class="text-[10px] mono bg-emerald-950/80 border border-emerald-500/30 text-emerald-300 px-3 py-1 rounded-full font-bold">
-        STUDENT HUB
-      </span>
+<body>
+<header>
+ <div class="container nav">
+  <a class="brand" href="index.html">
+   <div class="logo">M<span>R</span></div>
+   <div><span class="the">T H E</span><div class="brand-name">Med<span class="rise">Rise</span></div></div>
+  </a>
+  <div class="nav-actions">
+   <a class="btn" href="index.html">← Home</a>
+   <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">☼</button>
+  </div>
+ </div>
+</header>
+
+<main class="container">
+ <section class="profile">
+  <div class="avatar" id="avatar">FD</div>
+  <div class="profile-info">
+   <div class="profile-name" id="studentName">Future Doctor</div>
+   <div class="email" id="studentEmail">Student account · Sign-in integration pending</div>
+   <div class="profile-tags">
+    <span class="tag gold">✦ FUTURE DOCTOR</span>
+    <span class="tag">NEET ASPIRANT</span>
+    <span class="tag" id="memberTag">MedRise Student</span>
+   </div>
+  </div>
+ </section>
+
+ <div class="section-title">
+  <div><h2>Your Dashboard</h2><p>Apni preparation ko samjho, compare nahi — improve karo.</p></div>
+ </div>
+
+ <div class="grid">
+  <section class="card">
+   <div class="card-head"><span class="card-icon">▤</span> My Purchases</div>
+   <div class="card-body">
+    <div class="big-number" id="purchaseCount">0 <small>items</small></div>
+    <p class="muted">Tumhare account mein unlock kiye gaye notes aur test series.</p>
+    <div id="purchaseList">
+     <div class="purchase-row">
+      <div class="file-icon">▤</div>
+      <div class="info"><strong>No purchases synced yet</strong><small>Verified purchases yahan dikhenge.</small></div>
+      <span class="status demo">Demo</span>
+     </div>
     </div>
-  </header>
-
-  <main class="max-w-4xl mx-auto px-4 pt-6 space-y-6">
-
-    <!-- 1. STUDENT PROFILE CARD -->
-    <div class="card p-6 border-cyan-500/30 bg-gradient-to-br from-[#121622] to-[#0c0e14]">
-      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div class="flex items-center gap-4">
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-400 to-emerald-400 flex items-center justify-center text-2xl font-black text-black shadow-lg shadow-cyan-500/20">
-            👨‍⚕️
-          </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <h2 id="studentNameDisplay" class="text-lg sm:text-xl font-black text-white">Future Doctor</h2>
-              <button onclick="editProfile()" class="text-xs text-cyan-400 hover:underline">✏️ Edit</button>
-            </div>
-            <p id="studentTargetDisplay" class="text-xs text-slate-400">Target: NEET 2026 Aspirant • Biology 360 Aim</p>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <span id="membershipBadge" class="text-xs font-bold px-3 py-1.5 rounded-xl bg-cyan-950/80 border border-cyan-500/40 text-cyan-300">
-            Free Member
-          </span>
-        </div>
-      </div>
+    <div class="actions">
+     <a class="btn primary" href="notes.html">Browse Notes →</a>
+     <a class="btn" href="tests.html">Test Arena</a>
     </div>
+   </div>
+  </section>
 
-    <!-- 2. REVISION & STUDY INTELLIGENCE -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-      <div class="card p-4 border-emerald-500/20 text-center">
-        <span class="text-[11px] text-slate-400 block mb-1">Chapters Read</span>
-        <span id="statCompleted" class="text-2xl font-black text-emerald-400 mono">0 / 38</span>
-        <span class="text-[9px] text-slate-500 block mt-1">NCERT High-Yield</span>
-      </div>
-
-      <div class="card p-4 border-cyan-500/20 text-center">
-        <span class="text-[11px] text-slate-400 block mb-1">Vault Status</span>
-        <span id="statVaultStatus" class="text-base font-black text-cyan-400 block mt-1">Sample Only</span>
-        <span class="text-[9px] text-slate-500 block mt-1">Class 11 & 12 Deck</span>
-      </div>
-
-      <div class="card p-4 border-amber-500/20 text-center">
-        <span class="text-[11px] text-slate-400 block mb-1">Total Paid</span>
-        <span id="statPaid" class="text-2xl font-black text-amber-300 mono">₹0</span>
-        <span class="text-[9px] text-slate-500 block mt-1">Lifetime Orders</span>
-      </div>
-
-      <div class="card p-4 border-white/10 text-center">
-        <span class="text-[11px] text-slate-400 block mb-1">Target Score</span>
-        <span class="text-2xl font-black text-white mono">360/360</span>
-        <span class="text-[9px] text-emerald-400 block mt-1">Biology Objective</span>
-      </div>
+  <section class="card">
+   <div class="card-head"><span class="card-icon">◷</span> Learning Progress</div>
+   <div class="card-body">
+    <div class="big-number"><span id="chaptersRead">0</span><small> / <span id="totalChapters">38</span> chapters</small></div>
+    <div class="progress-track"><div class="progress-fill" id="chapterBar"></div></div>
+    <div class="muted" id="chapterPercent">0% chapter progress</div>
+    <div class="stat-row" style="margin-top:15px">
+     <div class="mini-stat"><strong id="quizTaken">0</strong><span>Quizzes attempted</span></div>
+     <div class="mini-stat"><strong id="studyMinutes">0</strong><span>Study minutes tracked</span></div>
     </div>
+    <p class="muted">Reading progress tabhi accurate hogi jab notes reader aur student account connect honge.</p>
+   </div>
+  </section>
 
-    <!-- 3. MY PURCHASED ACCESS & NOTES VAULT -->
-    <div class="card p-6 space-y-4 border-emerald-500/40">
-      <div class="flex items-center justify-between">
-        <h3 class="text-base font-bold text-white flex items-center gap-2">
-          <span>📦</span> My Purchased Notes & Downloads
-        </h3>
-        <span class="text-xs text-emerald-400 font-semibold mono">Instant Access</span>
-      </div>
-
-      <div id="unlockedAccessCard" class="hidden p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/40 space-y-2">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-emerald-300">✅ Complete 38-Chapter Master Deck Unlocked</span>
-          <span class="text-[10px] mono bg-emerald-500 text-black px-2 py-0.5 rounded font-black">ACTIVE</span>
-        </div>
-        <p class="text-xs text-slate-300">Aapka full lifetime access active hai. Sare high-definition PDFs yahan se direct open karein:</p>
-        <div class="pt-1 flex gap-2">
-          <button onclick="handleDriveRedirect()" class="px-4 py-2 bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-extrabold text-xs rounded-xl shadow">
-            Open Full PDF Vault Folder 📂
-          </button>
-        </div>
-      </div>
-
-      <div id="lockedAccessCard" class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-3">
-        <div class="flex items-center justify-between">
-          <div>
-            <h4 class="text-sm font-bold text-white">Full NCERT Biology Master Vault</h4>
-            <p class="text-xs text-slate-400">Class 11 & 12 (38 Chapters Flowcharts + Trap Annotations)</p>
-          </div>
-          <span class="text-base font-black text-cyan-400 mono displayPrice">₹199</span>
-        </div>
-        <div class="flex items-center justify-between pt-1">
-          <span class="text-[11px] text-slate-500">🔒 Not Unlocked Yet</span>
-          <button onclick="handlePaymentRedirect()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-emerald-400 text-black font-black text-xs hover:scale-105 transition">
-            Unlock Lifetime Vault Now (<span class="displayPrice">₹199</span>)
-          </button>
-        </div>
-      </div>
+  <section class="card">
+   <div class="card-head"><span class="card-icon">◎</span> Quiz Scorecard</div>
+   <div class="card-body">
+    <div class="score-flex">
+     <div class="score-circle"><div><strong id="accuracy">—</strong><span>Accuracy</span></div></div>
+     <div class="score-meta">
+      <strong id="bestScore">No score yet</strong>
+      <div class="muted">Best recorded result</div>
+      <div class="muted" style="margin-top:8px">Correct answers: <strong id="correctAnswers">0</strong></div>
+     </div>
     </div>
+    <div class="subject-row"><span>Questions attempted</span><span id="questionsAttempted">0</span></div>
+    <div class="subject-row"><span>Latest quiz</span><span id="latestScore">No attempt</span></div>
+    <div class="note">Scorecard demo values tab tak zero rahenge jab tak quiz engine se real results save nahi hote. Ye official NEET score nahi hai.</div>
+    <div class="actions"><a class="btn" href="index.html#quiz">Practice Quiz →</a></div>
+   </div>
+  </section>
 
-    <!-- 4. CHAPTER REVISION TRACKER (38 CHAPTERS CHECKLIST) -->
-    <div class="card p-6 space-y-4 border-white/10">
-      <div class="flex items-center justify-between">
-        <div>
-          <h3 class="text-base font-bold text-white flex items-center gap-2">
-            <span>🎯</span> NCERT Revision Progress Tracker
-          </h3>
-          <p class="text-xs text-slate-400">Mark chapters as you finish revision to track your preparation</p>
-        </div>
-        <button onclick="resetProgress()" class="text-xs text-red-400 hover:underline">Reset</button>
-      </div>
-
-      <div class="space-y-2 max-h-72 overflow-y-auto pr-1" id="chaptersList">
-        <!-- Rendered by JS -->
-      </div>
+  <section class="card">
+   <div class="card-head"><span class="card-icon">↗</span> Your Weekly Progress</div>
+   <div class="card-body">
+    <div class="big-number" id="weekLabel">This week</div>
+    <p class="muted">Consistency important hai. Chhote daily targets set karo.</p>
+    <div class="stat-row">
+     <div class="mini-stat"><strong id="activeDays">0</strong><span>Active days</span></div>
+     <div class="mini-stat"><strong id="weekQuizzes">0</strong><span>Quizzes this week</span></div>
     </div>
-
-  </main>
-
-  <!-- BOTTOM APP NAVIGATION BAR -->
-  <nav class="fixed bottom-0 left-0 right-0 z-50 bg-[#08090d]/95 backdrop-blur-xl border-t border-white/10 px-4 py-2.5">
-    <div class="max-w-md mx-auto grid grid-cols-4 text-center">
-      <a href="index.html" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white">
-        <span class="text-base">🏠</span>
-        <span class="text-[10px] font-bold">Home</span>
-      </a>
-      <a href="notes.html" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white">
-        <span class="text-base">📚</span>
-        <span class="text-[10px] font-bold">Vault</span>
-      </a>
-      <a href="mocktest.html" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white">
-        <span class="text-base">⏱️</span>
-        <span class="text-[10px] font-bold">Mock Test</span>
-      </a>
-      <a href="dashboard.html" class="flex flex-col items-center gap-1 text-cyan-400 font-bold">
-        <span class="text-base">👤</span>
-        <span class="text-[10px]">Profile</span>
-      </a>
+    <div class="recommendation" style="margin-top:14px">
+     <strong>Next step</strong>
+     <p id="nextStep">Ek sample chapter choose karo aur padhai ke baad short quiz attempt karo.</p>
+     <a class="btn primary" href="notes.html">Continue Learning →</a>
     </div>
-  </nav>
+   </div>
+  </section>
 
-  <script>
-    const allChapters = [
-      "The Living World", "Biological Classification", "Plant Kingdom", "Animal Kingdom",
-      "Morphology of Flowering Plants", "Anatomy of Flowering Plants", "Structural Organisation in Animals",
-      "Cell: The Unit of Life", "Biomolecules", "Cell Cycle and Cell Division",
-      "Photosynthesis in Higher Plants", "Respiration in Plants", "Plant Growth and Development",
-      "Breathing and Exchange of Gases", "Body Fluids and Circulation", "Excretory Products and their Elimination",
-      "Locomotion and Movement", "Neural Control and Coordination", "Chemical Coordination and Integration",
-      "Sexual Reproduction in Flowering Plants", "Human Reproduction", "Reproductive Health",
-      "Principles of Inheritance and Variation", "Molecular Basis of Inheritance", "Evolution",
-      "Human Health and Disease", "Microbes in Human Welfare", "Biotechnology: Principles and Processes",
-      "Biotechnology and its Applications", "Organisms and Populations", "Ecosystem", "Biodiversity and Conservation"
-    ];
+  <section class="card">
+   <div class="card-head"><span class="card-icon">✦</span> Your Study Details</div>
+   <div class="card-body">
+    <div class="subject-row"><span>Target</span><strong>NEET preparation</strong></div>
+    <div class="subject-row"><span>Learning space</span><strong>MedRise</strong></div>
+    <div class="subject-row"><span>Last activity</span><strong id="lastActivity">Not recorded</strong></div>
+    <div class="note">Student details aur progress ko personal account ke saath sync karne ke liye secure login system baad mein connect hoga.</div>
+   </div>
+  </section>
 
-    function loadProfile() {
-      const name = localStorage.getItem('themedrise_student_name') || 'Future Doctor';
-      const target = localStorage.getItem('themedrise_student_target') || 'Target: NEET 2026 Aspirant • Biology 360 Aim';
-      const isPro = localStorage.getItem('themedrise_is_pro') === 'true';
-      const price = localStorage.getItem('themedrise_price') || '₹199';
+  <section class="card">
+   <div class="card-head"><span class="card-icon">⌁</span> MedRise Community</div>
+   <div class="card-body">
+    <p class="muted">Updates, learning resources aur community announcements yahan se access karo.</p>
+    <div class="social-list">
+     <a class="social-link" href="https://t.me/TheMedRise" target="_blank" rel="noopener noreferrer"><span>➤</span> Telegram</a>
+     <a class="social-link" href="https://www.instagram.com/the.medrise/" target="_blank" rel="noopener noreferrer"><span>◎</span> Instagram</a>
+     <a class="social-link" href="notes.html"><span>▤</span> Notes Vault</a>
+     <a class="social-link" href="tests.html"><span>◎</span> Test Arena</a>
+     <a class="social-link" href="index.html"><span>⌂</span> Main Website</a>
+    </div>
+    <p class="muted" style="margin-top:13px">Official support email ya additional links available hone par yahan add kiye ja sakte hain.</p>
+   </div>
+  </section>
+ </div>
 
-      document.querySelectorAll('.displayPrice').forEach(el => el.innerText = price);
-      document.getElementById('studentNameDisplay').innerText = name;
-      document.getElementById('studentTargetDisplay').innerText = target;
+ <section class="card" style="margin-top:14px">
+  <div class="card-head"><span class="card-icon">⚙</span> Student Profile Preview</div>
+  <div class="card-body">
+   <p class="muted">Abhi ye local preview hai. Apna naam daalkar dashboard ka profile header check kar sakte ho; ye verified account login nahi hai.</p>
+   <div class="form-row">
+    <input id="nameInput" placeholder="Student name" maxlength="70" autocomplete="name">
+    <input id="emailInput" placeholder="Email (optional)" maxlength="120" autocomplete="email" type="email">
+   </div>
+   <button class="btn primary" id="updateProfile">Preview Profile</button>
+   <button class="btn" id="resetDemo">Reset demo</button>
+   <div class="note">Is preview mein entered details isi browser session mein apply hoti hain. Actual multi-device student accounts aur verified purchase records ke liye backend required hai.</div>
+  </div>
+ </section>
+</main>
 
-      if (isPro) {
-        document.getElementById('membershipBadge').className = "text-xs font-bold px-3 py-1.5 rounded-xl bg-emerald-950/80 border border-emerald-500/40 text-emerald-300";
-        document.getElementById('membershipBadge').innerText = "Pro Vault Member ⭐";
-        document.getElementById('unlockedAccessCard').classList.remove('hidden');
-        document.getElementById('lockedAccessCard').classList.add('hidden');
-        document.getElementById('statVaultStatus').innerText = "Full Vault Unlocked";
-        document.getElementById('statPaid').innerText = price;
-      } else {
-        document.getElementById('membershipBadge').className = "text-xs font-bold px-3 py-1.5 rounded-xl bg-cyan-950/80 border border-cyan-500/40 text-cyan-300";
-        document.getElementById('membershipBadge').innerText = "Free Member";
-        document.getElementById('unlockedAccessCard').classList.add('hidden');
-        document.getElementById('lockedAccessCard').classList.remove('hidden');
-        document.getElementById('statVaultStatus').innerText = "Sample Only";
-        document.getElementById('statPaid').innerText = "₹0";
-      }
+<footer><div class="container">
+ <div class="brand-name">Med<span class="rise">Rise</span></div>
+ <p>Samjho. Revise karo. Aage badho.</p>
+ <p>Student dashboard preview · Not affiliated with NTA.</p>
+</div></footer>
 
-      renderChapters();
-    }
+<nav class="bottom-nav" aria-label="Main navigation">
+ <a href="index.html"><span>⌂</span><span>Home</span></a>
+ <a href="notes.html"><span>▤</span><span>Notes</span></a>
+ <a href="tests.html"><span>◎</span><span>Tests</span></a>
+ <a href="#top" id="profileNav"><span>◉</span><span>Profile</span></a>
+</nav>
+<div id="notice" class="notice" role="status" aria-live="polite"></div>
 
-    function editProfile() {
-      const newName = prompt("Enter your Name:", localStorage.getItem('themedrise_student_name') || 'Future Doctor');
-      if (newName) localStorage.setItem('themedrise_student_name', newName);
+<script>
+/*
+DEMO DASHBOARD
+This page does not authenticate users or verify payments.
+Never put private PDFs, payment secrets, or real customer records here.
+Connect a backend before displaying actual purchases or private student data.
+*/
+const DEMO = {
+  name:"Future Doctor",
+  email:"",
+  totalChapters:38,
+  chaptersRead:0,
+  quizTaken:0,
+  studyMinutes:0,
+  correct:0,
+  attempted:0,
+  bestScore:null,
+  latestScore:null,
+  purchases:[],
+  activeDays:0,
+  weekQuizzes:0,
+  lastActivity:null
+};
 
-      const newTarget = prompt("Enter your Target (e.g. Target: NEET 2026 Aspirant):", localStorage.getItem('themedrise_student_target') || 'Target: NEET 2026 Aspirant');
-      if (newTarget) localStorage.setItem('themedrise_student_target', newTarget);
+const $=id=>document.getElementById(id);
+let noticeTimer;
 
-      loadProfile();
-    }
+function notify(message){
+  $("notice").textContent=message;
+  $("notice").style.display="block";
+  clearTimeout(noticeTimer);
+  noticeTimer=setTimeout(()=>$("notice").style.display="none",3500);
+}
 
-    function renderChapters() {
-      const completed = JSON.parse(localStorage.getItem('themedrise_completed_ch') || '[]');
-      const container = document.getElementById('chaptersList');
-      container.innerHTML = '';
+function initials(name){
+  const parts=name.trim().split(/\s+/).filter(Boolean);
+  if(!parts.length)return "FD";
+  return parts.slice(0,2).map(part=>part[0].toUpperCase()).join("");
+}
 
-      allChapters.forEach((ch, idx) => {
-        const isDone = completed.includes(idx);
-        const div = document.createElement('div');
-        div.className = `p-3 rounded-xl border flex items-center justify-between text-xs transition cursor-pointer ${
-          isDone ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-200' : 'bg-[#0d0f14] border-white/5 text-slate-300'
-        }`;
-        div.innerHTML = `
-          <div class="flex items-center gap-3">
-            <input type="checkbox" ${isDone ? 'checked' : ''} class="w-4 h-4 rounded accent-emerald-400">
-            <span><strong>Ch ${idx + 1}:</strong> ${ch}</span>
-          </div>
-          <span class="mono text-[10px] ${isDone ? 'text-emerald-400 font-bold' : 'text-slate-500'}">
-            ${isDone ? 'Completed ✅' : 'Pending'}
-          </span>
-        `;
-        div.onclick = (e) => {
-          if (e.target.tagName !== 'INPUT') {
-            toggleChapter(idx);
-          }
-        };
-        const cb = div.querySelector('input');
-        cb.onchange = () => toggleChapter(idx);
-        container.appendChild(div);
-      });
+function renderProfile(name,email){
+  const safeName=name.trim()||"Future Doctor";
+  $("studentName").textContent=safeName;
+  $("avatar").textContent=initials(safeName);
+  $("studentEmail").textContent=email.trim()||"Student account · Sign-in integration pending";
+}
 
-      document.getElementById('statCompleted').innerText = `${completed.length} / ${allChapters.length}`;
-    }
+function renderDemo(){
+  $("purchaseCount").innerHTML=DEMO.purchases.length+' <small>items</small>';
+  $("chaptersRead").textContent=DEMO.chaptersRead;
+  $("totalChapters").textContent=DEMO.totalChapters;
+  const percent=DEMO.totalChapters?Math.round(DEMO.chaptersRead/DEMO.totalChapters*100):0;
+  $("chapterBar").style.width=Math.min(100,percent)+"%";
+  $("chapterPercent").textContent=percent+"% chapter progress";
+  $("quizTaken").textContent=DEMO.quizTaken;
+  $("studyMinutes").textContent=DEMO.studyMinutes;
+  $("accuracy").textContent=DEMO.attempted?Math.round(DEMO.correct/DEMO.attempted*100)+"%":"—";
+  $("bestScore").textContent=DEMO.bestScore===null?"No score yet":DEMO.bestScore+"%";
+  $("correctAnswers").textContent=DEMO.correct;
+  $("questionsAttempted").textContent=DEMO.attempted;
+  $("latestScore").textContent=DEMO.latestScore===null?"No attempt":DEMO.latestScore+"%";
+  $("activeDays").textContent=DEMO.activeDays;
+  $("weekQuizzes").textContent=DEMO.weekQuizzes;
+  $("lastActivity").textContent=DEMO.lastActivity||"Not recorded";
+  $("nextStep").textContent=percent===100
+    ?"Great progress! Ab apne weak topics revise karke quiz attempt karo."
+    :"Ek sample chapter choose karo aur padhai ke baad short quiz attempt karo.";
 
-    function toggleChapter(idx) {
-      let completed = JSON.parse(localStorage.getItem('themedrise_completed_ch') || '[]');
-      if (completed.includes(idx)) {
-        completed = completed.filter(i => i !== idx);
-      } else {
-        completed.push(idx);
-      }
-      localStorage.setItem('themedrise_completed_ch', JSON.stringify(completed));
-      renderChapters();
-    }
+  const list=$("purchaseList");
+  list.innerHTML="";
+  if(!DEMO.purchases.length){
+    const row=document.createElement("div");
+    row.className="purchase-row";
+    row.innerHTML='<div class="file-icon">▤</div><div class="info"><strong>No purchases synced yet</strong><small>Verified purchases yahan dikhenge.</small></div><span class="status demo">Demo</span>';
+    list.append(row);
+  }else{
+    DEMO.purchases.forEach(item=>{
+      const row=document.createElement("div");
+      row.className="purchase-row";
+      const icon=document.createElement("div");
+      icon.className="file-icon";icon.textContent="▤";
+      const info=document.createElement("div");info.className="info";
+      const title=document.createElement("strong");title.textContent=item.title;
+      const subtitle=document.createElement("small");subtitle.textContent=item.date||"Purchase date unavailable";
+      info.append(title,subtitle);
+      const status=document.createElement("span");status.className="status";status.textContent="Unlocked";
+      row.append(icon,info,status);list.append(row);
+    });
+  }
+}
+renderProfile(DEMO.name,DEMO.email);
+renderDemo();
 
-    function resetProgress() {
-      if (confirm("Kya aap revision progress reset karna chahte hain?")) {
-        localStorage.removeItem('themedrise_completed_ch');
-        renderChapters();
-      }
-    }
+$("updateProfile").addEventListener("click",()=>{
+  const name=$("nameInput").value.trim();
+  const email=$("emailInput").value.trim();
+  if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    notify("Email format check karo.");return;
+  }
+  renderProfile(name||"Future Doctor",email);
+  notify("Profile preview updated. Ye abhi demo hai.");
+});
 
-    function handlePaymentRedirect() {
-      const url = localStorage.getItem('themedrise_payment');
-      if (url) window.open(url, '_blank');
-      else alert("Payment link Admin Portal me set karein!");
-    }
+$("resetDemo").addEventListener("click",()=>{
+  $("nameInput").value="";
+  $("emailInput").value="";
+  renderProfile(DEMO.name,DEMO.email);
+  notify("Profile preview reset ho gaya.");
+});
 
-    function handleDriveRedirect() {
-      const url = localStorage.getItem('themedrise_sample');
-      if (url) window.open(url, '_blank');
-      else alert("Master Notes link Admin Portal me add karein!");
-    }
-
-    window.addEventListener('load', loadProfile);
-  </script>
-</body>
-</html>
+$("themeToggle").addEventListener("click",()=>{
+  const light=document.body.classList.toggle("light");
+  $("themeToggle").textContent=light?"☾":"☼";
+  document.querySelector('meta[name="theme-color"]').content=light?"#f2f4f7":"#09111c";
+});
+$("profileNav").addEventListe
