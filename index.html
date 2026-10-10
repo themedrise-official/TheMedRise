@@ -1,306 +1,949 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The MedRise | Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="manifest" href="manifest.json">
-    <style>
-        :root {
-            --bg-base: #0f1115;
-            --card-bg: #1c1c1f;
-            --card-hover: #252529;
-            --text-main: #ffffff;
-            --text-muted: #a1a1aa;
-            --border-color: #27272a;
-            --accent-blue: #3b82f6;
-            --accent-cyan: #06b6d4;
-            --accent-green: #10b981;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#07111f">
+  <meta name="description" content="The MedRise — NCERT-focused Biology revision notes, visual learning and NEET practice resources.">
+  <title>The MedRise | Biology, Simplified</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
+  <style>
+    :root {
+      --bg: #07111f;
+      --surface: #0d1a2b;
+      --surface2: #102238;
+      --text: #f1f7ff;
+      --muted: #9aadc3;
+      --cyan: #52e5e0;
+      --blue: #65aaff;
+      --border: rgba(160, 200, 230, .15);
+      --radius: 20px;
+    }
 
-        body {
-            background-color: var(--bg-base);
-            color: var(--text-main);
-            padding-bottom: 80px; /* Space for bottom nav */
-            position: relative;
-        }
+    * { box-sizing: border-box; }
 
-        /* Top Background Gradient Blur matching the screenshot */
-        .bg-glow {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 400px;
-            background: radial-gradient(circle at 50% -20%, rgba(59, 130, 246, 0.25), rgba(15, 17, 21, 0) 70%);
-            z-index: -1;
-        }
+    html { scroll-behavior: smooth; }
 
-        /* Top Navbar */
-        .top-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background: transparent;
-        }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 80% 0%, rgba(24, 133, 154, .14), transparent 40%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+    }
 
-        .brand-logo {
-            font-weight: 800;
-            font-size: 20px;
-            letter-spacing: -0.5px;
-        }
-        .med-text { color: #ffffff; }
-        .rise-text { color: var(--accent-cyan); }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
 
-        .nav-profile-icon {
-            width: 32px;
-            height: 32px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 600;
-        }
+    .container {
+      width: min(1100px, calc(100% - 36px));
+      margin: auto;
+    }
 
-        /* Main Container */
-        .container {
-            padding: 10px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(7, 17, 31, .9);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
 
-        /* User Header Section */
-        .user-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            margin-top: 10px;
-        }
-        .user-avatar {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: 700;
-            font-style: italic;
-            color: #fff;
-        }
-        .user-info h1 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-        .user-info p {
-            color: var(--text-muted);
-            font-size: 13px;
-        }
+    .nav-inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
 
-        /* Alert Banner */
-        .alert-banner {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 25px;
-            font-size: 13px;
-        }
-        .alert-icon { color: var(--accent-green); }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 19px;
+      font-weight: 850;
+      letter-spacing: -.7px;
+    }
 
-        /* Dashboard Grid */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px;
-        }
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      color: #06141d;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      font-weight: 950;
+    }
 
-        /* Card Styles */
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 20px;
-            text-decoration: none;
-            color: var(--text-main);
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .card:hover {
-            background-color: var(--card-hover);
-            transform: translateY(-2px);
-        }
-        
-        .card-wide {
-            grid-column: 1 / -1; /* Spans full width on mobile/desktop */
-            background: linear-gradient(145deg, #1c1c1f, #151518);
-        }
+    .brand span:last-child { color: var(--cyan); }
 
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 5px;
-        }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 23px;
+      font-size: 13px;
+      color: var(--muted);
+    }
 
-        .card-title {
-            font-size: 18px;
-            font-weight: 700;
-        }
+    .nav-links a:hover { color: var(--cyan); }
 
-        .card-desc {
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.5;
-            margin-bottom: 5px;
-        }
+    .btn {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 17px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 750;
+      cursor: pointer;
+      transition: transform .2s, filter .2s;
+    }
 
-        .card-action {
-            margin-top: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--accent-cyan);
-        }
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
 
-        /* Bottom App Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: var(--bg-base);
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0;
-            z-index: 100;
-        }
+    .btn-primary {
+      color: #05151c;
+      background: linear-gradient(110deg, var(--cyan), #8af2d0);
+      border-color: transparent;
+    }
 
-        .nav-item {
-            text-align: center;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 11px;
-            font-weight: 600;
-        }
-        .nav-item.active { color: var(--accent-cyan); }
-        .nav-icon {
-            font-size: 20px;
-            display: block;
-            margin-bottom: 4px;
-        }
-    </style>
+    .btn-secondary {
+      background: rgba(255,255,255,.035);
+      color: var(--text);
+    }
+
+    .hero {
+      padding: 82px 0 68px;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      align-items: center;
+      gap: 44px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border: 1px solid rgba(82,229,224,.25);
+      border-radius: 100px;
+      color: var(--cyan);
+      background: rgba(82,229,224,.06);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 22px 0 18px;
+      font-size: clamp(39px, 6vw, 68px);
+      line-height: 1.04;
+      letter-spacing: -2.8px;
+    }
+
+    .gradient-text {
+      color: var(--cyan);
+      background: linear-gradient(100deg, #65f1dc, #71adff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      max-width: 550px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 27px;
+    }
+
+    .micro-copy {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 16px;
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      padding: 25px;
+      border: 1px solid rgba(82,229,224,.2);
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(82,229,224,.15), transparent 40%),
+        linear-gradient(150deg, #10243a, #0a1626);
+      box-shadow: 0 24px 90px rgba(0,0,0,.25);
+    }
+
+    .hero-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .mini-label {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .live-dot {
+      color: var(--cyan);
+      font-size: 11px;
+    }
+
+    .preview-sheet {
+      padding: 22px;
+      border-radius: 15px;
+      background: #f0f7f5;
+      color: #17333b;
+      transform: rotate(-1deg);
+    }
+
+    .preview-sheet h3 {
+      margin: 0 0 12px;
+      font-size: 17px;
+    }
+
+    .preview-sheet p {
+      color: #47616a;
+      font-size: 12px;
+      margin: 9px 0;
+    }
+
+    .fake-line {
+      height: 7px;
+      border-radius: 8px;
+      background: #d6e5e5;
+      margin: 11px 0;
+    }
+
+    .fake-line.short { width: 65%; }
+    .fake-line.mid { width: 83%; }
+
+    .note-highlight {
+      padding: 10px;
+      border-left: 3px solid #168e90;
+      background: #dff6ef;
+      border-radius: 5px;
+      font-size: 12px;
+      margin-top: 14px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 0 auto 65px;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 20px 10px;
+      background: rgba(255,255,255,.025);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 25px;
+      color: var(--cyan);
+    }
+
+    .stat span { font-size: 12px; color: var(--muted); }
+
+    section { scroll-margin-top: 90px; }
+
+    .section { padding: 56px 0; }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(26px, 4vw, 38px);
+      letter-spacing: -1px;
+    }
+
+    .section-heading p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .free-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding: 28px;
+      border: 1px solid rgba(82,229,224,.24);
+      border-radius: var(--radius);
+      background: linear-gradient(110deg, rgba(82,229,224,.08), rgba(101,170,255,.05));
+    }
+
+    .free-card h3 { margin: 0 0 7px; font-size: 21px; }
+    .free-card p { color: var(--muted); font-size: 14px; margin: 0; }
+
+    .pill {
+      display: inline-block;
+      border-radius: 100px;
+      padding: 4px 9px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .7px;
+      color: var(--cyan);
+      background: rgba(82,229,224,.1);
+      margin-bottom: 10px;
+    }
+
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .benefit {
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background: rgba(255,255,255,.025);
+    }
+
+    .benefit-icon { font-size: 25px; }
+    .benefit h3 { font-size: 16px; margin: 12px 0 7px; }
+    .benefit p { font-size: 13px; color: var(--muted); margin: 0; }
+
+    .vault-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .search {
+      flex: 1;
+      min-width: 190px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+    }
+
+    .search:focus { border-color: var(--cyan); }
+
+    .filter-btn {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      color: var(--muted);
+      background: var(--surface);
+      cursor: pointer;
+    }
+
+    .filter-btn.active {
+      color: var(--cyan);
+      border-color: rgba(82,229,224,.4);
+    }
+
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 13px;
+    }
+
+    .chapter {
+      padding: 17px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      min-height: 155px;
+    }
+
+    .chapter:hover { border-color: rgba(82,229,224,.4); }
+
+    .chapter-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    .chapter h3 { margin: 0; font-size: 15px; line-height: 1.4; }
+
+    .chapter .chapter-action {
+      margin-top: auto;
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .no-results {
+      display: none;
+      color: var(--muted);
+      padding: 25px 0;
+    }
+
+    .pricing {
+      padding: 34px;
+      border: 1px solid rgba(82,229,224,.3);
+      border-radius: 24px;
+      background:
+        radial-gradient(ellipse at 100% 0%, rgba(82,229,224,.1), transparent 50%),
+        var(--surface);
+      text-align: center;
+    }
+
+    .pricing h2 { margin: 0; font-size: 30px; }
+    .pricing p { color: var(--muted); font-size: 14px; }
+    .price { font-size: 49px; font-weight: 900; letter-spacing: -2px; }
+    .price small { font-size: 13px; color: var(--muted); letter-spacing: 0; }
+
+    .price-features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 22px;
+      margin: 20px 0 25px;
+      color: #c5d8e7;
+      font-size: 13px;
+    }
+
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .social-card {
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(255,255,255,.025);
+    }
+
+    .social-card h3 { margin: 0 0 5px; }
+    .social-card p { color: var(--muted); font-size: 13px; margin: 0 0 15px; }
+
+    footer {
+      margin-top: 55px;
+      border-top: 1px solid var(--border);
+      padding: 28px 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-links { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    .notice {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      width: max-content;
+      max-width: calc(100% - 28px);
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #13263a;
+      color: var(--text);
+      font-size: 13px;
+      box-shadow: 0 12px 35px #0005;
+      display: none;
+    }
+
+    @media (max-width: 760px) {
+      .nav-inner { min-height: 64px; }
+      .nav-links { gap: 12px; }
+      .nav-links .optional { display: none; }
+      .nav-links .btn { padding: 9px 11px; font-size: 12px; }
+      .brand { font-size: 16px; }
+      .brand-icon { width: 33px; height: 33px; }
+      .hero { grid-template-columns: 1fr; padding: 54px 0 38px; gap: 30px; }
+      h1 { letter-spacing: -1.8px; }
+      .hero-card { max-width: 470px; width: 100%; margin: auto; }
+      .stats { margin-bottom: 35px; }
+      .stat { padding: 15px 5px; }
+      .stat strong { font-size: 21px; }
+      .stat span { font-size: 10px; }
+      .section { padding: 40px 0; }
+      .benefit-grid { grid-template-columns: 1fr; }
+      .chapter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .free-card { grid-template-columns: 1fr; padding: 22px; }
+      .free-card .btn { width: 100%; }
+      .section-heading { align-items: start; flex-direction: column; }
+    }
+
+    @media (max-width: 390px) {
+      .container { width: calc(100% - 24px); }
+      .nav-links { gap: 8px; }
+      .nav-links a:first-child { display: none; }
+      .chapter-grid { grid-template-columns: 1fr; }
+      .hero-actions .btn { width: 100%; }
+      .social-grid { grid-template-columns: 1fr; }
+      .pricing { padding: 25px 17px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#home" aria-label="The MedRise home">
+        <span class="brand-icon">M</span>
+        <span>The <span>MedRise</span></span>
+      </a>
 
-    <div class="bg-glow"></div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#sample">Free Sample</a>
+        <a class="optional" href="#vault">Biology Vault</a>
+        <a class="optional" href="#about">Why MedRise</a>
+        <a class="btn btn-primary" href="#pricing">Get Access ↗</a>
+      </nav>
+    </div>
+  </header>
 
-    <!-- TOP NAVBAR -->
-    <nav class="top-nav">
-        <div class="brand-logo">
-            <span class="med-text">Med</span><span class="rise-text">Rise</span>
+  <main>
+    <section class="container hero" id="home">
+      <div>
+        <span class="eyebrow">✦ NCERT-focused Biology revision</span>
+
+        <h1>
+          Biology, <span class="gradient-text">simplified.</span><br>
+          Revision, reimagined.
+        </h1>
+
+        <p>
+          Make your Biology revision more focused with structured notes,
+          visual explanations and exam-oriented practice resources built
+          around NCERT concepts.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#sample">Explore Free Sample →</a>
+          <a class="btn btn-secondary" href="#vault">Browse Biology Vault</a>
         </div>
-        <div class="nav-profile-icon">VG</div>
-    </nav>
 
-    <div class="container">
-        <!-- USER PROFILE HEADER -->
-        <div class="user-header">
-            <div class="user-avatar">VG</div>
-            <div class="user-info">
-                <h1>Future Doctor</h1>
-                <p>Target: NEET 2026 Aspirant</p>
-            </div>
+        <div class="micro-copy">
+          Built for students who want clearer concepts and smarter revision.
+        </div>
+      </div>
+
+      <div class="hero-card" aria-label="Illustrative Biology notes preview">
+        <div class="hero-card-top">
+          <div>
+            <div class="mini-label">The MedRise Notes</div>
+            <strong>Learn • Understand • Revise</strong>
+          </div>
+          <span class="live-dot">● NCERT Focus</span>
         </div>
 
-        <!-- NOTIFICATION / UPDATE BANNER -->
-        <div class="alert-banner">
-            <span class="alert-icon">📄</span>
-            <div>
-                <strong style="display:block; margin-bottom: 2px;">Free Sample Dropped!</strong>
-                <span style="color: var(--text-muted);">Cell: Unit of Life handwritten notes are now available in your Vault.</span>
-            </div>
+        <div class="preview-sheet">
+          <h3>Biology Revision Sheet</h3>
+          <p><strong>01 — Understand the concept</strong></p>
+          <div class="fake-line"></div>
+          <div class="fake-line mid"></div>
+          <div class="fake-line short"></div>
+          <p><strong>02 — Connect the key points</strong></p>
+          <div class="fake-line mid"></div>
+          <div class="note-highlight">
+            <strong>Revision Tip</strong><br>
+            Focus on definitions, diagrams, examples and NCERT details.
+          </div>
         </div>
 
-        <!-- BENTO BOX DASHBOARD GRID -->
-        <div class="grid-container">
-            
-            <!-- WIDE CARD: MOCK TEST ENGINE -->
-            <a href="mocktest.html" class="card card-wide">
-                <div class="card-header"><span>🎯</span> Daily Quiz Engine</div>
-                <div class="card-title">Strictly NCERT Biology Mock</div>
-                <div class="card-desc">Practice assertion-reason traps and diagram decoders in a 20-minute NTA simulation.</div>
-                <div class="card-action">Start Simulation &rarr;</div>
-            </a>
+        <p style="font-size:12px;margin:20px 0 0;">
+          A visual illustration of the revision experience. Actual note previews
+          should be added before publishing.
+        </p>
+      </div>
+    </section>
 
-            <!-- STANDARD CARD: VAULT / NOTES -->
-            <a href="vault.html" class="card">
-                <div class="card-header"><span>📚</span> Master Deck</div>
-                <div class="card-title">38 Decoded Chapters</div>
-                <div class="card-desc">Unlock 1000-page coaching fluff converted into rapid 20-min flowcharts.</div>
-                <div class="card-action">Explore Vault &rarr;</div>
-            </a>
-
-            <!-- STANDARD CARD: FREE ASSET -->
-            <div class="card" style="border: 1px solid rgba(6, 182, 212, 0.3);">
-                <div class="card-header"><span>🎁</span> Free Asset</div>
-                <div class="card-title">Cell: Unit of Life</div>
-                <div class="card-desc">Instant access to 14-page handwritten summary and organelle table.</div>
-                <div class="card-action" style="color: var(--accent-green);">Download PDF &rarr;</div>
-            </div>
-
-            <!-- STANDARD CARD: GUIDANCE & COMMUNITY -->
-            <a href="#" class="card">
-                <div class="card-header"><span>✈️</span> Mentorship</div>
-                <div class="card-title">Telegram Community</div>
-                <div class="card-desc">Join 10k+ aspirants for daily tricky questions and audio capsule revisions.</div>
-                <div class="card-action">Join Hub &rarr;</div>
-            </a>
-
-        </div>
+    <div class="container stats" aria-label="MedRise highlights">
+      <div class="stat">
+        <strong>NCERT</strong>
+        <span>Concept-focused</span>
+      </div>
+      <div class="stat">
+        <strong>11 + 12</strong>
+        <span>Biology resources</span>
+      </div>
+      <div class="stat">
+        <strong>Learn</strong>
+        <span>Revise with clarity</span>
+      </div>
     </div>
 
-    <!-- BOTTOM APP NAVIGATION -->
-    <nav class="bottom-nav">
-        <a href="index.html" class="nav-item active">
-            <span class="nav-icon">🏠</span> Home
+    <section class="container section" id="sample">
+      <div class="free-card">
+        <div>
+          <span class="pill">START FOR FREE</span>
+          <h3>Try a sample before you decide.</h3>
+          <p>
+            Explore a sample Biology chapter and see whether the MedRise
+            learning style works for you.
+          </p>
+        </div>
+        <a class="btn btn-primary" href="#sample" id="sampleButton">
+          Open Free Sample ↗
         </a>
-        <a href="vault.html" class="nav-item">
-            <span class="nav-icon">📚</span> Vault
-        </a>
-        <a href="mocktest.html" class="nav-item">
-            <span class="nav-icon">⏱️</span> Quiz
-        </a>
-        <a href="profile.html" class="nav-item">
-            <span class="nav-icon">👤</span> Profile
-        </a>
-    </nav>
+      </div>
+    </section>
 
+    <section class="container section" id="about">
+      <div class="section-heading">
+        <div>
+          <h2>Study with a clearer plan.</h2>
+          <p>Revision resources designed around the way students learn.</p>
+        </div>
+      </div>
+
+      <div class="benefit-grid">
+        <article class="benefit">
+          <div class="benefit-icon">📘</div>
+          <h3>NCERT-focused notes</h3>
+          <p>Organised concepts, important details and structured revision material.</p>
+        </article>
+
+        <article class="benefit">
+          <div class="benefit-icon">🧠</div>
+          <h3>Visual understanding</h3>
+          <p>Use diagrams, flowcharts and connected ideas to support recall.</p>
+        </article>
+
+        <article class="benefit">
+          <div class="benefit-icon">🎯</div>
+          <h3>Practice and revise</h3>
+          <p>Combine your notes with question practice and regular self-testing.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="container section" id="vault">
+      <div class="section-heading">
+        <div>
+          <h2>Explore the Biology Vault.</h2>
+          <p>Find a topic and explore the available revision resources.</p>
+        </div>
+      </div>
+
+      <div class="vault-tools">
+        <input
+          id="chapterSearch"
+          class="search"
+          type="search"
+          placeholder="Search a chapter..."
+          aria-label="Search Biology chapters"
+        >
+        <button class="filter-btn active" data-filter="All">All</button>
+        <button class="filter-btn" data-filter="Class 11">Class 11</button>
+        <button class="filter-btn" data-filter="Class 12">Class 12</button>
+      </div>
+
+      <div class="chapter-grid" id="chapterGrid"></div>
+      <p class="no-results" id="noResults">No matching chapters found. Try another search.</p>
+
+      <p class="micro-copy">
+        Chapter availability and current NEET syllabus coverage should be
+        verified against the latest official syllabus before launch.
+      </p>
+    </section>
+
+    <section class="container section" id="pricing">
+      <div class="pricing">
+        <span class="pill">THE MEDRISE BIOLOGY VAULT</span>
+        <h2>One clear plan for your revision.</h2>
+        <p>Explore the full notes collection with the offer shown below.</p>
+
+        <div class="price">₹199 <small>/ lifetime access offer</small></div>
+
+        <div class="price-features">
+          <span>✓ Biology revision resources</span>
+          <span>✓ Structured chapter notes</span>
+          <span>✓ Student-friendly format</span>
+        </div>
+
+        <a class="btn btn-primary" href="#pricing" id="paymentButton">
+          Unlock Full Vault →
+        </a>
+
+        <p style="font-size:11px;margin-top:15px;">
+          Check the final product details, access conditions and payment
+          terms before purchasing.
+        </p>
+      </div>
+    </section>
+
+    <section class="container section" id="community">
+      <div class="section-heading">
+        <div>
+          <h2>Join the MedRise community.</h2>
+          <p>Stay connected for updates and learning resources.</p>
+        </div>
+      </div>
+
+      <div class="social-grid">
+        <article class="social-card">
+          <h3>✈️ Telegram Community</h3>
+          <p>Connect with the MedRise learning community.</p>
+          <a class="btn btn-secondary" href="https://t.me/TheMedRise"
+             target="_blank" rel="noopener noreferrer">
+            Visit Telegram ↗
+          </a>
+        </article>
+
+        <article class="social-card">
+          <h3>◎ Instagram</h3>
+          <p>Follow MedRise for updates and Biology content.</p>
+          <a class="btn btn-secondary"
+             href="https://www.instagram.com/the.medrise/"
+             target="_blank" rel="noopener noreferrer">
+            Follow Instagram ↗
+          </a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <strong style="color:var(--text)">The MedRise</strong>
+        <div>Learn better. Revise smarter.</div>
+        <div style="margin-top:8px;">Independent educational resource; not affiliated with NTA.</div>
+      </div>
+
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#sample">Free Sample</a>
+        <a href="#vault">Biology Vault</a>
+        <a href="#community">Community</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="notice" id="notice" role="status" aria-live="polite"></div>
+
+  <script>
+    /*
+      IMPORTANT:
+      Add your actual sample PDF URL and verified checkout URL here.
+      Do not put API keys, payment secrets or private credentials here.
+    */
+    const MEDRISE_CONFIG = {
+      samplePdfUrl: "PASTE_YOUR_SAMPLE_PDF_URL_HERE",
+      paymentUrl: "PASTE_YOUR_CHECKOUT_URL_HERE"
+    };
+
+    const chapters = [
+      { name: "The Living World", cls: "Class 11" },
+      { name: "Biological Classification", cls: "Class 11" },
+      { name: "Plant Kingdom", cls: "Class 11" },
+      { name: "Animal Kingdom", cls: "Class 11" },
+      { name: "Morphology of Flowering Plants", cls: "Class 11" },
+      { name: "Anatomy of Flowering Plants", cls: "Class 11" },
+      { name: "Structural Organisation in Animals", cls: "Class 11" },
+      { name: "Cell: The Unit of Life", cls: "Class 11", free: true },
+      { name: "Biomolecules", cls: "Class 11" },
+      { name: "Cell Cycle and Cell Division", cls: "Class 11" },
+      { name: "Photosynthesis in Higher Plants", cls: "Class 11" },
+      { name: "Respiration in Plants", cls: "Class 11" },
+      { name: "Plant Growth and Development", cls: "Class 11" },
+      { name: "Breathing and Exchange of Gases", cls: "Class 11" },
+      { name: "Body Fluids and Circulation", cls: "Class 11" },
+      { name: "Excretory Products and Their Elimination", cls: "Class 11" },
+      { name: "Locomotion and Movement", cls: "Class 11" },
+      { name: "Neural Control and Coordination", cls: "Class 11" },
+      { name: "Chemical Coordination and Integration", cls: "Class 11" },
+      { name: "Sexual Reproduction in Flowering Plants", cls: "Class 12" },
+      { name: "Human Reproduction", cls: "Class 12" },
+      { name: "Reproductive Health", cls: "Class 12" },
+      { name: "Principles of Inheritance and Variation", cls: "Class 12" },
+      { name: "Molecular Basis of Inheritance", cls: "Class 12" },
+      { name: "Evolution", cls: "Class 12" },
+      { name: "Human Health and Disease", cls: "Class 12" },
+      { name: "Microbes in Human Welfare", cls: "Class 12" },
+      { name: "Biotechnology: Principles and Processes", cls: "Class 12" },
+      { name: "Biotechnology and Its Applications", cls: "Class 12" },
+      { name: "Organisms and Populations", cls: "Class 12" },
+      { name: "Ecosystem", cls: "Class 12" },
+      { name: "Biodiversity and Conservation", cls: "Class 12" },
+      { name: "Plant Physiology Revision", cls: "Class 11" },
+      { name: "Human Physiology Revision", cls: "Class 11" },
+      { name: "Genetics Revision", cls: "Class 12" },
+      { name: "Ecology Revision", cls: "Class 12" },
+      { name: "Reproduction Revision", cls: "Class 12" },
+      { name: "Full Biology Revision", cls: "Class 12" }
+    ];
+
+    const grid = document.getElementById("chapterGrid");
+    const searchInput = document.getElementById("chapterSearch");
+    const noResults = document.getElementById("noResults");
+    const filterButtons = [...document.querySelectorAll(".filter-btn")];
+    let activeFilter = "All";
+
+    function showNotice(message) {
+      const notice = document.getElementById("notice");
+      notice.textContent = message;
+      notice.style.display = "block";
+      window.clearTimeout(showNotice.timer);
+      showNotice.timer = window.setTimeout(() => {
+        notice.style.display = "none";
+      }, 4000);
+    }
+
+    function isConfiguredUrl(url) {
+      return typeof url === "string" &&
+        /^https?:\/\//i.test(url) &&
+        !url.includes("PASTE_YOUR_");
+    }
+
+    function renderChapters() {
+      const query = searchInput.value.trim().toLowerCase();
+
+      const filtered = chapters.filter(chapter => {
+        const matchesSearch = chapter.name.toLowerCase().includes(query);
+        const matchesClass = activeFilter === "All" || chapter.cls === activeFilter;
+        return matchesSearch && matchesClass;
+      });
+
+      grid.innerHTML = "";
+
+      filtered.forEach(chapter => {
+        const card = document.createElement("article");
+        card.className = "chapter";
+
+        const meta = document.createElement("div");
+        meta.className = "chapter-meta";
+
+        const classLabel = document.createElement("span");
+        classLabel.textContent = chapter.cls;
+
+        const accessLabel = document.createElement("span");
+        accessLabel.textContent = chapter.free ? "Sample" : "Vault";
+
+        meta.append(classLabel, accessLabel);
+
+        const heading = document.createElement("h3");
+        heading.textContent = chapter.name;
+
+        const action = document.createElement("a");
+        action.className = "chapter-action";
+        action.href = "#pricing";
+        action.textContent = chapter.free
+          ? "Open free sample ↗"
+          : "View access options →";
+
+        if (chapter.free) {
+          action.addEventListener("click", event => {
+            if (!isConfiguredUrl(MEDRISE_CONFIG.samplePdfUrl)) {
+              event.preventDefault();
+              showNotice("Sample PDF link add karna baaki hai. Config mein URL paste karo.");
+              return;
+            }
+
+            event.preventDefault();
+            window.open(MEDRISE_CONFIG.samplePdfUrl, "_blank", "noopener,noreferrer");
+          });
+        }
+
+        card.append(meta, heading, action);
+        grid.appendChild(card);
+      });
+
+      noResults.style.display = filtered.length ? "none" : "block";
+    }
+
+    searchInput.addEventListener("input", renderChapters);
+
+    filterButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.filter;
+
+        filterButtons.forEach(item => {
+          const active = item === button;
+          item.classList.toggle("active", active);
+          item.setAttribute("aria-pressed", String(active));
+        });
+
+        renderChapters();
+      });
+
+      button.setAttribute(
+        "aria-pressed",
+        String(button.dataset.filter === activeFilter)
+      );
+    });
+
+    document.getElementById("sampleButton").addEventListener("click", event => {
+      if (!isConfiguredUrl(MEDRISE_CONFIG.samplePdfUrl)) {
+        event.preventDefault();
+        showNotice("Free sample ka actual PDF link abhi add nahi hua hai.");
+        return;
+      }
+
+      event.preventDefault();
+      window.open(MEDRISE_CONFIG.samplePdfUrl, "_blank", "noopener,noreferrer");
+    });
+
+    document.getElementById("paymentButton").addEventListener("click", event => {
+      if (!isConfiguredUrl(MEDRISE_CONFIG.paymentUrl)) {
+        event.preventDefault();
+        showNotice("Actual checkout URL add aur test karna abhi baaki hai.");
+        return;
+      }
+
+      event.preventDefault();
+      window.open(MEDRISE_CONFIG.paymentUrl, "_blank", "noopener,noreferrer");
+    });
+
+    renderChapters();
+  </script>
 </body>
 </html>
