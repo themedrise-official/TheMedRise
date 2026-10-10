@@ -1,127 +1,71 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Login | The MedRise</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080d16">
+  <title>Login | The MedRise</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    :root {
+      --bg: #080d16; --surface: #101824; --surface2: #151f2e;
+      --text: #f5f7fb; --muted: #9ca9ba; --line: rgba(255,255,255,.09);
+      --cyan: #66e4e0; --blue: #54a8ff;
+    }
+    body.light {
+      --bg: #f4f7fb; --surface: #ffffff; --surface2: #edf3fa;
+      --text: #172335; --muted: #617086; --line: rgba(20,40,70,.12);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
     
-    <style>
-        :root {
-            --bg-color: #f8fafc;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --card-bg: #ffffff;
-            --border-color: #e2e8f0;
-            --accent: #00e6b8;
-            --rise-color: #2563eb;
-        }
-        [data-theme="dark"] {
-            --bg-color: #0b0f19;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --card-bg: #1a1f2b;
-            --border-color: #334155;
-            --accent: #00e6b8;
-            --rise-color: #00e6b8;
-        }
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-primary); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        
-        .login-container {
-            background-color: var(--card-bg);
-            padding: 40px 30px;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
+    .login-card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 40px 30px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+    
+    .brand-icon { width: 50px; height: 50px; margin: 0 auto 20px; background: var(--surface2); border: 1px solid var(--cyan); border-radius: 14px; display: grid; place-items: center; font-size: 22px; font-weight: 900; }
+    .brand-icon span { color: var(--cyan); }
+    
+    h1 { font-size: 24px; margin: 0 0 10px; font-weight: 800; }
+    p { color: var(--muted); font-size: 14px; margin: 0 0 30px; }
 
-        .login-container h2 { margin-bottom: 10px; font-weight: 800; }
-        .login-container p { color: var(--text-secondary); font-size: 14px; margin-bottom: 30px; }
+    .input-group { text-align: left; margin-bottom: 20px; }
+    .input-group label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 600; }
+    .input-group input { width: 100%; padding: 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; color: var(--text); font-size: 15px; outline: none; }
+    .input-group input:focus { border-color: var(--cyan); }
 
-        /* Google Button */
-        .btn-google {
-            width: 100%;
-            padding: 14px;
-            background-color: var(--card-bg);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 12px;
-            margin-bottom: 20px;
-        }
-        .divider::before, .divider::after {
-            content: ''; flex: 1; border-bottom: 1px solid var(--border-color);
-        }
-        .divider:not(:empty)::before { margin-right: .25em; }
-        .divider:not(:empty)::after { margin-left: .25em; }
-
-        /* Phone Input Form */
-        .input-group { text-align: left; margin-bottom: 15px; }
-        .input-group label { font-size: 12px; color: var(--text-secondary); font-weight: 600; margin-bottom: 5px; display: block; }
-        .input-group input {
-            width: 100%; padding: 14px; border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-color); color: var(--text-primary);
-            font-size: 15px; outline: none;
-        }
-
-        .btn-primary {
-            width: 100%; padding: 14px; background: var(--accent);
-            color: #000; border: none; font-weight: 800; font-size: 15px;
-            border-radius: 8px; cursor: pointer; margin-top: 10px;
-        }
-    </style>
+    .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .btn-primary { background: var(--cyan); color: #000; margin-bottom: 15px; }
+    .btn-google { background: var(--surface2); color: var(--text); border: 1px solid var(--line); }
+    
+    .divider { display: flex; align-items: center; text-align: center; color: var(--muted); font-size: 12px; margin: 25px 0; }
+    .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--line); }
+    .divider:not(:empty)::before { margin-right: .5em; }
+    .divider:not(:empty)::after { margin-left: .5em; }
+  </style>
 </head>
 <body>
 
-    <div class="login-container">
-        <h2>Welcome to MedRise</h2>
-        <p>Login to unlock 360/360 Biology Master Deck</p>
+  <div class="login-card">
+    <div class="brand-icon">M<span>R</span></div>
+    <h1>Welcome Back</h1>
+    <p>Login to sync your notes and revision progress.</p>
 
-        <!-- Google Login -->
-        <button class="btn-google" id="google-login-btn">
-            <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-            Continue with Google
-        </button>
-
-        <div class="divider">OR</div>
-
-        <!-- Phone Login -->
-        <div class="input-group">
-            <label>MOBILE NUMBER</label>
-            <input type="tel" id="phone-number" placeholder="+91 99999 99999">
-        </div>
-        
-        <!-- Recaptcha Container for Firebase Phone Auth -->
-        <div id="recaptcha-container"></div>
-
-        <button class="btn-primary" id="send-otp-btn">Send OTP</button>
+    <div class="input-group">
+      <label>MOBILE NUMBER</label>
+      <input type="tel" placeholder="+91 99999 00000" id="phone">
     </div>
 
-    <script>
-        // Theme load logic
-        const currentTheme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', currentTheme);
-    </script>
+    <button class="btn btn-primary">Send OTP</button>
+
+    <div class="divider">OR</div>
+
+    <button class="btn btn-google">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Continue with Google
+    </button>
+  </div>
+
+  <script>
+    if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light'); }
+  </script>
 </body>
 </html>
