@@ -1,0 +1,33 @@
+{
+  "id": "./index.html",
+  "name": "MedRise — NEET Preparation",
+  "short_name": "MedRise",
+  "description": "NCERT-focused NEET revision, notes and mock tests.",
+  "lang": "en-IN",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#080d16",
+  "theme_color": "#080d16",
+  "icons": [
+    {
+      "src": "./icons/medrise-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/medrise-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/medrise-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
