@@ -1,191 +1,200 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The MedRise | NEET Biology Notes</title>
-    
-    <!-- PWA Manifest -->
+    <title>The MedRise | Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
-    
-    <!-- Google Fonts: Inter (Student Friendly & Clean) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-
     <style>
-        /* ================= THEME VARIABLES ================= */
         :root {
-            /* Light Mode Colors */
-            --bg-color: #f8fafc;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --card-bg: #ffffff;
-            --border-color: #e2e8f0;
-            --med-color: #000000;      /* Med in Black */
-            --rise-color: #2563eb;     /* Rise in Blue */
-            --accent: #00e6b8;
-            --nav-bg: #ffffff;
+            --bg-base: #0f1115;
+            --card-bg: #1c1c1f;
+            --card-hover: #252529;
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+            --border-color: #27272a;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
         }
 
-        [data-theme="dark"] {
-            /* Dark Mode Colors */
-            --bg-color: #0b0f19;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --card-bg: #1a1f2b;
-            --border-color: #334155;
-            --med-color: #ffffff;      /* Med in White for visibility */
-            --rise-color: #00e6b8;     /* Rise in Cyan/Neon */
-            --accent: #00e6b8;
-            --nav-bg: #0f172a;
-        }
-
-        /* ================= GLOBAL STYLES ================= */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', sans-serif;
-            transition: background-color 0.3s, color 0.3s;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
+            background-color: var(--bg-base);
+            color: var(--text-main);
             padding-bottom: 80px; /* Space for bottom nav */
+            position: relative;
         }
 
-        /* ================= TOP NAVBAR & LOGO ================= */
+        /* Top Background Gradient Blur matching the screenshot */
+        .bg-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 400px;
+            background: radial-gradient(circle at 50% -20%, rgba(59, 130, 246, 0.25), rgba(15, 17, 21, 0) 70%);
+            z-index: -1;
+        }
+
+        /* Top Navbar */
         .top-nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 20px;
-            background-color: var(--card-bg);
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            background: transparent;
         }
 
         .brand-logo {
             font-weight: 800;
-            font-size: 24px;
+            font-size: 20px;
             letter-spacing: -0.5px;
-            display: flex;
-            align-items: baseline;
         }
+        .med-text { color: #ffffff; }
+        .rise-text { color: var(--accent-cyan); }
 
-        .the-text {
-            font-size: 12px;
-            text-transform: uppercase;
-            font-weight: 600;
-            margin-right: 4px;
-            color: var(--text-secondary);
-        }
-
-        .med-text { color: var(--med-color); }
-        .rise-text { color: var(--rise-color); }
-
-        .theme-toggle-btn {
-            background: none;
+        .nav-profile-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            font-size: 18px;
-            color: var(--text-primary);
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
         }
 
-        /* ================= HERO SECTION ================= */
-        .hero {
-            padding: 40px 20px;
-            text-align: center;
+        /* Main Container */
+        .container {
+            padding: 10px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* User Header Section */
+        .user-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            margin-top: 10px;
+        }
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            font-style: italic;
+            color: #fff;
+        }
+        .user-info h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        .user-info p {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        /* Alert Banner */
+        .alert-banner {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            font-size: 13px;
+        }
+        .alert-icon { color: var(--accent-green); }
+
+        /* Dashboard Grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .card:hover {
+            background-color: var(--card-hover);
+            transform: translateY(-2px);
         }
         
-        .badge {
-            background: rgba(0, 230, 184, 0.1);
-            color: var(--rise-color);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
+        .card-wide {
+            grid-column: 1 / -1; /* Spans full width on mobile/desktop */
+            background: linear-gradient(145deg, #1c1c1f, #151518);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
             font-weight: 600;
-            display: inline-block;
-            margin-bottom: 20px;
-            border: 1px solid var(--accent);
+            color: var(--text-muted);
+            margin-bottom: 5px;
         }
 
-        .hero h1 {
-            font-size: 32px;
-            line-height: 1.2;
-            margin-bottom: 15px;
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
         }
 
-        .hero p {
-            color: var(--text-secondary);
-            font-size: 15px;
-            line-height: 1.6;
-            margin-bottom: 30px;
+        .card-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 5px;
         }
 
-        .btn-primary {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background: var(--accent);
-            color: #000;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 16px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(0, 230, 184, 0.3);
-        }
-
-        .btn-secondary {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background: var(--card-bg);
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 16px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-        }
-
-        /* ================= STATS SECTION ================= */
-        .stats-container {
+        .card-action {
+            margin-top: auto;
             display: flex;
             justify-content: space-between;
-            padding: 0 20px;
-            margin-bottom: 30px;
-        }
-        .stat-box {
-            text-align: center;
-            width: 30%;
-        }
-        .stat-number {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-        }
-        .stat-label {
-            font-size: 11px;
-            color: var(--text-secondary);
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-cyan);
         }
 
-        /* ================= BOTTOM APP NAV ================= */
+        /* Bottom App Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             width: 100%;
-            background-color: var(--nav-bg);
+            background-color: var(--bg-base);
             border-top: 1px solid var(--border-color);
             display: flex;
             justify-content: space-around;
@@ -195,14 +204,12 @@
 
         .nav-item {
             text-align: center;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             text-decoration: none;
             font-size: 11px;
             font-weight: 600;
         }
-        .nav-item.active {
-            color: var(--rise-color);
-        }
+        .nav-item.active { color: var(--accent-cyan); }
         .nav-icon {
             font-size: 20px;
             display: block;
@@ -212,39 +219,70 @@
 </head>
 <body>
 
+    <div class="bg-glow"></div>
+
     <!-- TOP NAVBAR -->
     <nav class="top-nav">
         <div class="brand-logo">
-            <span class="the-text">The</span>
             <span class="med-text">Med</span><span class="rise-text">Rise</span>
         </div>
-        <!-- Theme Toggle Button -->
-        <button class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()">☀️</button>
+        <div class="nav-profile-icon">VG</div>
     </nav>
 
-    <!-- HERO SECTION -->
-    <header class="hero">
-        <div class="badge">Strictly NCERT • Target 360/360</div>
-        <h1>Stop drowning in <span style="color: var(--rise-color);">1000-page</span> coaching fluff.</h1>
-        <p>Handwritten flowcharts, hidden NCERT diagram decoders, and Assertion-Reason trap alerts. Revise complete chapters in strictly 20 minutes.</p>
-        
-        <a href="#payment" class="btn-primary">Unlock Master Deck — ₹199 Lifetime</a>
-        <a href="vault.html" class="btn-secondary">Browse 38 Decoded Chapters →</a>
-    </header>
+    <div class="container">
+        <!-- USER PROFILE HEADER -->
+        <div class="user-header">
+            <div class="user-avatar">VG</div>
+            <div class="user-info">
+                <h1>Future Doctor</h1>
+                <p>Target: NEET 2026 Aspirant</p>
+            </div>
+        </div>
 
-    <!-- STATS -->
-    <div class="stats-container">
-        <div class="stat-box">
-            <div class="stat-number">38</div>
-            <div class="stat-label">Chapters Decoded</div>
+        <!-- NOTIFICATION / UPDATE BANNER -->
+        <div class="alert-banner">
+            <span class="alert-icon">📄</span>
+            <div>
+                <strong style="display:block; margin-bottom: 2px;">Free Sample Dropped!</strong>
+                <span style="color: var(--text-muted);">Cell: Unit of Life handwritten notes are now available in your Vault.</span>
+            </div>
         </div>
-        <div class="stat-box">
-            <div class="stat-number">100%</div>
-            <div class="stat-label">NCERT Coverage</div>
-        </div>
-        <div class="stat-box">
-            <div class="stat-number">20 Min</div>
-            <div class="stat-label">Avg Revision Time</div>
+
+        <!-- BENTO BOX DASHBOARD GRID -->
+        <div class="grid-container">
+            
+            <!-- WIDE CARD: MOCK TEST ENGINE -->
+            <a href="mocktest.html" class="card card-wide">
+                <div class="card-header"><span>🎯</span> Daily Quiz Engine</div>
+                <div class="card-title">Strictly NCERT Biology Mock</div>
+                <div class="card-desc">Practice assertion-reason traps and diagram decoders in a 20-minute NTA simulation.</div>
+                <div class="card-action">Start Simulation &rarr;</div>
+            </a>
+
+            <!-- STANDARD CARD: VAULT / NOTES -->
+            <a href="vault.html" class="card">
+                <div class="card-header"><span>📚</span> Master Deck</div>
+                <div class="card-title">38 Decoded Chapters</div>
+                <div class="card-desc">Unlock 1000-page coaching fluff converted into rapid 20-min flowcharts.</div>
+                <div class="card-action">Explore Vault &rarr;</div>
+            </a>
+
+            <!-- STANDARD CARD: FREE ASSET -->
+            <div class="card" style="border: 1px solid rgba(6, 182, 212, 0.3);">
+                <div class="card-header"><span>🎁</span> Free Asset</div>
+                <div class="card-title">Cell: Unit of Life</div>
+                <div class="card-desc">Instant access to 14-page handwritten summary and organelle table.</div>
+                <div class="card-action" style="color: var(--accent-green);">Download PDF &rarr;</div>
+            </div>
+
+            <!-- STANDARD CARD: GUIDANCE & COMMUNITY -->
+            <a href="#" class="card">
+                <div class="card-header"><span>✈️</span> Mentorship</div>
+                <div class="card-title">Telegram Community</div>
+                <div class="card-desc">Join 10k+ aspirants for daily tricky questions and audio capsule revisions.</div>
+                <div class="card-action">Join Hub &rarr;</div>
+            </a>
+
         </div>
     </div>
 
@@ -257,37 +295,12 @@
             <span class="nav-icon">📚</span> Vault
         </a>
         <a href="mocktest.html" class="nav-item">
-            <span class="nav-icon">⏱️</span> Mock Test
+            <span class="nav-icon">⏱️</span> Quiz
         </a>
         <a href="profile.html" class="nav-item">
             <span class="nav-icon">👤</span> Profile
         </a>
     </nav>
 
-    <!-- SCRIPT FOR THEME TOGGLE -->
-    <script>
-        // Check saved theme in localStorage
-        const currentTheme = localStorage.getItem('theme') || 'dark'; // Default is dark
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        updateButtonIcon(currentTheme);
-
-        function toggleTheme() {
-            let theme = document.documentElement.getAttribute('data-theme');
-            let newTheme = theme === 'dark' ? 'light' : 'dark';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateButtonIcon(newTheme);
-        }
-
-        function updateButtonIcon(theme) {
-            const btn = document.getElementById('theme-btn');
-            if(theme === 'dark') {
-                btn.innerText = '☀️'; // Show Sun icon to switch to light
-            } else {
-                btn.innerText = '🌙'; // Show Moon icon to switch to dark
-            }
-        }
-    </script>
 </body>
 </html>
