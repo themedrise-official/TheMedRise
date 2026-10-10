@@ -6,216 +6,115 @@
   <meta name="theme-color" content="#080d16">
   <meta name="description" content="The MedRise — NCERT-focused NEET Biology revision.">
   <title>The MedRise | NEET Biology</title>
-  
   <link rel="manifest" href="manifest.json">
-  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      color-scheme: dark;
-      --bg:#080d16; --surface:#101824; --surface2:#0c1624;
-      --text:#f5f7fb; --muted:#a5b3c6; --cyan:#18c9ef;
-      --blue:#087cff; --gold:#f0cb59; --line:#1b3045;
-      --header:rgba(8,13,22,.96);
+    :root{color-scheme:dark;--bg:#080d16;--surface:#101824;--surface2:#0c1624;--text:#f5f7fb;--muted:#a5b3c6;--cyan:#18c9ef;--blue:#087cff;--gold:#f0cb59;--line:#1b3045;--header:rgba(8,13,22,.96)}
+    body.light{color-scheme:light;--bg:#f5f8fc;--surface:#fff;--surface2:#edf5fc;--text:#101c2d;--muted:#536985;--cyan:#008da9;--blue:#0877ed;--gold:#a87b13;--line:#dce7f3;--header:rgba(255,255,255,.96)}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;padding-bottom:82px;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.55;transition:background .2s,color .2s}
+    a{color:inherit;text-decoration:none}
+    button,input,select{font:inherit}
+    button{cursor:pointer}
+    a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+    .container{width:min(100% - 30px,1000px);margin:auto}
+    .topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px max(15px,calc((100% - 1000px)/2));background:var(--header);border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
+    .brand{display:flex;align-items:center;gap:10px;min-width:0}
+    .brand-icon{width:43px;height:43px;flex-shrink:0;display:grid;place-items:center;border:1px solid var(--cyan);border-radius:13px;background:linear-gradient(140deg,#162b43,#09111c);color:white;font-size:20px;font-weight:800;letter-spacing:-2px}
+    .brand-r{color:#54a8ff}
+    .brand-name{font-size:21px;font-weight:800;letter-spacing:-.8px;line-height:1.2}
+    .brand-subtitle{margin-top:4px;color:var(--muted);font-size:10px}
+    .theme-btn{width:42px;height:42px;flex-shrink:0;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);font-size:20px}
+    .hero{padding:38px 0 20px}
+    .eyebrow{display:inline-block;padding:7px 12px;border:1px solid var(--gold);border-radius:99px;background:rgba(216,184,89,.08);color:var(--gold);font-size:10px;font-weight:800;letter-spacing:.9px}
+    .hero-main{display:grid;grid-template-columns:minmax(0,1fr) 155px;align-items:center;gap:12px;margin-top:23px}
+    h1{margin:0;font-size:clamp(32px,6.5vw,53px);line-height:1.13;letter-spacing:-1.7px}
+    .accent{color:var(--cyan)}
+    .hero-description{margin:17px 0 0;max-width:610px;color:var(--muted);font-size:14px;line-height:1.7}
+    .clock-art{display:grid;justify-items:center}
+    .stopwatch{position:relative;width:132px;height:132px;display:grid;place-items:center;border:2px solid var(--blue);border-radius:50%;background:radial-gradient(circle,var(--surface2),var(--bg));box-shadow:0 0 25px rgba(0,135,255,.15),inset 0 0 18px rgba(0,135,255,.08)}
+    .stopwatch:before{content:"";position:absolute;width:24px;height:12px;top:-10px;border:2px solid var(--blue);border-radius:5px 5px 2px 2px;background:var(--surface)}
+    .stopwatch:after{content:"";position:absolute;inset:8px;border:1px dashed var(--line);border-radius:50%}
+    .clock-face{z-index:1;text-align:center}
+    .clock-time{display:block;font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
+    .clock-date{display:block;margin-top:4px;color:var(--muted);font-size:9px}
+    .clock-caption{margin-top:12px;color:var(--muted);font-size:10px;text-align:center}
+    .actions{display:grid;gap:10px;margin-top:20px}
+    .btn{min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 15px;border:1px solid var(--line);border-radius:13px;font-size:13px;font-weight:750;background:var(--surface);color:var(--text)}
+    .btn-primary{border-color:transparent;background:linear-gradient(100deg,var(--cyan),var(--blue));color:#06101d}
+    body.light .btn-primary{color:white}
+    .section-heading{margin:31px 0 14px}
+    .section-heading h2{margin:0;font-size:21px;letter-spacing:-.5px}
+    .section-heading p{margin:5px 0 0;color:var(--muted);font-size:12px}
+    .feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+    .feature-card{display:flex;flex-direction:column;min-width:0;padding:15px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+    .feature-top{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+    .feature-icon{width:40px;height:40px;flex-shrink:0;display:grid;place-items:center;border-radius:12px;background:var(--surface2);font-size:21px}
+    .feature-card h3{margin:0;font-size:13px;line-height:1.4}
+    .feature-card p{margin:0 0 12px;color:var(--muted);font-size:12px;line-height:1.6}
+    .feature-link{margin-top:auto;color:var(--cyan);font-size:12px;font-weight:750}
+    .timer-panel{margin-top:19px;padding:19px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+    .timer-header{display:flex;align-items:start;justify-content:space-between;gap:10px}
+    .timer-panel h2{margin:0;font-size:19px}
+    .timer-panel .sub{margin:4px 0 15px;color:var(--muted);font-size:12px}
+    .timer-display{margin:9px 0 15px;text-align:center;font-size:clamp(43px,10vw,62px);line-height:1.2;font-weight:800;letter-spacing:1px;font-variant-numeric:tabular-nums}
+    .timer-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+    .timer-choice{min-height:42px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);color:var(--text);font-size:12px;font-weight:700}
+    .timer-choice.active{border-color:var(--cyan);color:var(--cyan)}
+    .custom-row{display:flex;gap:8px;margin-top:10px}
+    .custom-row input{width:100%;min-width:0;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text)}
+    .timer-controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+    .timer-controls button{min-height:44px;padding:8px 5px;font-size:12px}
+    .timer-status{min-height:20px;margin:12px 0 0;color:var(--muted);text-align:center;font-size:12px}
+    .notes-promo{display:grid;grid-template-columns:64px minmax(0,1fr);align-items:center;gap:12px;margin-top:17px;padding:16px;border:1px solid rgba(216,184,89,.45);border-radius:17px;background:linear-gradient(135deg,rgba(216,184,89,.08),var(--surface))}
+    .notes-illustration{width:64px;height:78px;display:grid;place-items:center;border:1px solid var(--line);border-radius:12px;background:var(--surface2);font-size:32px}
+    .notes-promo h2{margin:0 0 8px;font-size:14px;line-height:1.45}
+    .notes-promo ul{list-style:none;display:grid;gap:5px;padding:0;margin:0;color:var(--muted);font-size:11px}
+    .notes-promo li:before{content:"✓ ";color:var(--gold);font-weight:900}
+    .signature{padding:23px 0 14px;color:var(--gold);font-size:15px;font-weight:750;text-align:center}
+    .signature small{display:block;margin-top:5px;color:var(--muted);font-size:11px;font-weight:500}
+    .footer{margin-top:12px;padding:20px 0;border-top:1px solid var(--line);color:var(--muted);font-size:11px;text-align:center}
+    .notice{position:fixed;left:50%;bottom:92px;z-index:50;display:none;width:max-content;max-width:calc(100% - 28px);padding:12px 15px;transform:translateX(-50%);border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);box-shadow:0 8px 25px #0003;font-size:12px}
+    .bottom-nav{position:fixed;bottom:0;left:0;z-index:30;width:100%;display:flex;justify-content:space-around;padding:9px 5px max(10px,env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--header);backdrop-filter:blur(12px)}
+    .nav-item{min-width:55px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--muted);font-size:10px;font-weight:650}
+    .nav-icon{font-size:20px;line-height:1.3}
+    .nav-item.active{color:var(--cyan)}
+    @media(min-width:700px){
+      body{padding-bottom:0}
+      .hero{padding-top:53px}
+      .hero-main{grid-template-columns:minmax(0,1fr) 200px}
+      .stopwatch{width:165px;height:165px}
+      .actions{grid-template-columns:1.3fr 1fr}
+      .feature-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+      .feature-card{padding:18px}
+      .feature-top{align-items:flex-start;flex-direction:column}
+      .notes-promo{grid-template-columns:95px minmax(0,1fr);padding:22px}
+      .notes-illustration{width:85px;height:95px;font-size:42px}
+      .bottom-nav{display:none}
+      .notice{bottom:20px}
+      .timer-panel{padding:23px}
     }
-    body.light {
-      color-scheme:light;
-      --bg:#f5f8fc; --surface:#fff; --surface2:#edf5fc;
-      --text:#101c2d; --muted:#536985; --cyan:#008da9;
-      --blue:#0877ed; --gold:#a87b13; --line:#dce7f3;
-      --header:rgba(255,255,255,.96);
+    @media(max-width:380px){
+      .container{width:calc(100% - 24px)}
+      .topbar{padding-inline:12px}
+      .brand-name{font-size:19px}
+      .hero-main{grid-template-columns:minmax(0,1fr) 105px;gap:7px}
+      h1{font-size:30px;letter-spacing:-1px}
+      .stopwatch{width:100px;height:100px}
+      .clock-time{font-size:12px}
+      .clock-date{font-size:8px}
+      .timer-panel{padding:14px}
+      .timer-controls{gap:5px}
     }
-    * { box-sizing:border-box; }
-    html { scroll-behavior:smooth; }
-    body {
-      margin:0; padding-bottom:82px; background:var(--bg); color:var(--text);
-      font-family:Inter,system-ui,sans-serif; line-height:1.55;
-      transition:background .2s,color .2s;
-    }
-    a { color:inherit; text-decoration:none; }
-    button,input,select { font:inherit; }
-    button { cursor:pointer; }
-    a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible {
-      outline:2px solid var(--cyan); outline-offset:3px;
-    }
-    .container { width:min(100% - 30px,1000px); margin:auto; }
-    .topbar {
-      position:sticky; top:0; z-index:20; display:flex; align-items:center;
-      justify-content:space-between; gap:12px; padding:12px max(15px,calc((100% - 1000px)/2));
-      background:var(--header); border-bottom:1px solid var(--line);
-      backdrop-filter:blur(14px);
-    }
-    .brand { display:flex; align-items:center; gap:10px; min-width:0; }
-    .brand-icon {
-      width:43px; height:43px; flex-shrink:0; display:grid; place-items:center;
-      border:1px solid var(--cyan); border-radius:13px;
-      background:linear-gradient(140deg,#162b43,#09111c);
-      color:white; font-size:20px; font-weight:800; letter-spacing:-2px;
-    }
-    .brand-r { color:#54a8ff; }
-    .brand-name { font-size:21px; font-weight:800; letter-spacing:-.8px; line-height:1.2; }
-    .brand-subtitle { margin-top:4px; color:var(--muted); font-size:10px; }
-    .theme-btn {
-      width:42px; height:42px; flex-shrink:0; border:1px solid var(--line);
-      border-radius:12px; background:var(--surface); color:var(--text); font-size:20px;
-    }
-    .hero { padding:38px 0 20px; }
-    .eyebrow {
-      display:inline-block; padding:7px 12px; border:1px solid var(--gold);
-      border-radius:99px; background:rgba(216,184,89,.08); color:var(--gold);
-      font-size:10px; font-weight:800; letter-spacing:.9px;
-    }
-    .hero-main {
-      display:grid; grid-template-columns:minmax(0,1fr) 155px;
-      align-items:center; gap:12px; margin-top:23px;
-    }
-    h1 { margin:0; font-size:clamp(32px,6.5vw,53px); line-height:1.13; letter-spacing:-1.7px; }
-    .accent { color:var(--cyan); }
-    .hero-description { margin:17px 0 0; max-width:610px; color:var(--muted); font-size:14px; line-height:1.7; }
-    .clock-art { display:grid; justify-items:center; }
-    .stopwatch {
-      position:relative; width:132px; height:132px; display:grid; place-items:center;
-      border:2px solid var(--blue); border-radius:50%;
-      background:radial-gradient(circle,var(--surface2),var(--bg));
-      box-shadow:0 0 25px rgba(0,135,255,.15),inset 0 0 18px rgba(0,135,255,.08);
-    }
-    .stopwatch:before {
-      content:""; position:absolute; width:24px; height:12px; top:-10px;
-      border:2px solid var(--blue); border-radius:5px 5px 2px 2px; background:var(--surface);
-    }
-    .stopwatch:after { content:""; position:absolute; inset:8px; border:1px dashed var(--line); border-radius:50%; }
-    .clock-face { z-index:1; text-align:center; }
-    .clock-time { display:block; font-size:15px; font-weight:800; font-variant-numeric:tabular-nums; }
-    .clock-date { display:block; margin-top:4px; color:var(--muted); font-size:9px; }
-    .clock-caption { margin-top:12px; color:var(--muted); font-size:10px; text-align:center; }
-    .trust-card {
-      display:flex; align-items:center; gap:12px; margin-top:23px; padding:15px;
-      border:1px solid var(--line); border-radius:16px;
-      background:linear-gradient(115deg,var(--surface2),var(--surface));
-    }
-    .trust-icon {
-      width:43px; height:43px; flex-shrink:0; display:grid; place-items:center;
-      border:1px solid var(--line); border-radius:12px; background:var(--surface);
-      color:var(--cyan); font-size:22px;
-    }
-    .trust-card strong { display:block; margin-bottom:4px; font-size:13px; }
-    .trust-card p { margin:0; color:var(--muted); font-size:12px; }
-    .actions { display:grid; gap:10px; margin-top:20px; }
-    .btn {
-      min-height:48px; display:flex; align-items:center; justify-content:center;
-      gap:8px; padding:12px 15px; border:1px solid var(--line);
-      border-radius:13px; font-size:13px; font-weight:750; background:var(--surface);
-      color:var(--text);
-    }
-    .btn-primary { border-color:transparent; background:linear-gradient(100deg,var(--cyan),var(--blue)); color:#06101d; }
-    body.light .btn-primary { color:white; }
-    .section-heading { margin:31px 0 14px; }
-    .section-heading h2 { margin:0; font-size:21px; letter-spacing:-.5px; }
-    .section-heading p { margin:5px 0 0; color:var(--muted); font-size:12px; }
-    .feature-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }
-    .feature-card {
-      display:flex; flex-direction:column; min-width:0; padding:15px;
-      border:1px solid var(--line); border-radius:16px; background:var(--surface);
-    }
-    .feature-top { display:flex; align-items:center; gap:9px; margin-bottom:10px; }
-    .feature-icon {
-      width:40px; height:40px; flex-shrink:0; display:grid; place-items:center;
-      border-radius:12px; background:var(--surface2); font-size:21px;
-    }
-    .feature-card h3 { margin:0; font-size:13px; line-height:1.4; }
-    .feature-card p { margin:0 0 12px; color:var(--muted); font-size:12px; line-height:1.6; }
-    .feature-link { margin-top:auto; color:var(--cyan); font-size:12px; font-weight:750; }
-    .timer-panel {
-      margin-top:19px; padding:19px; border:1px solid var(--line);
-      border-radius:18px; background:var(--surface);
-    }
-    .timer-header { display:flex; align-items:start; justify-content:space-between; gap:10px; }
-    .timer-panel h2 { margin:0; font-size:19px; }
-    .timer-panel .sub { margin:4px 0 15px; color:var(--muted); font-size:12px; }
-    .timer-display {
-      margin:9px 0 15px; text-align:center; font-size:clamp(43px,10vw,62px);
-      line-height:1.2; font-weight:800; letter-spacing:1px; font-variant-numeric:tabular-nums;
-    }
-    .timer-options { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
-    .timer-choice {
-      min-height:42px; border:1px solid var(--line); border-radius:10px;
-      background:var(--surface2); color:var(--text); font-size:12px; font-weight:700;
-    }
-    .timer-choice.active { border-color:var(--cyan); color:var(--cyan); }
-    .custom-row { display:flex; gap:8px; margin-top:10px; }
-    .custom-row input {
-      width:100%; min-width:0; padding:10px; border:1px solid var(--line);
-      border-radius:10px; background:var(--bg); color:var(--text);
-    }
-    .timer-controls { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:12px; }
-    .timer-controls button { min-height:44px; padding:8px 5px; font-size:12px; }
-    .timer-status { min-height:20px; margin:12px 0 0; color:var(--muted); text-align:center; font-size:12px; }
-    .notes-promo {
-      display:grid; grid-template-columns:64px minmax(0,1fr); align-items:center;
-      gap:12px; margin-top:17px; padding:16px; border:1px solid rgba(216,184,89,.45);
-      border-radius:17px; background:linear-gradient(135deg,rgba(216,184,89,.08),var(--surface));
-    }
-    .notes-illustration {
-      width:64px; height:78px; display:grid; place-items:center;
-      border:1px solid var(--line); border-radius:12px; background:var(--surface2); font-size:32px;
-    }
-    .notes-promo h2 { margin:0 0 8px; font-size:14px; line-height:1.45; }
-    .notes-promo ul { list-style:none; display:grid; gap:5px; padding:0; margin:0; color:var(--muted); font-size:11px; }
-    .notes-promo li:before { content:"✓ "; color:var(--gold); font-weight:900; }
-    .signature { padding:23px 0 14px; color:var(--gold); font-size:15px; font-weight:750; text-align:center; }
-    .signature small { display:block; margin-top:5px; color:var(--muted); font-size:11px; font-weight:500; }
-    .footer { margin-top:12px; padding:20px 0; border-top:1px solid var(--line); color:var(--muted); font-size:11px; text-align:center; }
-    .notice {
-      position:fixed; left:50%; bottom:92px; z-index:50; display:none;
-      width:max-content; max-width:calc(100% - 28px); padding:12px 15px;
-      transform:translateX(-50%); border:1px solid var(--line); border-radius:12px;
-      background:var(--surface); color:var(--text); box-shadow:0 8px 25px #0003;
-      font-size:12px;
-    }
-    .bottom-nav {
-      position:fixed; bottom:0; left:0; z-index:30; width:100%; display:flex;
-      justify-content:space-around; padding:9px 5px max(10px,env(safe-area-inset-bottom));
-      border-top:1px solid var(--line); background:var(--header); backdrop-filter:blur(12px);
-    }
-    .nav-item { min-width:55px; display:flex; flex-direction:column; align-items:center; gap:3px; color:var(--muted); font-size:10px; font-weight:650; }
-    .nav-icon { font-size:20px; line-height:1.3; }
-    .nav-item.active { color:var(--cyan); }
-    @media(min-width:700px) {
-      body { padding-bottom:0; }
-      .hero { padding-top:53px; }
-      .hero-main { grid-template-columns:minmax(0,1fr) 200px; }
-      .stopwatch { width:165px; height:165px; }
-      .actions { grid-template-columns:1.3fr 1fr; }
-      .feature-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }
-      .feature-card { padding:18px; }
-      .feature-top { align-items:flex-start; flex-direction:column; }
-      .notes-promo { grid-template-columns:95px minmax(0,1fr); padding:22px; }
-      .notes-illustration { width:85px; height:95px; font-size:42px; }
-      .bottom-nav { display:none; }
-      .notice { bottom:20px; }
-      .timer-panel { padding:23px; }
-    }
-    @media(max-width:380px) {
-      .container { width:calc(100% - 24px); }
-      .topbar { padding-inline:12px; }
-      .brand-name { font-size:19px; }
-      .hero-main { grid-template-columns:minmax(0,1fr) 105px; gap:7px; }
-      h1 { font-size:30px; letter-spacing:-1px; }
-      .stopwatch { width:100px; height:100px; }
-      .clock-time { font-size:12px; }
-      .clock-date { font-size:8px; }
-      .timer-panel { padding:14px; }
-      .timer-controls { gap:5px; }
-    }
-    @media(prefers-reduced-motion:reduce) {
-      *,*::before,*::after { scroll-behavior:auto!important; transition:none!important; }
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
     }
   </style>
 </head>
-
 <body>
   <header class="topbar">
     <a class="brand" href="index.html" aria-label="The MedRise home">
@@ -231,7 +130,6 @@
   <main class="container">
     <section class="hero">
       <span class="eyebrow">STRICTLY NCERT BIOLOGY</span>
-
       <div class="hero-main">
         <div>
           <h1>NCERT ki gehraai se,<br><span class="accent">NEET ki taiyari tak.</span></h1>
@@ -246,11 +144,7 @@
           <div class="clock-caption">Focus karo.<br>Revise karo.<br>Repeat karo.</div>
         </div>
       </div>
-
-      <p class="hero-description">
-        Concepts, flowcharts, and key points — organised in one place for revision.
-      </p>
-
+      <p class="hero-description">Concepts, flowcharts, and key points — organised in one place for revision.</p>
       <div class="actions">
         <a class="btn btn-primary" href="notes.html">📚 Open Master Vault →</a>
         <a class="btn btn-secondary" href="mocktest.html">🎯 Daily Quiz →</a>
@@ -262,7 +156,6 @@
         <h2 id="featuresTitle">Your Revision Toolkit</h2>
         <p>Focused resources for your Biology preparation.</p>
       </div>
-
       <div class="feature-grid">
         <article class="feature-card">
           <div class="feature-top"><div class="feature-icon">📚</div><h3>NCERT Biology Notes</h3></div>
@@ -295,21 +188,16 @@
         </div>
         <span aria-hidden="true">⏱️</span>
       </div>
-
       <div class="timer-display" id="timerDisplay" role="timer" aria-live="off">25:00</div>
-
       <div class="timer-options" aria-label="Choose timer duration">
         <button class="timer-choice" type="button" data-minutes="20">20 min</button>
         <button class="timer-choice active" type="button" data-minutes="25">25 min</button>
         <button class="timer-choice" type="button" data-minutes="45">45 min</button>
       </div>
-
       <div class="custom-row">
-        <input id="customMinutes" type="number" min="1" max="180" step="1"
-          inputmode="numeric" placeholder="Custom minutes (1–180)" aria-label="Custom timer duration in minutes">
+        <input id="customMinutes" type="number" min="1" max="180" step="1" inputmode="numeric" placeholder="Custom minutes (1–180)" aria-label="Custom timer duration in minutes">
         <button class="btn" id="setCustom" type="button">Set</button>
       </div>
-
       <div class="timer-controls">
         <button class="btn btn-primary" id="timerStart" type="button">Start</button>
         <button class="btn" id="timerPause" type="button" disabled>Pause</button>
@@ -354,28 +242,24 @@
   <script>
     "use strict";
 
-    /* PWA Service Worker Registration */
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(error => {
-          console.log('Service Worker registration pending/failed:', error);
+    /* PWA service worker: registration is optional */
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("sw.js").catch(error => {
+          console.log("Service Worker registration pending/failed:", error);
         });
       });
     }
 
-    /* Theme toggle with saved preference */
+    /* Theme toggle */
     const themeToggle = document.getElementById("themeToggle");
 
     function applyTheme(theme) {
       const light = theme === "light";
       document.body.classList.toggle("light", light);
       themeToggle.textContent = light ? "☾" : "☀";
-      themeToggle.setAttribute(
-        "aria-label",
-        light ? "Switch to dark theme" : "Switch to light theme"
-      );
-      document.querySelector('meta[name="theme-color"]').content =
-        light ? "#f5f8fc" : "#080d16";
+      themeToggle.setAttribute("aria-label", light ? "Switch to dark theme" : "Switch to light theme");
+      document.querySelector('meta[name="theme-color"]').content = light ? "#f5f8fc" : "#080d16";
     }
 
     try {
@@ -395,28 +279,25 @@
     /* Live Indian clock and date */
     function updateClock() {
       const now = new Date();
-      document.getElementById("liveClock").textContent =
-        now.toLocaleTimeString("en-IN", {
-          timeZone: "Asia/Kolkata",
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-          hour12: true
-        });
-
-      document.getElementById("liveDate").textContent =
-        now.toLocaleDateString("en-IN", {
-          timeZone: "Asia/Kolkata",
-          day: "numeric",
-          month: "short"
-        });
+      document.getElementById("liveClock").textContent = now.toLocaleTimeString("en-IN", {
+        timeZone: "Asia/Kolkata",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true
+      });
+      document.getElementById("liveDate").textContent = now.toLocaleDateString("en-IN", {
+        timeZone: "Asia/Kolkata",
+        day: "numeric",
+        month: "short"
+      });
     }
 
     updateClock();
     window.setInterval(updateClock, 1000);
     document.getElementById("currentYear").textContent = new Date().getFullYear();
 
-    /* Small notice for unavailable features */
+    /* Small notice for timer messages */
     let noticeTimeout;
 
     function showNotice(message) {
@@ -429,7 +310,7 @@
       }, 3500);
     }
 
-    /* Focus timer: presets and custom minutes */
+    /* Focus timer */
     const timerDisplay = document.getElementById("timerDisplay");
     const timerStatus = document.getElementById("timerStatus");
     const startButton = document.getElementById("timerStart");
@@ -447,8 +328,7 @@
     function renderTimer() {
       const mins = Math.floor(remainingSeconds / 60);
       const secs = remainingSeconds % 60;
-      timerDisplay.textContent =
-        String(mins).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
+      timerDisplay.textContent = String(mins).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
     }
 
     function stopInterval() {
@@ -472,7 +352,6 @@
         showNotice("Pehle running timer ko pause ya reset karo.");
         return;
       }
-
       chosenSeconds = minutes * 60;
       remainingSeconds = chosenSeconds;
       updatePresetHighlight(minutes);
@@ -498,7 +377,7 @@
 
       if (timerInterval !== null) {
         showNotice("Custom time set karne se pehle timer pause ya reset karo.");
-        return;
+               return;
       }
 
       chosenSeconds = minutes * 60;
@@ -542,7 +421,9 @@
 
     pauseButton.addEventListener("click", () => {
       if (timerInterval === null) return;
+
       tickTimer();
+
       if (timerInterval !== null) {
         clearInterval(timerInterval);
         timerInterval = null;
@@ -562,27 +443,9 @@
 
     renderTimer();
 
-    /* Protect broken links while you are building the files one by one */
-    document.querySelectorAll('a').forEach(link => {
-      link.addEventListener("click", event => {
-        const href = link.getAttribute('href');
-        
-        // Agar page ban chuka hai (jaise index), toh normal khulne do
-        if (href === "index.html" || href.startsWith("#")) return;
-
-        // Is list mein wo pages hain jo abhi tumne create nahi kiye hain
-        const pagesExist = {
-          "notes.html": false,      // Jisse agla banaoge use 'true' kar dena
-          "mocktest.html": false, 
-          "dashboard.html": false
-        };
-
-        if (pagesExist[href] === false) {
-          event.preventDefault();
-          showNotice("Coming Soon — Ye page abhi ban raha hai!");
-        }
-      });
-    });
+    /* Navigation: allow links to open their HTML pages normally.
+       Keep notes.html, mocktest.html and dashboard.html
+       in the same repository folder as index.html. */
   </script>
 </body>
 </html>
