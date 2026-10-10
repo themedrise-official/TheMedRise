@@ -1,387 +1,108 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#09111c">
-<meta name="description" content="The MedRise Student Dashboard">
-<title>Student Dashboard | The MedRise</title>
-<style>
-:root{
-  color-scheme:dark;--bg:#09111c;--panel:#101b29;--panel2:#172536;
-  --text:#f3f5f8;--muted:#a2afbf;--line:#293849;
-  --gold:#d9bd7b;--cyan:#54cbdc;--green:#63d5b0;--red:#e79b9b;
-}
-body.light{
-  color-scheme:light;--bg:#f2f4f7;--panel:#fff;--panel2:#e8eef3;
-  --text:#152333;--muted:#586a7d;--line:#d7e0e8;
-  --gold:#98762f;--cyan:#087f9a;--green:#168665;--red:#bb4545;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.55}
-a{color:inherit;text-decoration:none}
-button,input{font:inherit}
-button{cursor:pointer}
-.container{width:min(1120px,calc(100% - 30px));margin:auto}
-header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(15px);border-bottom:1px solid var(--line)}
-.nav{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brand{display:flex;align-items:center;gap:10px}
-.logo{width:42px;height:42px;display:grid;place-items:center;border:1px solid var(--cyan);border-radius:13px;background:var(--panel2);font-weight:900;letter-spacing:-2px}
-.logo span{color:var(--cyan)}
-.the{display:block;font-size:9px;letter-spacing:3px;color:var(--muted)}
-.brand-name{font-size:19px;font-weight:850;line-height:1.2}
-.rise{color:var(--cyan)}
-.nav-actions{display:flex;gap:8px;align-items:center}
-.icon-btn{width:39px;height:39px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 13px;border:1px solid var(--line);border-radius:11px;background:var(--panel);color:var(--text);font-size:12px;font-weight:750}
-.primary{background:var(--gold);color:#17202a;border-color:var(--gold)}
-main{padding-top:27px}
-.profile{
- display:flex;align-items:center;gap:19px;padding:23px;
- border:1px solid var(--line);border-radius:20px;
- background:radial-gradient(ellipse at 100% 0%,#54cbdc12,transparent 45%),var(--panel);
-}
-.avatar{
- width:95px;height:95px;flex-shrink:0;display:grid;place-items:center;
- border-radius:50%;background:linear-gradient(135deg,#242a31,#101720);
- border:1px solid #d9bd7b65;color:var(--gold);font-size:31px;font-weight:800;
-}
-.profile-info{min-width:0;flex:1}
-.profile-name{font-size:clamp(23px,4vw,34px);font-weight:800;letter-spacing:-1px;overflow-wrap:anywhere}
-.email{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
-.profile-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
-.tag{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font-size:10px;color:var(--muted)}
-.tag.gold{color:var(--gold);border-color:#d9bd7b55}
-.section-title{display:flex;justify-content:space-between;align-items:end;gap:10px;margin:27px 0 13px}
-.section-title h2{font:600 25px Georgia,serif;margin:0}
-.section-title p{font-size:12px;color:var(--muted);margin:4px 0 0}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.card{min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
-.card-head{display:flex;align-items:center;gap:9px;padding:12px 15px;background:var(--panel2);border-bottom:1px solid var(--line);font-size:12px;font-weight:800}
-.card-icon{width:29px;height:29px;display:grid;place-items:center;border:1px solid var(--line);border-radius:9px;color:var(--gold);background:var(--bg);font-size:15px}
-.card-body{padding:17px}
-.big-number{font-size:31px;font-weight:850;letter-spacing:-1px}
-.big-number small{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:0}
-.muted{color:var(--muted);font-size:12px}
-.progress-track{height:7px;border-radius:20px;background:var(--line);overflow:hidden;margin:12px 0 7px}
-.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold-soft),var(--cyan));border-radius:20px;transition:width .3s}
-.stat-row{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
-.mini-stat{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
-.mini-stat strong{display:block;font-size:20px;color:var(--gold)}
-.mini-stat span{font-size:11px;color:var(--muted)}
-.score-circle{width:94px;height:94px;border-radius:50%;display:grid;place-items:center;border:5px solid var(--line);position:relative;margin:auto}
-.score-circle strong{font-size:23px}
-.score-circle span{display:block;font-size:10px;text-align:center;color:var(--muted)}
-.score-flex{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:17px}
-.score-flex .score-circle{border-top-color:var(--gold);border-right-color:var(--cyan)}
-.score-meta strong{display:block;font-size:14px}
-.subject-row{display:flex;justify-content:space-between;gap:10px;font-size:12px;margin-top:12px}
-.subject-row span:last-child{color:var(--muted)}
-.purchase-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
-.purchase-row:last-child{border-bottom:0}
-.file-icon{width:40px;height:44px;border-radius:9px;background:var(--panel2);display:grid;place-items:center;color:var(--cyan);font-size:19px;flex-shrink:0}
-.purchase-row .info{flex:1;min-width:0}
-.purchase-row strong{display:block;font-size:13px;overflow-wrap:anywhere}
-.purchase-row small{display:block;color:var(--muted);font-size:11px}
-.status{font-size:10px;color:var(--green);border:1px solid #63d5b055;border-radius:7px;padding:4px 7px}
-.status.demo{color:var(--gold);border-color:#d9bd7b55}
-.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.actions .btn{flex:1}
-.recommendation{padding:16px;border:1px solid #d9bd7b55;border-radius:14px;background:color-mix(in srgb,var(--gold) 5%,var(--panel))}
-.recommendation strong{font-size:14px}
-.recommendation p{font-size:12px;color:var(--muted);margin:5px 0 12px}
-.social-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.social-link{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font-size:12px;font-weight:750;display:flex;align-items:center;gap:9px}
-.social-link span{color:var(--gold);font-size:17px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0}
-input{min-width:0;width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--text)}
-.note{padding:12px;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:11px;margin-top:14px}
-footer{padding:28px 0 40px;margin-top:30px;border-top:1px solid var(--line)}
-footer p{font-size:11px;color:var(--muted)}
-.bottom-nav{position:fixed;bottom:9px;left:50%;transform:translateX(-50%);z-index:15;width:min(470px,calc(100% - 22px));display:grid;grid-template-columns:repeat(4,1fr);padding:9px 5px calc(9px + env(safe-area-inset-bottom));border:1px solid var(--line);border-radius:17px;background:color-mix(in srgb,var(--panel) 95%,transparent);backdrop-filter:blur(16px)}
-.bottom-nav a{display:grid;justify-items:center;gap:2px;color:var(--muted);font-size:10px}
-.bottom-nav a span:first-child{font-size:18px}
-.bottom-nav a:hover{color:var(--gold)}
-.notice{position:fixed;z-index:30;bottom:85px;left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100% - 24px);padding:12px 15px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;font-size:12px;display:none}
-@media(max-width:680px){
- .profile{padding:16px;gap:13px}.avatar{width:70px;height:70px;font-size:25px}
- .grid{grid-template-columns:1fr}.section-title h2{font-size:23px}
- .profile-name{font-size:23px}.nav .btn{padding:9px;font-size:11px}
-}
-@media(max-width:380px){.avatar{width:57px;height:57px;font-size:21px}.social-list{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080d16">
+  <title>Dashboard | The MedRise</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    :root {
+      --bg: #080d16; --surface: #101824; --surface2: #151f2e;
+      --text: #f5f7fb; --muted: #9ca9ba; --line: rgba(255,255,255,.09);
+      --cyan: #66e4e0; --gold: #d8b879; --green: #81d6a2;
+    }
+    body.light {
+      --bg: #f4f7fb; --surface: #ffffff; --surface2: #edf3fa;
+      --text: #172335; --muted: #617086; --line: rgba(20,40,70,.12);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--text); padding-bottom: 90px; }
+    a { color: inherit; text-decoration: none; }
+    
+    .topbar { padding: 15px 20px; background: var(--surface); border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+    .brand { font-weight: 850; font-size: 18px; }
+    .brand span { color: var(--cyan); }
+    .logout-btn { background: transparent; border: 1px solid var(--line); color: var(--muted); padding: 6px 12px; border-radius: 8px; font-size: 12px; }
+
+    .container { width: min(800px, 92%); margin: 25px auto; }
+    
+    .user-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+    .avatar { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--surface2), var(--surface)); border: 1px solid var(--cyan); display: grid; place-items: center; font-size: 24px; font-weight: 800; color: var(--cyan); }
+    .user-info h1 { margin: 0 0 4px 0; font-size: 22px; }
+    .user-info p { margin: 0; color: var(--muted); font-size: 13px; }
+
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+    .card-wide { grid-column: 1 / -1; }
+    
+    .card-title { font-size: 12px; color: var(--muted); margin: 0 0 8px 0; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+    .card-value { font-size: 24px; font-weight: 800; margin: 0; }
+    .highlight { color: var(--gold); }
+    
+    .progress-bar { height: 6px; background: var(--surface2); border-radius: 10px; margin-top: 12px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--cyan); width: 15%; }
+
+    .action-btn { display: block; width: 100%; text-align: center; padding: 14px; background: var(--surface2); border: 1px solid var(--line); border-radius: 12px; font-weight: 700; margin-top: 15px; transition: 0.2s; }
+    .action-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+    .btn-primary { background: var(--cyan); color: #000; border: none; }
+
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 30; background: var(--surface); border-top: 1px solid var(--line); display: flex; justify-content: space-around; padding: 10px 0; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); }
+    .bottom-nav a.active { color: var(--cyan); }
+    .nav-emoji { font-size: 20px; }
+
+    @media (max-width: 500px) { .grid { grid-template-columns: 1fr; } }
+  </style>
 </head>
-
 <body>
-<header>
- <div class="container nav">
-  <a class="brand" href="index.html">
-   <div class="logo">M<span>R</span></div>
-   <div><span class="the">T H E</span><div class="brand-name">Med<span class="rise">Rise</span></div></div>
-  </a>
-  <div class="nav-actions">
-   <a class="btn" href="index.html">← Home</a>
-   <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">☼</button>
+
+  <div class="topbar">
+    <div class="brand">Med<span>Rise</span> Hub</div>
+    <button class="logout-btn">Sign Out</button>
   </div>
- </div>
-</header>
 
-<main class="container">
- <section class="profile">
-  <div class="avatar" id="avatar">FD</div>
-  <div class="profile-info">
-   <div class="profile-name" id="studentName">Future Doctor</div>
-   <div class="email" id="studentEmail">Student account · Sign-in integration pending</div>
-   <div class="profile-tags">
-    <span class="tag gold">✦ FUTURE DOCTOR</span>
-    <span class="tag">NEET ASPIRANT</span>
-    <span class="tag" id="memberTag">MedRise Student</span>
-   </div>
+  <div class="container">
+    <div class="user-header">
+      <div class="avatar">V</div>
+      <div class="user-info">
+        <h1>Future Doctor</h1>
+        <p>Target: NEET Aspirant</p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3 class="card-title">Vault Status</h3>
+        <p class="card-value">Free Sample</p>
+        <p style="font-size:12px; color:var(--muted); margin-top:5px;">Upgrade to unlock 38 chapters.</p>
+      </div>
+      
+      <div class="card">
+        <h3 class="card-title">Revision Tracker</h3>
+        <p class="card-value highlight">5 / 38</p>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+      </div>
+
+      <div class="card card-wide">
+        <h3 class="card-title">Mock Test Performance</h3>
+        <p class="card-value" style="color:var(--green);">Avg Score: 320/360</p>
+        <p style="font-size:13px; color:var(--muted); margin-top:8px;">You're in the top 15% of MedRise students. Keep practicing NCERT statement traps.</p>
+        <a href="mocktest.html" class="action-btn btn-primary">Take Daily Quiz 🚀</a>
+      </div>
+    </div>
   </div>
- </section>
 
- <div class="section-title">
-  <div><h2>Your Dashboard</h2><p>Apni preparation ko samjho, compare nahi — improve karo.</p></div>
- </div>
+  <nav class="bottom-nav">
+    <a href="index.html"><span class="nav-emoji">🏠</span><span>Home</span></a>
+    <a href="notes.html"><span class="nav-emoji">📚</span><span>Vault</span></a>
+    <a href="mocktest.html"><span class="nav-emoji">⏱️</span><span>Mock Test</span></a>
+    <a href="dashboard.html" class="active"><span class="nav-emoji">👤</span><span>Profile</span></a>
+  </nav>
 
- <div class="grid">
-  <section class="card">
-   <div class="card-head"><span class="card-icon">▤</span> My Purchases</div>
-   <div class="card-body">
-    <div class="big-number" id="purchaseCount">0 <small>items</small></div>
-    <p class="muted">Tumhare account mein unlock kiye gaye notes aur test series.</p>
-    <div id="purchaseList">
-     <div class="purchase-row">
-      <div class="file-icon">▤</div>
-      <div class="info"><strong>No purchases synced yet</strong><small>Verified purchases yahan dikhenge.</small></div>
-      <span class="status demo">Demo</span>
-     </div>
-    </div>
-    <div class="actions">
-     <a class="btn primary" href="notes.html">Browse Notes →</a>
-     <a class="btn" href="tests.html">Test Arena</a>
-    </div>
-   </div>
-  </section>
+  <script>
+    if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light'); }
+  </script>
+</body>
+</html>
 
-  <section class="card">
-   <div class="card-head"><span class="card-icon">◷</span> Learning Progress</div>
-   <div class="card-body">
-    <div class="big-number"><span id="chaptersRead">0</span><small> / <span id="totalChapters">38</span> chapters</small></div>
-    <div class="progress-track"><div class="progress-fill" id="chapterBar"></div></div>
-    <div class="muted" id="chapterPercent">0% chapter progress</div>
-    <div class="stat-row" style="margin-top:15px">
-     <div class="mini-stat"><strong id="quizTaken">0</strong><span>Quizzes attempted</span></div>
-     <div class="mini-stat"><strong id="studyMinutes">0</strong><span>Study minutes tracked</span></div>
-    </div>
-    <p class="muted">Reading progress tabhi accurate hogi jab notes reader aur student account connect honge.</p>
-   </div>
-  </section>
-
-  <section class="card">
-   <div class="card-head"><span class="card-icon">◎</span> Quiz Scorecard</div>
-   <div class="card-body">
-    <div class="score-flex">
-     <div class="score-circle"><div><strong id="accuracy">—</strong><span>Accuracy</span></div></div>
-     <div class="score-meta">
-      <strong id="bestScore">No score yet</strong>
-      <div class="muted">Best recorded result</div>
-      <div class="muted" style="margin-top:8px">Correct answers: <strong id="correctAnswers">0</strong></div>
-     </div>
-    </div>
-    <div class="subject-row"><span>Questions attempted</span><span id="questionsAttempted">0</span></div>
-    <div class="subject-row"><span>Latest quiz</span><span id="latestScore">No attempt</span></div>
-    <div class="note">Scorecard demo values tab tak zero rahenge jab tak quiz engine se real results save nahi hote. Ye official NEET score nahi hai.</div>
-    <div class="actions"><a class="btn" href="index.html#quiz">Practice Quiz →</a></div>
-   </div>
-  </section>
-
-  <section class="card">
-   <div class="card-head"><span class="card-icon">↗</span> Your Weekly Progress</div>
-   <div class="card-body">
-    <div class="big-number" id="weekLabel">This week</div>
-    <p class="muted">Consistency important hai. Chhote daily targets set karo.</p>
-    <div class="stat-row">
-     <div class="mini-stat"><strong id="activeDays">0</strong><span>Active days</span></div>
-     <div class="mini-stat"><strong id="weekQuizzes">0</strong><span>Quizzes this week</span></div>
-    </div>
-    <div class="recommendation" style="margin-top:14px">
-     <strong>Next step</strong>
-     <p id="nextStep">Ek sample chapter choose karo aur padhai ke baad short quiz attempt karo.</p>
-     <a class="btn primary" href="notes.html">Continue Learning →</a>
-    </div>
-   </div>
-  </section>
-
-  <section class="card">
-   <div class="card-head"><span class="card-icon">✦</span> Your Study Details</div>
-   <div class="card-body">
-    <div class="subject-row"><span>Target</span><strong>NEET preparation</strong></div>
-    <div class="subject-row"><span>Learning space</span><strong>MedRise</strong></div>
-    <div class="subject-row"><span>Last activity</span><strong id="lastActivity">Not recorded</strong></div>
-    <div class="note">Student details aur progress ko personal account ke saath sync karne ke liye secure login system baad mein connect hoga.</div>
-   </div>
-  </section>
-
-  <section class="card">
-   <div class="card-head"><span class="card-icon">⌁</span> MedRise Community</div>
-   <div class="card-body">
-    <p class="muted">Updates, learning resources aur community announcements yahan se access karo.</p>
-    <div class="social-list">
-     <a class="social-link" href="https://t.me/TheMedRise" target="_blank" rel="noopener noreferrer"><span>➤</span> Telegram</a>
-     <a class="social-link" href="https://www.instagram.com/the.medrise/" target="_blank" rel="noopener noreferrer"><span>◎</span> Instagram</a>
-     <a class="social-link" href="notes.html"><span>▤</span> Notes Vault</a>
-     <a class="social-link" href="tests.html"><span>◎</span> Test Arena</a>
-     <a class="social-link" href="index.html"><span>⌂</span> Main Website</a>
-    </div>
-    <p class="muted" style="margin-top:13px">Official support email ya additional links available hone par yahan add kiye ja sakte hain.</p>
-   </div>
-  </section>
- </div>
-
- <section class="card" style="margin-top:14px">
-  <div class="card-head"><span class="card-icon">⚙</span> Student Profile Preview</div>
-  <div class="card-body">
-   <p class="muted">Abhi ye local preview hai. Apna naam daalkar dashboard ka profile header check kar sakte ho; ye verified account login nahi hai.</p>
-   <div class="form-row">
-    <input id="nameInput" placeholder="Student name" maxlength="70" autocomplete="name">
-    <input id="emailInput" placeholder="Email (optional)" maxlength="120" autocomplete="email" type="email">
-   </div>
-   <button class="btn primary" id="updateProfile">Preview Profile</button>
-   <button class="btn" id="resetDemo">Reset demo</button>
-   <div class="note">Is preview mein entered details isi browser session mein apply hoti hain. Actual multi-device student accounts aur verified purchase records ke liye backend required hai.</div>
-  </div>
- </section>
-</main>
-
-<footer><div class="container">
- <div class="brand-name">Med<span class="rise">Rise</span></div>
- <p>Samjho. Revise karo. Aage badho.</p>
- <p>Student dashboard preview · Not affiliated with NTA.</p>
-</div></footer>
-
-<nav class="bottom-nav" aria-label="Main navigation">
- <a href="index.html"><span>⌂</span><span>Home</span></a>
- <a href="notes.html"><span>▤</span><span>Notes</span></a>
- <a href="tests.html"><span>◎</span><span>Tests</span></a>
- <a href="#top" id="profileNav"><span>◉</span><span>Profile</span></a>
-</nav>
-<div id="notice" class="notice" role="status" aria-live="polite"></div>
-
-<script>
-/*
-DEMO DASHBOARD
-This page does not authenticate users or verify payments.
-Never put private PDFs, payment secrets, or real customer records here.
-Connect a backend before displaying actual purchases or private student data.
-*/
-const DEMO = {
-  name:"Future Doctor",
-  email:"",
-  totalChapters:38,
-  chaptersRead:0,
-  quizTaken:0,
-  studyMinutes:0,
-  correct:0,
-  attempted:0,
-  bestScore:null,
-  latestScore:null,
-  purchases:[],
-  activeDays:0,
-  weekQuizzes:0,
-  lastActivity:null
-};
-
-const $=id=>document.getElementById(id);
-let noticeTimer;
-
-function notify(message){
-  $("notice").textContent=message;
-  $("notice").style.display="block";
-  clearTimeout(noticeTimer);
-  noticeTimer=setTimeout(()=>$("notice").style.display="none",3500);
-}
-
-function initials(name){
-  const parts=name.trim().split(/\s+/).filter(Boolean);
-  if(!parts.length)return "FD";
-  return parts.slice(0,2).map(part=>part[0].toUpperCase()).join("");
-}
-
-function renderProfile(name,email){
-  const safeName=name.trim()||"Future Doctor";
-  $("studentName").textContent=safeName;
-  $("avatar").textContent=initials(safeName);
-  $("studentEmail").textContent=email.trim()||"Student account · Sign-in integration pending";
-}
-
-function renderDemo(){
-  $("purchaseCount").innerHTML=DEMO.purchases.length+' <small>items</small>';
-  $("chaptersRead").textContent=DEMO.chaptersRead;
-  $("totalChapters").textContent=DEMO.totalChapters;
-  const percent=DEMO.totalChapters?Math.round(DEMO.chaptersRead/DEMO.totalChapters*100):0;
-  $("chapterBar").style.width=Math.min(100,percent)+"%";
-  $("chapterPercent").textContent=percent+"% chapter progress";
-  $("quizTaken").textContent=DEMO.quizTaken;
-  $("studyMinutes").textContent=DEMO.studyMinutes;
-  $("accuracy").textContent=DEMO.attempted?Math.round(DEMO.correct/DEMO.attempted*100)+"%":"—";
-  $("bestScore").textContent=DEMO.bestScore===null?"No score yet":DEMO.bestScore+"%";
-  $("correctAnswers").textContent=DEMO.correct;
-  $("questionsAttempted").textContent=DEMO.attempted;
-  $("latestScore").textContent=DEMO.latestScore===null?"No attempt":DEMO.latestScore+"%";
-  $("activeDays").textContent=DEMO.activeDays;
-  $("weekQuizzes").textContent=DEMO.weekQuizzes;
-  $("lastActivity").textContent=DEMO.lastActivity||"Not recorded";
-  $("nextStep").textContent=percent===100
-    ?"Great progress! Ab apne weak topics revise karke quiz attempt karo."
-    :"Ek sample chapter choose karo aur padhai ke baad short quiz attempt karo.";
-
-  const list=$("purchaseList");
-  list.innerHTML="";
-  if(!DEMO.purchases.length){
-    const row=document.createElement("div");
-    row.className="purchase-row";
-    row.innerHTML='<div class="file-icon">▤</div><div class="info"><strong>No purchases synced yet</strong><small>Verified purchases yahan dikhenge.</small></div><span class="status demo">Demo</span>';
-    list.append(row);
-  }else{
-    DEMO.purchases.forEach(item=>{
-      const row=document.createElement("div");
-      row.className="purchase-row";
-      const icon=document.createElement("div");
-      icon.className="file-icon";icon.textContent="▤";
-      const info=document.createElement("div");info.className="info";
-      const title=document.createElement("strong");title.textContent=item.title;
-      const subtitle=document.createElement("small");subtitle.textContent=item.date||"Purchase date unavailable";
-      info.append(title,subtitle);
-      const status=document.createElement("span");status.className="status";status.textContent="Unlocked";
-      row.append(icon,info,status);list.append(row);
-    });
-  }
-}
-renderProfile(DEMO.name,DEMO.email);
-renderDemo();
-
-$("updateProfile").addEventListener("click",()=>{
-  const name=$("nameInput").value.trim();
-  const email=$("emailInput").value.trim();
-  if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    notify("Email format check karo.");return;
-  }
-  renderProfile(name||"Future Doctor",email);
-  notify("Profile preview updated. Ye abhi demo hai.");
-});
-
-$("resetDemo").addEventListener("click",()=>{
-  $("nameInput").value="";
-  $("emailInput").value="";
-  renderProfile(DEMO.name,DEMO.email);
-  notify("Profile preview reset ho gaya.");
-});
-
-$("themeToggle").addEventListener("click",()=>{
-  const light=document.body.classList.toggle("light");
-  $("themeToggle").textContent=light?"☾":"☼";
-  document.querySelector('meta[name="theme-color"]').content=light?"#f2f4f7":"#09111c";
-});
-$("profileNav").addEventListe
