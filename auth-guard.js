@@ -11,7 +11,7 @@
 import { auth } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
-const PROTECTED = ["dashboard", "notes", "mocktest"];
+const PROTECTED = ["dashboard", "notes", "mocktest", "admin"];
 
 // Works for /notes.html, /notes (GitHub Pages clean URL) and /repo/notes.html
 const lastSegment = location.pathname.split("/").filter(Boolean).pop() || "index";
@@ -53,6 +53,8 @@ onAuthStateChanged(
     document.dispatchEvent(new CustomEvent("medrise:auth", { detail: { user: user || null } }));
     if (isProtected && !user) { goToLogin(); return; }
     reveal();
+    // Admin-controlled settings (maintenance, page on/off, paid access ...). Never blocks the page load.
+    import("./site-control.js").then(m => m.init(user || null, pageName)).catch(e => console.warn("site-control:", e));
   },
   error => {
     // Auth could not be checked (network / config problem): don't leave a blank page.
