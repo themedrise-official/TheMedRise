@@ -16,12 +16,29 @@ function lock(title, msg, home) {
   if (home) { const a = document.createElement("a"); a.href = "./index.html"; a.textContent = "← Home"; a.style.color = "#7dd3fc"; b.append(a); }
   d.append(b); document.body.append(d);
 }
-function banner(text) {
+function banner(...texts) {
   document.getElementById("mr-banner")?.remove();
-  if (!text) return;
-  const d = document.createElement("div"); d.id = "mr-banner"; d.textContent = "📢 " + text;
+  texts = texts.filter(Boolean);
+  if (!texts.length) return;
+  const d = document.createElement("div"); d.id = "mr-banner"; d.textContent = "📢 " + texts.join("  •  ");
   d.style.cssText = "padding:9px 14px;text-align:center;font:600 13px system-ui,sans-serif;background:#1d4ed8;color:#fff";
   document.body.prepend(d);
+}
+
+// Features the admin can hide (CSS selectors of buttons / sections in dashboard & mocktest)
+const FEATURES = {
+  leaderboard: '[data-page="leaderboard"],[data-open="leaderboard"],#leaderShortcut,#leaderPanel',
+  progress: '[data-page="progress"],[data-open="progress"],#analysisShortcut',
+  history: '[data-page="history"],[data-open="history"],#historyShortcut',
+  bookmarks: '[data-page="bookmarks"],[data-open="bookmarks"]',
+  planner: '[data-page="planner"],[data-open="planner"]'
+};
+function hideFeatures(config) {
+  document.getElementById("mr-hide")?.remove();
+  const sel = Object.keys(FEATURES).filter(k => (k === "leaderboard" ? config.leaderboard === false : (config.features || {})[k] === false)).map(k => FEATURES[k]);
+  if (!sel.length) return;
+  const s = document.createElement("style"); s.id = "mr-hide"; s.textContent = sel.join(",") + "{display:none!important}";
+  document.head.append(s);
 }
 
 export async function init(user, page) {
@@ -54,8 +71,9 @@ export async function init(user, page) {
   if (page !== "admin" && !isAdmin) {
     if (access.blocked) lock("Account blocked", "Aapka account admin ne band kiya hai. Support se sampark karein.");
     else if (config.maintenance) lock("Maintenance chal raha hai", config.maintenanceMsg || "Thodi der baad wapas aaiye.");
-    else if (config.pages && config.pages[page] === false) lock("Ye section abhi band hai", "Admin ne ise abhi band rakha hai.", true);
+    else if (config.pages && config.pages[page] === false) lock("Ye section abhi band hai", "Admin ne ise abhi band rakha hai.", page !== "index");
   }
-  if (page !== "admin") banner(config.announcement);
+  if (page !== "admin") banner(config.announcement, config.pageNotice && config.pageNotice[page]);
+  if (!isAdmin && page !== "admin") hideFeatures(config);
   document.dispatchEvent(new CustomEvent("medrise:control"));
 }
