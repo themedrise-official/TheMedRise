@@ -7,9 +7,10 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait-primary",
+  "orientation": "any",
   "background_color": "#080d16",
   "theme_color": "#080d16",
+  "categories": ["education"],
   "icons": [
     {
       "src": "./icons/medrise-192.png",
