@@ -226,121 +226,176 @@
     function toast(message) {
       const el = $("toast");
       el.textContent = message;
-      el.classList.add("show");
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => el.classList.remove("show"), 2800);
-    }
-    function isReady(chapter) {
-      return chapter.available === true && typeof chapter.file === "string" && chapter.file.trim().length > 0;
-    }
-    function chapterStatus(chapter) {
-      if (!isReady(chapter)) return {label:"⌛ Coming Soon", soon:true};
-      return {label:"● Available", soon:false};
-    }
-    function render() {
-      const query = state.query.trim().toLowerCase();
-      const list = CHAPTERS.filter(ch => {
-        if (ch.cls !== state.cls) return false;
-        if (state.filter === "Botany" || state.filter === "Zoology") if (ch.type !== state.filter) return false;
-        if (state.filter === "available" && !isReady(ch)) return false;
-        if (state.filter === "soon" && isReady(ch)) return false;
-        if (state.filter === "free" && ch.price !== "Free") return false;
-        if (state.filter === "paid" && ch.price !== "Paid") return false;
-        return !query || (ch.name + " " + ch.desc + " " + ch.type + " " + ch.price).toLowerCase().includes(query);
-      });
-      $("chapterHeading").textContent = `Class ${state.cls} — Chapters`;
-      $("chapterCount").textContent = `${list.length} Chapter${list.length === 1 ? "" : "s"}`;
-      const grid = $("chapterGrid");
-      grid.replaceChildren();
-      if (!list.length) {
-        const empty = document.createElement("div");
-        empty.className = "empty";
-        empty.textContent = "No chapters match your search. Try another keyword or filter.";
-        grid.appendChild(empty);
-        return;
-      }
-      list.forEach(ch => {
-        const ready = isReady(ch), status = chapterStatus(ch);
-        const card = document.createElement("article");
-        card.className = "chapter";
-        const number = document.createElement("div");
-        number.className = "number";
-        number.textContent = String(ch.id);
-        number.setAttribute("aria-hidden","true");
-        const main = document.createElement("div");
-        main.className = "chapter-main";
-        const top = document.createElement("div");
-        top.className = "chapter-top";
-        const title = document.createElement("h3");
-        title.textContent = ch.name;
-        const badge = document.createElement("span");
-        badge.className = "status" + (status.soon ? " soon" : "");
-        badge.textContent = status.label;
-        top.append(title,badge);
-        const desc = document.createElement("p");
-        desc.textContent = ch.desc;
-        const bottom = document.createElement("div");
-        bottom.className = "chapter-bottom";
-        const type = document.createElement("span");
-        type.className = "type";
-        type.textContent = `${ch.type} · ${ch.price}`;
-        const btn = document.createElement("button");
-        btn.className = "small-btn";
-        btn.type = "button";
-        btn.textContent = ready ? "View Notes →" : (ch.price === "Paid" ? "Locked 🔒" : "Coming Soon");
-        btn.disabled = !ready;
-        btn.setAttribute("aria-label", `${ready ? "View" : "Unavailable"} notes for ${ch.name}`);
-        if (ready) btn.addEventListener("click", () => window.open(ch.file, "_blank", "noopener,noreferrer"));
-        else btn.addEventListener("click", () => showMessage(ch.price === "Paid" ? "Paid Notes Locked" : "Notes Coming Soon", ch.price === "Paid" ? "Paid notes will unlock only after secure payment verification is connected. No payment has been taken." : "The notes PDF for this chapter has not been added yet. Please check back later."));
-        bottom.append(type,btn);
-        main.append(top,desc,bottom);
-        card.append(number,main);
-        grid.appendChild(card);
-      });
-    }
-    function setPressed(selector, attr, value) {
-      document.querySelectorAll(selector).forEach(el => el.setAttribute("aria-pressed", String(el.getAttribute(attr) === String(value))));
-    }
-    document.querySelectorAll("[data-class]").forEach(btn => btn.addEventListener("click", () => {
-      state.cls = Number(btn.dataset.class);
-      document.querySelectorAll("[data-class]").forEach(el => el.setAttribute("aria-pressed", String(el === btn)));
-      render();
-    }));
-    document.querySelectorAll("[data-filter]").forEach(btn => btn.addEventListener("click", () => {
-      state.filter = btn.dataset.filter;
-      document.querySelectorAll("[data-filter]").forEach(el => el.setAttribute("aria-pressed", String(el === btn)));
-      render();
-    }));
-    $("searchInput").addEventListener("input", e => { state.query = e.target.value; render(); });
-    $("sampleButton").addEventListener("click", () => {
-      if (SAMPLE_PDF.trim()) window.open(SAMPLE_PDF, "_blank", "noopener,noreferrer");
-      else showMessage("Sample Coming Soon", "A sample PDF has not been added yet. This button will open the sample when the real PDF is configured.");
+          el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove("show"), 2800);
+  }
+
+  function isReady(chapter) {
+    return chapter.available === true &&
+      typeof chapter.file === "string" &&
+      chapter.file.trim().length > 0;
+  }
+
+  function chapterStatus(chapter) {
+    if (!isReady(chapter)) return {label:"⌛ Coming Soon", soon:true};
+    return {label:"● Available", soon:false};
+  }
+
+  function render() {
+    const query = state.query.trim().toLowerCase();
+    const list = CHAPTERS.filter(ch => {
+      if (ch.cls !== state.cls) return false;
+      if ((state.filter === "Botany" || state.filter === "Zoology") && ch.type !== state.filter) return false;
+      if (state.filter === "available" && !isReady(ch)) return false;
+      if (state.filter === "soon" && isReady(ch)) return false;
+      if (state.filter === "free" && ch.price !== "Free") return false;
+      if (state.filter === "paid" && ch.price !== "Paid") return false;
+      return !query || (ch.name + " " + ch.desc + " " + ch.type + " " + ch.price).toLowerCase().includes(query);
     });
-    $("closeModal").addEventListener("click", closeMessage);
-    $("modalOk").addEventListener("click", closeMessage);
-    $("modal").addEventListener("click", e => { if (e.target === $("modal")) closeMessage(); });
-    document.addEventListener("keydown", e => { if (e.key === "Escape") closeMessage(); });
-    const themeToggle = $("themeToggle");
-    function applyTheme(theme) {
-      document.documentElement.dataset.theme = theme;
-      themeToggle.textContent = theme === "dark" ? "☼" : "☾";
-      themeToggle.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
-      try { localStorage.setItem("medrise-theme", theme); } catch (_) {}
+
+    $("chapterHeading").textContent = `Class ${state.cls} — Chapters`;
+    $("chapterCount").textContent = `${list.length} Chapter${list.length === 1 ? "" : "s"}`;
+    const grid = $("chapterGrid");
+    grid.replaceChildren();
+
+    if (!list.length) {
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = "No chapters match your search. Try another keyword or filter.";
+      grid.appendChild(empty);
+      return;
     }
-    let initialTheme = "dark";
-    try { initialTheme = localStorage.getItem("medrise-theme") || "dark"; } catch (_) {}
-    applyTheme(initialTheme === "light" ? "light" : "dark");
-    themeToggle.addEventListener("click", () => applyTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark"));
-    document.querySelectorAll('a[data-page]').forEach(link => link.addEventListener("click", async e => {
-      e.preventDefault();
-      const page = link.dataset.page;
-      const title = page === "quiz" ? "Quiz Coming Soon" : "Profile Coming Soon";
-      const message = page === "quiz" ? "The quiz page is not ready yet. This link has not opened a missing page." : "The profile dashboard is not ready yet. This link has not opened a missing page.";
-      showMessage(title, message);
-    }));
+
+    list.forEach(ch => {
+      const ready = isReady(ch);
+      const status = chapterStatus(ch);
+      const card = document.createElement("article");
+      card.className = "chapter";
+
+      const number = document.createElement("div");
+      number.className = "number";
+      number.textContent = String(ch.id);
+      number.setAttribute("aria-hidden", "true");
+
+      const main = document.createElement("div");
+      main.className = "chapter-main";
+
+      const top = document.createElement("div");
+      top.className = "chapter-top";
+
+      const title = document.createElement("h3");
+      title.textContent = ch.name;
+
+      const badge = document.createElement("span");
+      badge.className = "status" + (status.soon ? " soon" : "");
+      badge.textContent = status.label;
+      top.append(title, badge);
+
+      const desc = document.createElement("p");
+      desc.textContent = ch.desc;
+
+      const bottom = document.createElement("div");
+      bottom.className = "chapter-bottom";
+
+      const type = document.createElement("span");
+      type.className = "type";
+      type.textContent = `${ch.type} · ${ch.price}`;
+
+      const btn = document.createElement("button");
+      btn.className = "small-btn";
+      btn.type = "button";
+      btn.textContent = ready ? "View Notes →" : (ch.price === "Paid" ? "Locked 🔒" : "Coming Soon");
+      btn.disabled = !ready;
+      btn.setAttribute("aria-label", `${ready ? "View" : "Unavailable"} notes for ${ch.name}`);
+
+      if (ready) {
+        btn.addEventListener("click", () => window.open(ch.file, "_blank", "noopener,noreferrer"));
+      } else {
+        btn.addEventListener("click", () => showMessage(
+          ch.price === "Paid" ? "Paid Notes Locked" : "Notes Coming Soon",
+          ch.price === "Paid"
+            ? "Paid notes will unlock only after secure payment verification is connected. No payment has been taken."
+            : "The notes PDF for this chapter has not been added yet. Please check back later."
+        ));
+      }
+
+      bottom.append(type, btn);
+      main.append(top, desc, bottom);
+      card.append(number, main);
+      grid.appendChild(card);
+    });
+  }
+
+  document.querySelectorAll("[data-class]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      state.cls = Number(btn.dataset.class);
+      document.querySelectorAll("[data-class]").forEach(el =>
+        el.setAttribute("aria-pressed", String(el === btn))
+      );
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-filter]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      state.filter = btn.dataset.filter;
+      document.querySelectorAll("[data-filter]").forEach(el =>
+        el.setAttribute("aria-pressed", String(el === btn))
+      );
+      render();
+    });
+  });
+
+  $("searchInput").addEventListener("input", e => {
+    state.query = e.target.value;
     render();
-  </script>
+  });
+
+  $("sampleButton").addEventListener("click", () => {
+    if (SAMPLE_PDF.trim()) {
+      window.open(SAMPLE_PDF, "_blank", "noopener,noreferrer");
+    } else {
+      showMessage("Sample Coming Soon", "A sample PDF has not been added yet. This button will open the sample when the real PDF is configured.");
+    }
+  });
+
+  $("closeModal").addEventListener("click", closeMessage);
+  $("modalOk").addEventListener("click", closeMessage);
+  $("modal").addEventListener("click", e => {
+    if (e.target === $("modal")) closeMessage();
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") closeMessage();
+  });
+
+  const themeToggle = $("themeToggle");
+
+  function applyTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    themeToggle.textContent = theme === "dark" ? "☼" : "☾";
+    themeToggle.setAttribute(
+      "aria-label",
+      theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+    );
+    try {
+      localStorage.setItem("medrise-theme", theme);
+    } catch (_) {}
+  }
+
+  let initialTheme = "dark";
+  try {
+    initialTheme = localStorage.getItem("medrise-theme") || "dark";
+  } catch (_) {}
+
+  applyTheme(initialTheme === "light" ? "light" : "dark");
+
+  themeToggle.addEventListener("click", () => {
+    applyTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+  });
+
+  render();
+</script>
+<script type="module" src="./auth-guard.js"></script>
 </body>
 </html>
-
-    
