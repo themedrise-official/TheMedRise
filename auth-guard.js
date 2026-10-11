@@ -1,35 +1,67 @@
+// MedRise auth guard — loaded on every page except login.html.
+//  * Protected pages (dashboard / notes / mocktest) stay hidden until Firebase
+//    says the user is signed in; otherwise the user is sent to login.html.
+//  * Every page gets `window.medrise = { user, ready }` plus a
+//    "medrise:auth" event, so pages can use the uid for per-user storage.
+//  * Elements with data-auth="in" / data-auth="out" are shown/hidden
+//    depending on login state (e.g. Login vs Dashboard button on the homepage).
+//
+// NOTE: this is a convenience guard for a static site, not real security.
+// Anything that must be private needs server-side rules (see firestore.rules).
 import { auth } from "./firebase.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
-import {
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+const PROTECTED = ["dashboard", "notes", "mocktest"];
 
-// Pages that require login
-const protectedPages = [
-  "dashboard.html",
-  "notes.html",
-  "mocktest.html"
-];
+// Works for /notes.html, /notes (GitHub Pages clean URL) and /repo/notes.html
+const lastSegment = location.pathname.split("/").filter(Boolean).pop() || "index";
+const pageName = lastSegment.toLowerCase().replace(/\.html$/, "");
+const isProtected = PROTECTED.includes(pageName);
 
-// Safely get current page name, fallback to index.html or handle trailing slashes
-const pathSegments = window.location.pathname.split("/").filter(Boolean);
-const currentPage = pathSegments.length > 0 ? pathSegments[pathSegments.length - 1].toLowerCase() : "index.html";
-
-if (protectedPages.includes(currentPage)) {
-  // Hide the page until Firebase confirms login status
-  document.documentElement.style.visibility = "hidden";
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is logged in
-      document.documentElement.style.visibility = "visible";
-    } else {
-      // Save the page they wanted to open
-      const redirectPage = encodeURIComponent(currentPage);
-
-      window.location.replace(
-        "./login.html?redirect=" + redirectPage
-      );
-    }
-  });
+function reveal() {
+  clearTimeout(window.__mrReveal);
+  document.documentElement.style.visibility = "";
 }
+
+function goToLogin() {
+  location.replace("./login.html?redirect=" + encodeURIComponent(pageName + ".html"));
+}
+
+function applyAuthUi(user) {
+  document.querySelectorAll('[data-auth="in"]').forEach(el => { el.hidden = !user; });
+  document.querySelectorAll('[data-auth="out"]').forEach(el => { el.hidden = !!user; });
+  const label = user ? (user.displayName || user.email || "Student") : "";
+  document.querySelectorAll("[data-medrise-user]").forEach(el => { el.textContent = label; });
+}
+
+function remember(user) {
+  try {
+    if (user) localStorage.setItem("medrise-last-uid", user.uid);
+    else localStorage.removeItem("medrise-last-uid");
+  } catch (_) { /* storage blocked — pages fall back to "guest" */ }
+}
+
+window.medrise = window.medrise || { user: null, ready: false };
+
+onAuthStateChanged(
+  auth,
+  user => {
+    window.medrise.user = user || null;
+    window.medrise.ready = true;
+    remember(user);
+    applyAuthUi(user);
+    document.dispatchEvent(new CustomEvent("medrise:auth", { detail: { user: user || null } }));
+    if (isProtected && !user) { goToLogin(); return; }
+    reveal();
+  },
+  error => {
+    // Auth could not be checked (network / config problem): don't leave a blank page.
+    console.error("MedRise auth check failed:", error);
+    reveal();
+  }
+);
+
+// Back/forward cache: after logout, pressing Back must not show a protected page.
+window.addEventListener("pageshow", event => {
+  if (event.persisted && isProtected && !auth.currentUser) goToLogin();
+});
