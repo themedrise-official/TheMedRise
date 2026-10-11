@@ -120,7 +120,7 @@
     $("year").textContent = new Date().getFullYear();
 
     // ?redirect=notes.html (new) or ?next=notes.html (old links) -> where to go after login
-    const allowedPages = ["index.html", "dashboard.html", "notes.html", "mocktest.html"];
+    const allowedPages = ["index.html", "dashboard.html", "notes.html", "mocktest.html", "admin.html"];
     const params = new URLSearchParams(location.search);
     const requestedPage = params.get("redirect") || params.get("next");
     const redirectUrl = allowedPages.includes(requestedPage) ? "./" + requestedPage : "./dashboard.html";
