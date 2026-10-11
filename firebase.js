@@ -11,7 +11,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAhgPy7737Ax8XkN9L6yUoAbMLWdoC_xuj",
+  apiKey: "AIzaSyAhgPy7737Ax8XkN9L6yUoAbMlWdoC_xug",
   authDomain: "medrise-82c20.firebaseapp.com",
   projectId: "medrise-82c20",
   storageBucket: "medrise-82c20.firebasestorage.app",
