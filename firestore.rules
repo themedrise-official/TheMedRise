@@ -3,30 +3,29 @@ service cloud.firestore {
   match /databases/{database}/documents {
     function signedIn() { return request.auth != null; }
     function isOwner(uid) { return signedIn() && request.auth.uid == uid; }
-    function isAdmin() {
-      return signedIn() && (request.auth.token.get('admin', false) == true
-        || exists(/databases/$(database)/documents/admins/$(request.auth.uid)));
+    function isAdmin() { return signedIn() && (request.auth.token.get('admin', false) == true
+      || exists(/databases/$(database)/documents/admins/$(request.auth.uid))); }
+    function acc() { return get(/databases/$(database)/documents/access/$(request.auth.uid)).data; }
+    function legacyPaid(a) { return a.get('paid', false) == true && (a.get('untilMs', 0) == 0 || a.get('untilMs', 0) > request.time.toMillis()); }
+    function owns(key) {
+      let a = acc();
+      return a.get('blocked', false) != true && (key in a.get('owned', []) || a.get('ownedUntil', {}).get(key, 0) > request.time.toMillis());
     }
-    function accessDoc() { return get(/databases/$(database)/documents/access/$(request.auth.uid)).data; }
-    function hasPaid() {
-      return signedIn() && exists(/databases/$(database)/documents/access/$(request.auth.uid))
-        && accessDoc().get('paid', false) == true
-        && accessDoc().get('blocked', false) != true
-        && (accessDoc().get('untilMs', 0) == 0 || accessDoc().get('untilMs', 0) > request.time.toMillis());
-    }
-    function owns(item) {
-      return signedIn() && exists(/databases/$(database)/documents/access/$(request.auth.uid))
-        && accessDoc().get('blocked', false) != true
-        && (accessDoc().get('owned', []).hasAny([item])
-          || accessDoc().get('ownedUntil', {}).get(item, 0) > request.time.toMillis());
-    }
+    function hasAccess() { return signedIn() && exists(/databases/$(database)/documents/access/$(request.auth.uid)); }
+
     match /admins/{uid} { allow read: if isOwner(uid) || isAdmin(); allow write: if false; }
-    match /config/{id} { allow read: if true; allow write: if isAdmin(); }
-    match /chapters/{id} { allow read: if true; allow write: if isAdmin(); }
-    // One document per product key (e.g. 1_short), so buying Short Notes cannot expose Full Notes.
-    match /chapterFiles/{item} { allow read: if isAdmin() || hasPaid() || owns(item); allow write: if isAdmin(); }
-    match /tests/{id} { allow read: if isAdmin() || resource.data.active == true; allow write: if isAdmin(); }
-    match /bundles/{id} { allow read: if isAdmin() || resource.data.active == true; allow write: if isAdmin(); }
+    match /config/{d} { allow read: if true; allow write: if isAdmin(); }
+    match /chapters/{d} { allow read: if true; allow write: if isAdmin(); }
+    match /chapterFiles/{d} {
+      allow read: if isAdmin() || (hasAccess() && (owns(d) || legacyPaid(acc())));
+      allow write: if isAdmin();
+    }
+    match /tests/{d} { allow read: if signedIn(); allow write: if isAdmin(); }
+    match /testQuestions/{d} {
+      allow read: if isAdmin() || (hasAccess() && owns('t_' + d));
+      allow write: if isAdmin();
+    }
+    match /bundles/{d} { allow read: if true; allow write: if isAdmin(); }
     match /access/{uid} { allow read: if isOwner(uid) || isAdmin(); allow write: if isAdmin(); }
     match /users/{uid} {
       allow read: if isOwner(uid) || isAdmin();
@@ -38,12 +37,34 @@ service cloud.firestore {
       allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
       allow create: if signedIn() && request.resource.data.uid == request.auth.uid
         && request.resource.data.status == 'pending'
-        && request.resource.data.amount is number && request.resource.data.amount > 0
-        && request.resource.data.utr is string && request.resource.data.utr.size() >= 8 && request.resource.data.utr.size() <= 30
-        && request.resource.data.items is list && request.resource.data.items.size() > 0
-        && request.resource.data.keys().hasOnly(['uid','email','phone','name','utr','amount','items','bundleId','days','label','status','createdAt']);
+        && request.resource.data.keys().hasOnly(['uid','email','phone','name','utr','amount','status','createdAt','items','label','bundleId','days'])
+        && request.resource.data.amount is number && request.resource.data.amount >= 0
+        && (!('items' in request.resource.data) || (request.resource.data.items is list && request.resource.data.items.size() <= 10))
+        && request.resource.data.utr is string && request.resource.data.utr.size() >= 6 && request.resource.data.utr.size() <= 30;
       allow update: if isAdmin();
       allow delete: if false;
+    }
+    match /posts/{id} {
+      allow read: if isAdmin() || (signedIn() && (resource.data.uid == request.auth.uid || resource.data.private == false));
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['uid','name','title','body','private','status','createdAt'])
+        && request.resource.data.title is string && request.resource.data.title.size() >= 3 && request.resource.data.title.size() <= 100
+        && request.resource.data.body is string && request.resource.data.body.size() >= 3 && request.resource.data.body.size() <= 1500
+        && request.resource.data.private is bool && request.resource.data.status == 'open';
+      allow update: if isAdmin() || (isOwner(resource.data.uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+        && request.resource.data.status in ['open','solved']);
+      allow delete: if isAdmin() || isOwner(resource.data.uid);
+      match /replies/{rid} {
+        function postOk() { let p = get(/databases/$(database)/documents/posts/$(id)).data;
+          return isAdmin() || (signedIn() && (p.uid == request.auth.uid || p.private == false)); }
+        allow read: if postOk();
+        allow create: if postOk() && request.resource.data.uid == request.auth.uid
+          && request.resource.data.keys().hasOnly(['uid','name','body','isAdmin','createdAt'])
+          && request.resource.data.body is string && request.resource.data.body.size() >= 1 && request.resource.data.body.size() <= 1000
+          && (request.resource.data.isAdmin == false || isAdmin());
+        allow delete: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      }
     }
     match /{document=**} { allow read, write: if false; }
   }
