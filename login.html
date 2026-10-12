@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <title>Login | MedRise</title>
+  <meta name="description" content="Sign in to your MedRise account and continue your NEET preparation.">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icons/medrise-192.png">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#080d19;--panel:#111a2b;--border:#26334a;--text:#f3f6ff;--muted:#98a7c0;--blue:#4385ff;--blue-light:#72a5ff}
+    body{min-height:100vh;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(ellipse at 15% 15%,#142c51 0%,transparent 42%),radial-gradient(ellipse at 90% 90%,#172044 0%,transparent 40%),var(--bg);color:var(--text);display:flex;flex-direction:column}
+    a{color:inherit;text-decoration:none}
+    .navbar{width:100%;max-width:1160px;margin:0 auto;padding:22px 24px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:10px;font-size:23px;font-weight:800;letter-spacing:-1px}
+    .brand-icon{width:39px;height:39px;border-radius:12px;display:flex;align-items:center;justify-content:center;line-height:1;background:#182b4c;border:1px solid #35598e;font-size:20px;font-weight:900}
+    .brand-icon span{color:var(--blue-light)}
+    .home-link{color:var(--muted);font-size:14px}
+    main{flex:1;display:grid;place-items:center;padding:30px 18px 50px}
+    .login-card{width:100%;max-width:430px;padding:34px;background:rgba(17,26,43,.94);border:1px solid var(--border);border-radius:22px;box-shadow:0 24px 80px rgba(0,0,0,.25)}
+    .eyebrow{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border:1px solid #29436b;border-radius:100px;color:#a9caff;background:#142541;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:22px}
+    h1{font-size:30px;letter-spacing:-1px;line-height:1.2;margin-bottom:10px}
+    .subtitle{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:27px}
+    .field{margin-bottom:17px}
+    label{display:block;font-size:13px;font-weight:600;margin-bottom:9px;color:#dce5f5}
+    input{width:100%;height:48px;padding:0 14px;color:white;background:#0b1220;border:1px solid #2c3a52;border-radius:10px;font-size:14px;outline:none}
+    input::placeholder{color:#63728a}
+    input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(67,133,255,.14)}
+    button{width:100%;min-height:47px;border-radius:10px;border:none;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .2s,transform .2s}
+    button:hover:not(:disabled){transform:translateY(-1px)}
+    button:disabled{opacity:.6;cursor:wait}
+    .primary-btn{margin-top:5px;color:white;background:linear-gradient(135deg,#4385ff,#2864db);box-shadow:0 8px 24px rgba(48,108,230,.18)}
+    .divider{display:flex;align-items:center;gap:13px;color:#71819a;font-size:12px;margin:22px 0}
+    .divider:before,.divider:after{content:"";height:1px;flex:1;background:#29364b}
+    .google-btn{display:flex;align-items:center;justify-content:center;gap:11px;color:#eaf0fb;background:#172235;border:1px solid #33425a}
+    .google-mark{width:19px;height:19px;background:white;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:800;color:#4285f4}
+    .switch-text{text-align:center;margin-top:24px;font-size:13px;color:var(--muted);line-height:1.8}
+    .text-btn{display:inline;width:auto;min-height:0;padding:0;background:none;color:var(--blue-light);font-size:inherit;font-weight:700}
+    .text-btn:hover{text-decoration:underline}
+    .message{display:none;margin-bottom:17px;padding:12px;border-radius:9px;font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+    .message.error{display:block;color:#ffc2c2;background:#351d29;border:1px solid #693047}
+    .message.success{display:block;color:#b8f4d0;background:#153328;border:1px solid #245d45}
+    .footer{text-align:center;padding:0 20px 22px;font-size:12px;color:#71819a}
+    .footer a{color:#a9caff}
+
+    .outline-btn{background:transparent;border:1px solid #33425a;color:#cfe0ff}
+    #g-btn-wrap{display:flex;justify-content:center;min-height:44px;margin-bottom:12px}
+    #g-btn-wrap:empty{display:none}
+    .big-google{min-height:52px;font-size:15px}
+    .hint{font-size:12px;color:#71819a;margin-top:12px;line-height:1.5;text-align:center}
+    .text-btn:disabled{opacity:.5;cursor:not-allowed;text-decoration:none}
+    [hidden]{display:none!important}
+    @media(max-width:480px){.navbar{padding:18px}.login-card{padding:26px 21px;border-radius:18px}h1{font-size:27px}main{padding-top:15px}}
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <a class="brand" href="./index.html" aria-label="MedRise home">
+      <span class="brand-icon">M<span>R</span></span><span>MedRise</span>
+    </a>
+    <a class="home-link" href="./index.html">← Back to home</a>
+  </header>
+  <main>
+    <section class="login-card" id="card" aria-labelledby="page-title">
+      <div class="eyebrow">✦ Your NEET journey</div>
+      <h1 id="page-title">Welcome to MedRise</h1>
+      <p class="subtitle" id="subtitle">Continue with your Google account. One tap, no password to remember.</p>
+      <div id="message" class="message" role="status" aria-live="polite"></div>
+
+      <div id="g-btn-wrap"></div>
+      <button type="button" class="google-btn big-google" id="google-btn"><span class="google-mark" aria-hidden="true">G</span>Continue with Google</button>
+      <p class="hint" id="gl-hint">Your phone's Google account will be offered automatically.</p>
+
+      <div class="divider">OR</div>
+      <button type="button" class="outline-btn" id="email-toggle">Use email &amp; password instead</button>
+
+      <div id="email-panel" hidden style="margin-top:20px">
+        <form id="auth-form">
+          <div class="field" id="name-field" hidden>
+            <label for="name">Full name <span style="color:#71819a;font-weight:500">(optional)</span></label>
+            <input id="name" name="name" type="text" placeholder="Your name" autocomplete="name" maxlength="40">
+          </div>
+          <div class="field">
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" minlength="6" required>
+          </div>
+          <button class="primary-btn" id="submit-btn" type="submit">Sign In</button>
+        </form>
+        <div id="forgot-wrap" style="text-align:right;margin-top:13px">
+          <button type="button" class="text-btn" id="forgot-btn">Forgot password?</button>
+        </div>
+        <p class="switch-text">
+          <span id="switch-label">New to MedRise?</span>
+          <button type="button" class="text-btn" id="switch-btn">Create an account</button>
+        </p>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">© <span id="year"></span> MedRise · <a href="./index.html">Back to MedRise</a></footer>
+
+  <script type="module">
+    import { auth, googleProvider } from "./firebase.js";
+    import {
+      GoogleAuthProvider,
+      signInWithCredential,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      signInWithPopup,
+      signInWithRedirect,
+      getRedirectResult,
+      onAuthStateChanged,
+      updateProfile,
+      sendPasswordResetEmail
+    } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+    // ============================================================
+    // PASTE YOUR WEB CLIENT ID HERE (one line) to enable one-tap Google login:
+    // Firebase Console > Authentication > Sign-in method > Google >
+    // "Web SDK configuration" > Web client ID   (looks like 123456-abc.apps.googleusercontent.com)
+    // If left empty, the normal Google popup login is used.
+    // ============================================================
+    const GOOGLE_CLIENT_ID = "315166631216-9d8gqmu46mkoq3epb449qgpv7mu64dhe.apps.googleusercontent.com";
+
+    const $ = id => document.getElementById(id);
+    const card = $("card");
+    const message = $("message");
+    const title = $("page-title");
+    const subtitle = $("subtitle");
+    const googleBtn = $("google-btn");
+    const gWrap = $("g-btn-wrap");
+    const glHint = $("gl-hint");
+    const emailToggle = $("email-toggle");
+    const emailPanel = $("email-panel");
+    const form = $("auth-form");
+    const nameInput = $("name");
+    const nameField = $("name-field");
+    const emailInput = $("email");
+    const passwordInput = $("password");
+    const submitBtn = $("submit-btn");
+    const switchBtn = $("switch-btn");
+    const switchLabel = $("switch-label");
+    const forgotBtn = $("forgot-btn");
+    const forgotWrap = $("forgot-wrap");
+    $("year").textContent = new Date().getFullYear();
+
+    // ?redirect=notes.html (new) or ?next=notes.html (old links) -> where to go after login
+    const allowedPages = ["index.html", "dashboard.html", "notes.html", "mocktest.html", "admin.html", "pay.html", "community.html"];
+    const params = new URLSearchParams(location.search);
+    // redirect may carry a query, e.g. pay.html?item=3_full  (only safe characters are accepted)
+    const [requestedPage, requestedQuery = ""] = (params.get("redirect") || params.get("next") || "").split("?");
+    const redirectUrl = allowedPages.includes(requestedPage) && /^[A-Za-z0-9_=&%.\-]*$/.test(requestedQuery)
+      ? "./" + requestedPage + (requestedQuery ? "?" + requestedQuery : "") : "./dashboard.html";
+
+    // Google blocks OAuth inside embedded in-app browsers (Instagram, Facebook, WhatsApp, WebView ...)
+    const IN_APP_BROWSER = /FBAN|FBAV|Instagram|Line\/|MicroMessenger|Snapchat|Twitter|LinkedInApp|; wv\)|WebView/i.test(navigator.userAgent);
+
+    let isSignup = false;
+    let busy = false;
+
+    function goNext() { location.replace(redirectUrl); }
+    function showMessage(text, type = "error") { message.textContent = text; message.className = "message " + type; }
+    function clearMessage() { message.textContent = ""; message.className = "message"; }
+    function setBusy(value) {
+      busy = value;
+      card.querySelectorAll("input, button").forEach(el => { el.disabled = value; });
+    }
+    function getFriendlyError(error) {
+      const errors = {
+        "auth/invalid-email": "Please enter a valid email address.",
+        "auth/user-not-found": "No account found with this email.",
+        "auth/wrong-password": "Incorrect email or password.",
+        "auth/invalid-credential": "Incorrect email or password.",
+        "auth/email-already-in-use": "This email is already registered. Please sign in.",
+        "auth/weak-password": "Please use a stronger password of at least 6 characters.",
+        "auth/too-many-requests": "Too many attempts. Please wait and try again.",
+        "auth/user-disabled": "This account has been disabled. Please contact support.",
+        "auth/account-exists-with-different-credential": "An account already exists with this email using another sign-in method.",
+        "auth/popup-closed-by-user": "Google sign-in was cancelled.",
+        "auth/popup-blocked": "The sign-in popup was blocked. Allow popups and try again.",
+        "auth/network-request-failed": "Network error. Check your internet connection.",
+        "auth/operation-not-allowed": "This sign-in method is not enabled in Firebase.",
+        "auth/operation-not-supported-in-this-environment": "Google sign-in is not supported in this browser. Open the page in Chrome or Safari.",
+        "auth/web-storage-unsupported": "Your browser is blocking storage. Turn off private mode / allow cookies and try again.",
+        "auth/unauthorized-domain": "This website domain is not authorized in Firebase."
+      };
+      return errors[error?.code] || "Something went wrong. Please try again. (" + (error?.code || "unknown") + ")";
+    }
+
+    // Already signed in? Skip the login page. (Ignored while a login is in progress.)
+    onAuthStateChanged(auth, user => { if (user && !busy) goNext(); });
+    // Returning from a Google redirect login
+    getRedirectResult(auth).then(result => { if (result?.user) goNext(); })
+      .catch(error => showMessage(getFriendlyError(error)));
+
+    // ---------- GOOGLE: one-tap / "Continue as <name>" ----------
+    async function onGoogleCredential(resp) {
+      if (busy || !resp?.credential) return;
+      clearMessage();
+      setBusy(true);
+      showMessage("Signing you in...", "success");
+      try {
+        await signInWithCredential(auth, GoogleAuthProvider.credential(resp.credential));
+        goNext();
+      } catch (error) {
+        setBusy(false);
+        const code = error?.code || "";
+        if (code === "auth/invalid-credential" || code === "auth/argument-error" || code === "auth/operation-not-allowed") {
+          showMessage("Google one-tap failed. Check that the Web client ID is correct and your site is added in its Authorized JavaScript origins. Tap the button above to try the normal Google login. (" + code + ")");
+        } else {
+          showMessage(getFriendlyError(error));
+        }
+      }
+    }
+    function loadGsi() {
+      return new Promise((resolve, reject) => {
+        if (window.google?.accounts?.id) return resolve();
+        const s = document.createElement("script");
+        s.src = "https://accounts.google.com/gsi/client";
+        s.async = true;
+        s.onload = resolve;
+        s.onerror = () => reject(new Error("gsi-load-failed"));
+        document.head.append(s);
+      });
+    }
+    async function setupOneTap() {
+      if (!GOOGLE_CLIENT_ID || IN_APP_BROWSER) return;
+      try {
+        await loadGsi();
+        const gid = window.google.accounts.id;
+        gid.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: onGoogleCredential,
+          auto_select: false,
+          cancel_on_tap_outside: false,
+          use_fedcm_for_prompt: true
+        });
+        gid.renderButton(gWrap, {
+          type: "standard", theme: "filled_blue", size: "large",
+          text: "continue_with", shape: "pill", logo_alignment: "left",
+          width: Math.max(200, Math.min(400, Math.floor(gWrap.clientWidth || card.clientWidth - 60)))
+        });
+        if (gWrap.childElementCount) {
+          googleBtn.hidden = true;          // the Google-rendered button replaces ours
+          glHint.hidden = true;
+        }
+        gid.prompt();                       // floating "Continue as <your name>" prompt
+      } catch (_) { /* fall back to the normal button below */ }
+    }
+
+    // ---------- GOOGLE: normal popup (fallback, also when no client ID is set) ----------
+    googleBtn.addEventListener("click", async () => {
+      if (busy) return;
+      clearMessage();
+      if (IN_APP_BROWSER) {
+        showMessage("Google sign-in does not work inside this in-app browser (Instagram / WhatsApp / Facebook). Open this page in Chrome or Safari.");
+        return;
+      }
+      setBusy(true);
+      try {
+        await signInWithPopup(auth, googleProvider);
+        goNext();
+      } catch (error) {
+        let err = error;
+        if (err?.code === "auth/popup-blocked" || err?.code === "auth/operation-not-supported-in-this-environment") {
+          try { await signInWithRedirect(auth, googleProvider); return; } catch (redirectError) { err = redirectError; }
+        }
+        if (err?.code !== "auth/cancelled-popup-request") showMessage(getFriendlyError(err));
+        setBusy(false);
+      }
+    });
+
+    // ---------- EMAIL / PASSWORD (optional, hidden by default) ----------
+    emailToggle.addEventListener("click", () => {
+      if (busy) return;
+      emailPanel.hidden = !emailPanel.hidden;
+      emailToggle.textContent = emailPanel.hidden ? "Use email & password instead" : "Hide email login";
+      if (!emailPanel.hidden) emailInput.focus();
+    });
+    function updateMode() {
+      clearMessage();
+      submitBtn.textContent = isSignup ? "Create Account" : "Sign In";
+      switchLabel.textContent = isSignup ? "Already have an account?" : "New to MedRise?";
+      switchBtn.textContent = isSignup ? "Sign In" : "Create an account";
+      passwordInput.autocomplete = isSignup ? "new-password" : "current-password";
+      forgotWrap.hidden = isSignup;
+      nameField.hidden = !isSignup;
+    }
+    switchBtn.addEventListener("click", () => { if (busy) return; isSignup = !isSignup; updateMode(); });
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      if (busy) return;
+      clearMessage();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      if (!email || !password) return showMessage("Please enter your email and password.");
+      if (password.length < 6) return showMessage("Password must contain at least 6 characters.");
+      setBusy(true);
+      submitBtn.textContent = isSignup ? "Creating account..." : "Signing in...";
+      try {
+        if (isSignup) {
+          const cred = await createUserWithEmailAndPassword(auth, email, password);
+          const name = nameInput.value.trim();
+          if (name) { try { await updateProfile(cred.user, { displayName: name }); } catch (_) {} }
+        } else {
+          await signInWithEmailAndPassword(auth, email, password);
+        }
+        goNext();
+      } catch (error) {
+        setBusy(false);
+        submitBtn.textContent = isSignup ? "Create Account" : "Sign In";
+        showMessage(getFriendlyError(error));
+      }
+    });
+
+    forgotBtn.addEventListener("click", async () => {
+      if (busy) return;
+      const email = emailInput.value.trim();
+      if (!email) { showMessage("Enter your email address first, then tap Forgot password."); emailInput.focus(); return; }
+      clearMessage();
+      forgotBtn.disabled = true;
+      try {
+        await sendPasswordResetEmail(auth, email);
+        showMessage("If an account exists for this email, a password reset link has been sent.", "success");
+      } catch (error) {
+        showMessage(getFriendlyError(error));
+      } finally {
+        forgotBtn.disabled = false;
+      }
+    });
+
+    updateMode();
+    setupOneTap();
+  </script>
+</body>
+</html>
