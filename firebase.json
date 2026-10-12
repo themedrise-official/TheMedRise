@@ -1,9 +1,0 @@
-{
-  "hosting": {
-    "public": ".",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**", "firestore.rules", "*.md", "*.txt", "quiz-template.xlsx"],
-    "headers": [
-      { "source": "sw.js", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] }
-    ]
-  }
-}
