@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#06101f"><meta name="robots" content="noindex">
+<title>MedRise Admin</title><link rel="manifest" href="manifest.json">
+<script>(function(){try{document.documentElement.dataset.theme=localStorage.getItem("medrise-theme")==="light"?"light":"dark"}catch(e){document.documentElement.dataset.theme="dark"}})()</script>
+<script>
+(function(){
+  var F=location.protocol==="file:";function show(m,force){if(F&&!force)return;var b=document.getElementById("boot");if(!b)return;b.classList.remove("hide");b.innerHTML="";var d=document.createElement("div");d.textContent="⚠ "+m;d.style.cssText="white-space:pre-wrap";b.append(d)}
+  if(F)document.addEventListener("DOMContentLoaded",function(){show("Ye file seedha phone se mat kholo.\nGitHub Pages wale link se kholo:\nhttps://themedrise-official.github.io/TheMedRise/admin.html",true)});
+  window.addEventListener("error",function(e){if(!window.__adminReady)show("Page load nahi hua: "+(e.message||"firebase.js / internet check karo")+"\nSab files ek hi commit mein upload hui hain? (firebase.js, chapters-data.js)")},true);
+  window.addEventListener("unhandledrejection",function(e){show("Error: "+((e.reason&&e.reason.message)||e.reason))});
+  setTimeout(function(){if(!window.__adminReady)show("10 second se zyada ho gaya.\n1) Internet check karo  2) firebase.js aur chapters-data.js GitHub par hain?  3) Page hard refresh karo.")},10000);
+})();
+</script>
+<style>
+:root{--bg:#050c16;--s:#0a1625;--s2:#0e2034;--t:#f3f7ff;--m:#a7bad3;--b:#1e3855;--blue:#168bff;--cyan:#08d5ed;--green:#11d6a0;--gold:#ffbd45;--red:#ff5263}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:14px/1.5 Inter,system-ui,-apple-system,sans-serif}button,input,select,textarea{font:inherit}button,a{-webkit-tap-highlight-color:transparent}button{cursor:pointer}a{color:inherit;text-decoration:none}
+.wrap{width:min(1180px,100% - 28px);margin:auto}.top{height:68px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:10px;font-size:21px;font-weight:800}.logo{height:40px;width:40px;border:1px solid var(--cyan);border-radius:12px;background:#06101f;display:flex;align-items:center;justify-content:center;line-height:1;color:white;font-weight:800;letter-spacing:-1.5px}.logo span,.brand span{color:var(--cyan)}.tag{color:var(--m);font-size:11px}.top-actions{display:flex;gap:8px;align-items:center}.btn,.outline{border-radius:10px;padding:10px 13px;font-size:12px;font-weight:800}.btn{border:0;background:linear-gradient(115deg,var(--cyan),var(--blue));color:#fff}.outline{border:1px solid var(--b);background:var(--s);color:var(--t)}
+.layout{display:grid;grid-template-columns:215px minmax(0,1fr);gap:18px;padding:18px 0 45px}.side,.card,.stat{background:var(--s);border:1px solid var(--b);border-radius:16px}.side{padding:12px;display:flex;flex-direction:column;gap:5px;align-self:start;position:sticky;top:12px}.nav{width:100%;text-align:left;padding:11px;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--m);font-weight:700;font-size:12px}.nav.active,.nav:hover{background:var(--s2);border-color:var(--b);color:var(--cyan)}.side-note{margin-top:12px;border-top:1px solid var(--b);padding:12px 5px 3px;color:var(--m);font-size:10px}
+main{min-width:0}.hero{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:3px 0 18px}.eyebrow{font-size:10px;letter-spacing:1.4px;color:var(--cyan);font-weight:800;text-transform:uppercase}.hero h1{font-size:clamp(25px,4vw,34px);letter-spacing:-.8px;margin:4px 0}.hero p{margin:0;color:var(--m);font-size:12px}.notice{border:1px solid #70531b;background:#2a2111;color:#ffdda0;border-radius:12px;padding:12px 14px;font-size:12px;margin:12px 0 16px}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0}.stat{padding:14px}.stat small{color:var(--m);font-size:10px}.stat strong{display:block;font-size:23px;margin-top:6px}.stat em{font-style:normal;font-size:10px;color:var(--gold)}
+.card{padding:16px;margin:12px 0}.cardhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}.card h2{font-size:15px;margin:0}.muted{font-size:11px;color:var(--m)}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:6px;margin:10px 0}.field label{font-size:11px;color:var(--m);font-weight:700}.field input,.field select,.field textarea{width:100%;min-width:0;padding:11px;border:1px solid var(--b);border-radius:10px;background:var(--bg);color:var(--t);outline:none}.field textarea{min-height:86px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--cyan)}.form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:600px;font-size:11px}th,td{text-align:left;padding:11px 8px;border-bottom:1px solid var(--b);vertical-align:top}th{color:var(--m);font-size:9px;text-transform:uppercase}td{overflow-wrap:anywhere}.pill{display:inline-block;padding:4px 7px;border-radius:7px;background:var(--s2);color:var(--cyan);font-size:10px}.pill.warn{color:var(--gold)}.empty{padding:22px;text-align:center;color:var(--m);font-size:12px}.section{display:none}.section.active{display:block}.mini-actions{display:flex;gap:6px}.mini-actions button{padding:6px 8px;font-size:10px}.footer-note{color:var(--m);font-size:10px;text-align:center;padding:10px}.mobile-nav{display:none}
+@media(max-width:760px){.layout{display:block;padding-top:12px}.side{display:none}.mobile-nav{display:flex;gap:6px;overflow:auto;padding:0 0 8px;margin-bottom:10px}.mobile-nav .nav{white-space:nowrap;width:auto;flex:0 0 auto;padding:9px 11px}.stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.stat{padding:10px}.stat strong{font-size:19px}.grid2{grid-template-columns:1fr}.hero{align-items:center}.top{height:60px}.top-actions .outline{padding:8px}.card{padding:13px}.notice{font-size:11px}}
+
+:root[data-theme=light]{--bg:#f5f8fd;--s:#fff;--s2:#edf4ff;--t:#101c31;--m:#52627c;--b:#d3deee;--cyan:#0a7ea4}
+[hidden],.hide{display:none!important}
+.hero{padding-top:env(safe-area-inset-top,0)}
+.btn.ok{background:var(--green)}.btn.bad{background:var(--red)}.btn:disabled{opacity:.5}
+.chk{display:flex;gap:8px;align-items:center;margin:10px 0;font-size:13px}.chk input{width:auto}
+#msg{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0));transform:translateX(-50%);background:var(--blue);color:#fff;padding:9px 16px;border-radius:99px;z-index:9;display:none;max-width:90%;font-size:12px}
+.pill.ok{color:var(--green)}.pill.bad{color:var(--red)}table{min-width:520px}
+</style></head><body>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="./index.html" aria-label="MedRise home"><span class="logo">M<span>R</span></span><span>MedRise <small class="tag">ADMIN</small></span></a>
+  <div class="top-actions"><a class="outline" href="./index.html">Website ↗</a><button class="outline" id="out" type="button">Log out</button></div>
+</header>
+
+<div id="boot" class="card">⏳ Admin page load ho raha hai…</div>
+<div id="deny" class="card hide"><h2>⛔ Ye account abhi admin nahi hai</h2>
+  <p class="muted" id="denyMsg">Admin banne ke liye ye 3 kaam karo (sirf ek baar):</p>
+  <ol class="muted" style="padding-left:18px;line-height:1.8"><li>Neeche wala UID copy karo.</li><li>Firebase Console → Firestore Database → <b>Start collection</b> → ID: <b>admins</b></li><li>Document ID me UID paste karo → Save → ye page refresh karo.</li></ol>
+  <p style="word-break:break-all;font-weight:700" id="uid"></p>
+  <div class="form-actions"><button class="btn" id="cp" type="button">Copy UID</button><a class="outline" target="_blank" rel="noopener" href="https://console.firebase.google.com/project/medrise-82c20/firestore/databases/-default-/data">Firebase Console kholo</a><a class="outline" href="./dashboard.html">Dashboard</a></div></div>
+
+<div class="layout hide" id="app">
+  <aside class="side" aria-label="Admin navigation">
+    <button class="nav active" data-section="overview">📊 &nbsp; Overview</button>
+    <button class="nav" data-section="payments">💳 &nbsp; Payments <span id="pc"></span></button>
+    <button class="nav" data-section="notes">📚 &nbsp; Notes Management</button>
+    <button class="nav" data-section="tests">📝 &nbsp; Mock Tests / Quiz</button>
+    <button class="nav" data-section="bundles">🎁 &nbsp; Combo Packs</button>
+    <button class="nav" data-section="community">💬 &nbsp; Community <span id="cc"></span></button>
+    <button class="nav" data-section="users">👥 &nbsp; Users</button>
+    <button class="nav" data-section="pages">🧩 &nbsp; Pages &amp; Control</button>
+    <button class="nav" data-section="settings">⚙️ &nbsp; Settings</button>
+    <div class="side-note">Live mode<br>Firestore se connected.</div>
+  </aside>
+  <main>
+    <nav class="mobile-nav" aria-label="Admin navigation">
+      <button class="nav active" data-section="overview">Overview</button><button class="nav" data-section="payments">Payments</button><button class="nav" data-section="notes">Notes</button><button class="nav" data-section="tests">Tests</button><button class="nav" data-section="bundles">Combos</button><button class="nav" data-section="community">Community</button><button class="nav" data-section="users">Users</button><button class="nav" data-section="pages">Pages</button><button class="nav" data-section="settings">Settings</button>
+    </nav>
+    <section class="hero"><div><div class="eyebrow">MEDRISE CONTROL CENTER</div><h1 id="page-title">Admin Overview</h1><p>Yahan ke changes students ko turant dikhte hain.</p></div><span class="pill ok">Live</span></section>
+    <section class="section active" id="overview"></section>
+    <section class="section" id="payments"></section>
+    <section class="section" id="notes"></section>
+    <section class="section" id="tests"></section>
+    <section class="section" id="bundles"></section>
+    <section class="section" id="community"></section>
+    <section class="section" id="users"></section>
+    <section class="section" id="pages"></section>
+    <section class="section" id="settings"></section>
+    <div class="footer-note">MedRise Admin · Firestore rules hi asli security hain</div>
+  </main>
+</div></div><div id="msg"></div>
+<script src="chapters-data.js"></script>
+<script type="module">
+import app,{auth} from "./firebase.js";
+import {onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import {getFirestore,doc,getDoc,setDoc,updateDoc,getDocs,collection,query,orderBy,limit,where,writeBatch,getCountFromServer} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+window.__adminReady=true;
+const db=getFirestore(app),$=id=>document.getElementById(id);
+const toLocal=ms=>ms?new Date(ms-new Date(ms).getTimezoneOffset()*6e4).toISOString().slice(0,16):"";
+const toast=t=>{const m=$("msg");m.textContent=t;m.style.display="block";clearTimeout(toast.i);toast.i=setTimeout(()=>m.style.display="none",2600)};
+const h=(tag,p={},...k)=>{const e=document.createElement(tag);Object.entries(p).forEach(([a,v])=>a==="class"?e.className=v:a.startsWith("on")?e.addEventListener(a.slice(2),v):a in e?e[a]=v:e.setAttribute(a,v));e.append(...k.flat().filter(x=>x!=null&&x!==false));return e};
+const field=(l,el)=>h("div",{class:"field"},h("label",{},l),el);
+const chk=(l,v)=>{const i=h("input",{type:"checkbox",checked:!!v});return {i,el:h("label",{class:"chk"},i,l)}};
+const card=(title,...k)=>h("div",{class:"card"},h("div",{class:"cardhead"},h("h2",{},title)),...k);
+const table=(head,rows)=>h("div",{class:"tablewrap"},h("table",{},h("thead",{},h("tr",{},head.map(x=>h("th",{},x)))),h("tbody",{},rows.map(r=>h("tr",{},r.map(c=>h("td",{},c)))))));
+const empty=t=>h("div",{class:"empty"},t);
+const save=async(fn,ok="Saved ✅")=>{try{await fn();toast(ok)}catch(e){console.error(e);toast("Error: "+(e.code||e.message))}};
+const err=(box,e)=>box.replaceChildren(card("Error",empty("Load nahi hua: "+(e.code||e.message))));
+const days=()=>Number(cfg.payment?.days)||0;
+const ms=v=>v&&v.toMillis?v.toMillis():(Number(v)||0);
+/* naya expiry: lifetime ho to lifetime hi rahe, warna baaki bacha time + naye din */
+const nextUntil=cur=>{const d=days();if(!d||(cur.paid&&!cur.untilMs))return 0;return Math.max(Date.now(),cur.untilMs||0)+d*864e5};
+let cfg={};
+const saveCfg=async d=>{await setDoc(doc(db,"config","site"),d,{merge:true});cfg={...cfg,...d};["pages","payment","pageNotice","features","tests"].forEach(k=>{if(d[k])cfg[k]={...(cfg[k]||{}),...d[k]}})};
+
+$("out").onclick=async()=>{await signOut(auth);location.replace("./login.html")};
+onAuthStateChanged(auth,async u=>{
+  if(!u){location.replace("./login.html?redirect=admin.html");return}
+  let ok=false,fail=false;try{ok=(await getDoc(doc(db,"admins",u.uid))).exists()}catch(e){fail=true}
+  if(!ok)try{ok=(await u.getIdTokenResult()).claims.admin===true}catch(e){}
+  $("boot").classList.add("hide");
+  if(!ok&&fail)$("denyMsg").textContent="Admin check nahi ho paya (internet ya rules ka issue). Refresh karke dobara try karo.";
+  if(!ok){$("uid").textContent=u.uid;$("cp").onclick=()=>navigator.clipboard?.writeText(u.uid).then(()=>toast("UID copy ho gaya"));$("deny").classList.remove("hide");return}
+  $("app").classList.remove("hide");
+  try{const s=await getDoc(doc(db,"config","site"));cfg=s.exists()?s.data():{}}catch(e){toast("Config load fail")}
+  go("overview");
+});
+
+const TITLES={overview:"Admin Overview",payments:"Payments",notes:"Notes Management",tests:"Mock Tests / Quiz",bundles:"Combo Packs",community:"Community Help",users:"Users",pages:"Pages & Control",settings:"Settings"};
+const LOAD={overview:loadOverview,payments:loadPay,notes:loadNotes,tests:loadTestsAdmin,bundles:loadBundlesAdmin,community:loadCommunity,users:loadUsers,pages:renderPages,settings:renderSettings};
+function go(s){
+  document.querySelectorAll(".section").forEach(e=>e.classList.toggle("active",e.id===s));
+  document.querySelectorAll("[data-section]").forEach(e=>e.classList.toggle("active",e.dataset.section===s));
+  $("page-title").textContent=TITLES[s];window.scrollTo({top:0});LOAD[s]();
+}
+document.querySelectorAll("[data-section]").forEach(e=>e.onclick=()=>go(e.dataset.section));
+
+/* ---------- OVERVIEW ---------- */
+async function loadOverview(){
+  const box=$("overview");box.replaceChildren(empty("Loading…"));
+  try{
+    const cnt=async q=>(await getCountFromServer(q)).data().count;
+    const [pend,us,live]=await Promise.all([cnt(query(collection(db,"payments"),where("status","==","pending"))),cnt(collection(db,"users")),cnt(query(collection(db,"chapters"),where("available","==",true)))]);
+    setPc(pend);
+    const st=(l,v,n)=>h("div",{class:"stat"},h("small",{},l),h("strong",{},String(v)),h("em",{},n));
+    box.replaceChildren(h("div",{class:"stats"},st("Pending payments",pend,"approve karo"),st("Students",us,"registered"),st("Live chapters",live,"of "+window.MR_CHAPTERS.length)),
+      card("Quick actions",h("div",{class:"grid2"},h("button",{class:"outline",onclick:()=>go("payments")},"💳 Payments"),h("button",{class:"outline",onclick:()=>go("notes")},"📚 Chapter live karo"),h("button",{class:"outline",onclick:()=>go("pages")},"🧩 Pages / Maintenance"),h("button",{class:"outline",onclick:()=>go("settings")},"⚙️ UPI & price"))));
+  }catch(e){err(box,e)}
+}
+const setPc=n=>$("pc").textContent=n?`(${n})`:"";
+
+/* ---------- PAYMENTS ---------- */
+async function approve(id,p,btn){
+  if(!confirm("Approve karna hai?\n"+(p.email||p.phone||p.uid)+"\nUTR: "+p.utr+" · ₹"+p.amount))return;
+  btn.disabled=true;
+  await save(async()=>{
+    const ref=doc(db,"access",p.uid),cur=(await getDoc(ref)).data()||{},b=writeBatch(db);
+    const items=Array.isArray(p.items)?p.items.filter(x=>typeof x==="string"):[];
+    if(items.length){const days=p.days==null?(Number(cfg.payment?.days)||0):(Number(p.days)||0);if(days>0){const ownedUntil={...(cur.ownedUntil||{})};items.forEach(k=>ownedUntil[k]=Date.now()+days*864e5);b.set(ref,{ownedUntil},{merge:true});}else{const owned=[...new Set([...(Array.isArray(cur.owned)?cur.owned:[]),...items])];const ownedUntil={...(cur.ownedUntil||{})};items.forEach(k=>delete ownedUntil[k]);b.set(ref,{owned,ownedUntil},{merge:true});}}
+    else b.set(ref,{paid:true,untilMs:nextUntil(cur)},{merge:true});
+    b.update(doc(db,"payments",id),{status:"approved",reviewedBy:auth.currentUser.uid,reviewedAt:Date.now()});
+    await b.commit();loadPay()},"Approved ✅ access de diya");
+  btn.disabled=false;
+}
+async function loadPay(){
+  const box=$("payments");box.replaceChildren(empty("Loading…"));
+  try{
+    const s=await getDocs(query(collection(db,"payments"),orderBy("createdAt","desc"),limit(60)));
+    setPc(s.docs.filter(d=>d.data().status==="pending").length);
+    if(!s.size){box.replaceChildren(card("Payment requests",empty("Koi request nahi.")));return}
+    const seen={};s.docs.forEach(d=>{const u=(d.data().utr||"").toLowerCase();seen[u]=(seen[u]||0)+1});
+    const rows=s.docs.map(d=>{const p=d.data(),dup=seen[(p.utr||"").toLowerCase()]>1;return [
+      h("div",{},h("b",{},p.name||p.email||p.phone||p.uid),h("br"),h("small",{class:"muted"},p.email||p.phone||"")),
+      h("div",{},`${p.utr} · ₹${p.amount}`,dup?h("div",{class:"pill bad"},"⚠ duplicate UTR"):"",Array.isArray(p.items)?h("div",{class:"muted"},(p.label||"")+" · "+p.items.length+" product(s): "+p.items.slice(0,12).join(", ")):""),
+      new Date(ms(p.createdAt)).toLocaleDateString(),
+      h("span",{class:"pill "+(p.status==="approved"?"ok":p.status==="rejected"?"bad":"warn")},p.status),
+      p.status==="pending"?h("div",{class:"mini-actions"},
+        h("button",{class:"btn ok",onclick:e=>approve(d.id,p,e.currentTarget)},"✔"),
+        h("button",{class:"btn bad",onclick:()=>confirm("Reject karna hai?")&&save(async()=>{await updateDoc(doc(db,"payments",d.id),{status:"rejected",reviewedBy:auth.currentUser.uid,reviewedAt:Date.now()});await setDoc(doc(db,"access",p.uid),{provAt:null},{merge:true});loadPay()},"Rejected")},"✖")):"—"]});
+    box.replaceChildren(card("Payment requests",table(["Student","UTR / Amount","Date","Status","Action"],rows)));
+  }catch(e){err(box,e)}
+}
+
+/* ---------- NOTES: short/full products ---------- */
+let noteCls=11;
+async function loadNotes(){
+  const box=$("notes");box.replaceChildren(empty("Loading chapters…"));
+  const ov={},files={};
+  try{
+    (await getDocs(collection(db,"chapters"))).forEach(d=>ov[d.id]=d.data());
+    (await getDocs(collection(db,"chapterFiles"))).forEach(d=>files[d.id]=d.data());
+  }catch(e){return err(box,e)}
+  const sel=h("select",{onchange:()=>{noteCls=Number(sel.value);loadNotes()}},h("option",{value:11},"Class 11"),h("option",{value:12},"Class 12"));sel.value=noteCls;
+  box.replaceChildren(card("Notes catalogue",field("Class",sel),h("p",{class:"muted"},"Har chapter ke Short Notes aur Full Notes ki price, PDF aur live status alag set karo. Paid PDF URL chapter document mein public nahi hota.")));
+  window.MR_CHAPTERS.filter(c=>c.cls===noteCls).forEach(c=>{
+    const o=ov[c.id]||{};
+    const oldFile=files[c.id]?.file||"";
+    const legacyPrice=o.price||c.price||"Free";
+    const sh=o.short||{available:o.available===true&&!!oldFile,price:legacyPrice,amount:Number(o.amount)||0,file:""};
+    const fu=o.full||{available:o.available===true&&(!!oldFile||!!files[c.id+"_full"]?.file),price:legacyPrice,amount:Number(o.amount)||0,file:""};
+    const mkVariant=(kind,data)=>{
+      const paidFiles=files[String(c.id)+"_"+kind]||{};
+      const access=h("select",{},h("option",{value:"Free"},"Free"),h("option",{value:"Paid"},"Paid"));access.value=data.price||"Free";
+      const amount=h("input",{type:"number",min:0,step:"1",value:Number(data.amount)||0,placeholder:"₹ price"});
+      const live=chk("Live / students ko dikhao",data.available===true);
+      const url=h("input",{type:"url",placeholder:"https://… PDF / Drive link",value:access.value==="Paid"?(paidFiles.file||""):(data.file||oldFile)});
+      access.addEventListener("change",()=>{if(access.value==="Free"&&Number(amount.value)>0)amount.value="0"});
+      return {kind,access,amount,live,url,el:card(kind==="short"?"Short Notes":"Full Notes",h("div",{class:"grid2"},field("Access",access),field("Price (₹; Free ke liye 0)",amount)),live.el,field("PDF URL",url))};
+    };
+    const a=mkVariant("short",sh),b=mkVariant("full",fu);
+    box.append(card(c.name,h("p",{class:"muted"},`Class ${c.cls} · ${c.type}`),a.el,b.el,
+      h("div",{class:"form-actions"},h("button",{class:"btn",onclick:()=>save(async()=>{
+        const valid=[a,b];
+        for(const v of valid){
+          const url=v.url.value.trim(),paid=v.access.value==="Paid",amount=Number(v.amount.value)||0;
+          if(url&&!/^https:\/\//i.test(url))throw new Error(v.kind+" PDF link https:// se shuru hona chahiye");
+          if(v.live.i.checked&&!url)throw new Error(v.kind+" ko Live karne ke liye PDF URL daalo");
+          if(paid&&amount<=0)throw new Error(v.kind+" Paid hai, isliye price ₹1 ya usse zyada rakho");
+        }
+        const shape=v=>({available:v.live.i.checked,price:v.access.value,amount:Number(v.amount.value)||0,file:v.access.value==="Free"?v.url.value.trim():""});
+        const chapter={id:c.id,cls:c.cls,name:c.name,type:c.type,desc:c.desc,short:shape(a),full:shape(b),available:a.live.i.checked||b.live.i.checked,price:"Mixed",file:""};
+        const batch=writeBatch(db);batch.set(doc(db,"chapters",String(c.id)),chapter,{merge:true});
+        for(const v of valid){const ref=doc(db,"chapterFiles",String(c.id)+"_"+v.kind);batch.set(ref,{file:v.access.value==="Paid"?v.url.value.trim():"",chapterId:String(c.id),kind:v.kind},{merge:true})}
+        await batch.commit();
+      },"Chapter products saved ✓" )},"Save both note types"))));
+  });
+}
+
+/* ---------- MOCK TESTS / QUIZZES ---------- */
+const slugId=s=>String(s||"").toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,36);
+function validateQuestions(raw,count){
+  let q;try{q=JSON.parse(raw)}catch(_){throw new Error("Questions JSON valid nahi hai")}
+  if(!Array.isArray(q)||!q.length)throw new Error("Kam se kam 1 question add karo")
+  q=q.map((x,i)=>{
+    if(!x||typeof x.q!=="string"||!x.q.trim())throw new Error("Question "+(i+1)+" ka text missing hai");
+    if(!Array.isArray(x.options)||x.options.length!==4||x.options.some(v=>typeof v!=="string"||!v.trim()))throw new Error("Question "+(i+1)+" mein exactly 4 options hone chahiye");
+    const answer=Number(x.answer);if(!Number.isInteger(answer)||answer<0||answer>3)throw new Error("Question "+(i+1)+" ka answer 0,1,2,3 mein se ho");
+    return {id:String(x.id||("q"+(i+1))),subject:String(x.subject||"Biology"),q:x.q.trim(),options:x.options.map(v=>String(v).trim()),answer,explanation:String(x.explanation||"")};
+  });
+  if(!Number.isInteger(Number(count))||Number(count)<1||Number(count)>q.length)throw new Error("Question count available questions se 1 se "+q.length+" ke beech hona chahiye");
+  return q;
+}
+async function loadTestsAdmin(){
+ const box=$("tests");box.replaceChildren(empty("Loading tests…"));let all={},qdocs={};
+ try{(await getDocs(collection(db,"tests"))).forEach(d=>all[d.id]={...d.data(),id:d.id});try{(await getDocs(collection(db,"testQuestions"))).forEach(d=>qdocs[d.id]=d.data().questions||[])}catch(_){}}catch(e){return err(box,e)}
+ const draw=(selected="")=>{
+  const existing=h("select",{onchange:()=>draw(existing.value)},h("option",{value:""},"＋ Create new test"),...Object.values(all).sort((a,b)=>(a.title||"").localeCompare(b.title||"")).map(t=>h("option",{value:t.id},t.title||t.id)));
+  existing.value=selected;const t=all[selected]||{};
+  const id=h("input",{type:"text",value:t.id||"",placeholder:"unique ID (auto from title if blank)"}),title=h("input",{type:"text",maxLength:100,value:t.title||"",placeholder:"e.g. Human Physiology Quiz",required:true}),
+   mode=h("select",{},...(["Full Syllabus","Chapter-wise","Previous Year"].map(x=>h("option",{value:x},x)))),cls=h("select",{},...(["All","11","12"].map(x=>h("option",{value:x},x==="All"?"All classes":"Class "+x)))),
+   subject=h("select",{},...(["All","Physics","Chemistry","Botany","Zoology"].map(x=>h("option",{value:x},x)))),minutes=h("input",{type:"number",min:1,max:600,value:Number(t.minutes)||30}),count=h("input",{type:"number",min:1,value:Number(t.count)||1}),
+   price=h("select",{},h("option",{value:"Free"},"Free"),h("option",{value:"Paid"},"Paid")),amount=h("input",{type:"number",min:0,step:"1",value:Number(t.amount)||0}),desc=h("textarea",{value:t.description||"",placeholder:"Test description"}),active=chk("Published / students ko dikhao",t.active===true),
+   questions=h("textarea",{value:(qdocs[t.id]&&qdocs[t.id].length?qdocs[t.id]:t.questions)?JSON.stringify(qdocs[t.id]&&qdocs[t.id].length?qdocs[t.id]:t.questions,null,2):"",placeholder:'[{"subject":"Botany","q":"Question?","options":["A","B","C","D"],"answer":0,"explanation":"Why A is correct"}]'});
+  mode.value=t.mode||"Full Syllabus";cls.value=String(t.cls||"All");subject.value=t.subject||"All";price.value=t.price||"Free";
+  const start=h("input",{type:"datetime-local",value:toLocal(t.startAt)}),end=h("input",{type:"datetime-local",value:toLocal(t.endAt)});
+  questions.style.minHeight="260px";questions.style.fontFamily="monospace";questions.style.fontSize="12px";
+  box.replaceChildren(card("Create / edit test",field("Existing test",existing),h("div",{class:"grid2"},field("Test ID",id),field("Test title",title)),h("div",{class:"grid2"},field("Test mode",mode),field("Class",cls)),h("div",{class:"grid2"},field("Subject",subject),field("Duration (minutes)",minutes)),h("div",{class:"grid2"},field("Questions to ask",count),field("Access",price)),field("Price (₹; Paid test ke liye positive price)",amount),h("div",{class:"grid2"},field("Quiz start (optional — us time se pehle Start nahi hoga)",start),field("Quiz end (optional — iske baad hide ho jayegi)",end)),field("Description",desc),active.el,field("Questions (JSON; har question ke 4 options aur answer index 0–3)",questions),h("p",{class:"muted"},"Paid test ke questions alag protected jagah save hote hain (sirf kharidne wale padh sakte hain). Count = student ko kitne questions dikhane hain. Questions list mein utne ya usse zyada questions hone chahiye. Example JSON ka format placeholder mein diya hai."),h("div",{class:"form-actions"},h("button",{class:"btn",onclick:()=>save(async()=>{
+    const qs=validateQuestions(questions.value,count.value),name=title.value.trim();if(!name)throw new Error("Test title daalo");if(!Number.isInteger(Number(minutes.value))||Number(minutes.value)<1||Number(minutes.value)>600)throw new Error("Duration 1 se 600 minutes ke beech rakho");
+    const testId=slugId(id.value||name);if(!testId)throw new Error("Test ID generate nahi hua");
+    if(start.value&&end.value&&new Date(end.value)<=new Date(start.value))throw new Error("End time start se baad ka rakho");
+    if(price.value==="Paid"&&Number(amount.value)<=0)throw new Error("Paid test ke liye price ₹1 ya usse zyada rakho");
+    const data={title:name,mode:mode.value,cls:cls.value,subject:subject.value,minutes:Number(minutes.value),count:Number(count.value),description:desc.value.trim(),price:price.value,amount:price.value==="Paid"?Number(amount.value):0,active:active.i.checked,startAt:start.value?new Date(start.value).getTime():0,endAt:end.value?new Date(end.value).getTime():0,questions:qs,updatedAt:Date.now()};
+    const paid=price.value==="Paid",b=writeBatch(db),pub={...data,questions:paid?[]:qs,qCount:qs.length};b.set(doc(db,"tests",testId),pub,{merge:true});b.set(doc(db,"testQuestions",testId),{questions:paid?qs:[]},{merge:true});await b.commit();qdocs[testId]=paid?qs:[];all[testId]={...pub,id:testId};draw(testId);
+  },"Test saved ✓")},"Save test"),h("button",{class:"outline",onclick:()=>draw("")},"New test"),selected?h("button",{class:"outline",onclick:()=>confirm("Is test ko delete karna hai? Students ke purane attempts local rahenge.")&&save(async()=>{const fs=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js");await fs.deleteDoc(doc(db,"tests",selected));await fs.deleteDoc(doc(db,"testQuestions",selected)).catch(()=>{});delete all[selected];draw("")},"Test deleted")},"Delete test"):null)));
+ };
+ draw();
+}
+
+/* ---------- COMBO PACKS ---------- */
+async function loadBundlesAdmin(){
+ const box=$("bundles");box.replaceChildren(empty("Loading combo packs…"));let bundles={},chapters={};
+ try{(await getDocs(collection(db,"bundles"))).forEach(d=>bundles[d.id]={...d.data(),id:d.id});(await getDocs(collection(db,"chapters"))).forEach(d=>chapters[d.id]=d.data())}catch(e){return err(box,e)}
+ const products=[];window.MR_CHAPTERS.forEach(c=>["short","full"].forEach(kind=>{const d=(chapters[c.id]||{})[kind]||{};products.push({key:c.id+"_"+kind,label:`Class ${c.cls} · ${c.name} · ${kind==="short"?"Short Notes":"Full Notes"} (${d.price||"not set"} ₹${Number(d.amount)||0})`})}));
+ const draw=(selected="")=>{
+  const old=bundles[selected]||{},pick=h("select",{onchange:()=>draw(pick.value)},h("option",{value:""},"＋ Create new combo"),...Object.values(bundles).map(b=>h("option",{value:b.id},b.name||b.id)));pick.value=selected;
+  const id=h("input",{type:"text",value:old.id||"",placeholder:"combo10 (letters/numbers recommended)"}),name=h("input",{type:"text",maxLength:80,value:old.name||"Combo Pack 10",placeholder:"Combo Pack 10"}),price=h("input",{type:"number",min:1,step:"1",value:Number(old.price)||""}),days=h("input",{type:"number",min:0,max:3650,value:old.days==null?0:Number(old.days)}),active=chk("Active / students ko dikhao",old.active!==false);
+  const selectedItems=new Set(Array.isArray(old.items)?old.items:[]),checks=products.map(p=>({p,c:chk(p.label,selectedItems.has(p.key))}));
+  const choices=h("div",{style:"max-height:440px;overflow:auto;border:1px solid var(--b);border-radius:10px;padding:8px"},...checks.map(x=>x.c.el));
+  box.replaceChildren(card("Create / edit combo pack",field("Existing combo",pick),h("div",{class:"grid2"},field("Combo ID",id),field("Display name",name)),h("div",{class:"grid2"},field("Combo price (₹)",price),field("Access days (0 = lifetime)",days)),active.el,field("Choose up to 10 products (Short / Full independently)",choices),h("p",{class:"muted"},"Combo mein selected products ki individual prices add karne ke bajay yahan bundle price set hoga. Paid approval selected products ko unlock karega."),h("div",{class:"form-actions"},h("button",{class:"btn",onclick:()=>save(async()=>{
+   const items=checks.filter(x=>x.c.i.checked).map(x=>x.p.key);if(!name.value.trim())throw new Error("Combo name daalo");if(!items.length)throw new Error("Kam se kam 1 product select karo");if(items.length>10)throw new Error("Combo pack mein maximum 10 products select karo");if(Number(price.value)<=0)throw new Error("Combo price ₹1 ya usse zyada hona chahiye");
+   const bid=slugId(id.value||name.value);if(!bid)throw new Error("Combo ID generate nahi hua");const data={name:name.value.trim(),price:Number(price.value),days:Number(days.value)||0,items,active:active.i.checked,updatedAt:Date.now()};
+   await setDoc(doc(db,"bundles",bid),data,{merge:true});bundles[bid]={...data,id:bid};draw(bid);
+  },"Combo pack saved ✓")},"Save combo"),h("button",{class:"outline",onclick:()=>draw("")},"New combo"),selected?h("button",{class:"outline",onclick:()=>confirm("Combo delete karna hai?")&&save(async()=>{const fs=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js");await fs.deleteDoc(doc(db,"bundles",selected));delete bundles[selected];draw("")},"Combo deleted")},"Delete combo"):null)));
+ };
+ draw();
+}
+
+/* ---------- COMMUNITY ---------- */
+async function loadCommunity(){
+  const box=$("community");box.replaceChildren(empty("Loading…"));
+  try{
+    const s=await getDocs(query(collection(db,"posts"),limit(200)));
+    const l=s.docs.map(d=>({...d.data(),id:d.id})).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt));
+    const open=l.filter(p=>p.status!=="solved"&&p.status!=="answered").length;$("cc").textContent=open?`(${open})`:"";
+    if(!l.length){box.replaceChildren(card("Student posts",empty("Abhi koi post nahi.")));return}
+    const rows=l.map(p=>[h("div",{},h("b",{},p.title),h("br"),h("small",{class:"muted"},(p.name||"Student")+" · "+new Date(ms(p.createdAt)).toLocaleDateString()+(p.private?" · 🔒 private":""))),
+      h("span",{class:"pill "+(p.status==="solved"?"ok":p.status==="answered"?"":"warn")},p.status||"open"),
+      h("a",{class:"btn",href:"./community.html?post="+encodeURIComponent(p.id)},"Reply →")]);
+    box.replaceChildren(card("Student posts ("+open+" naye / unanswered)",h("p",{class:"muted"},"Reply dene ke liye 'Reply →' dabao. Wahan se Solved mark ya delete bhi kar sakte ho."),table(["Post","Status","Action"],rows)));
+  }catch(e){err(box,e)}
+}
+
+/* ---------- USERS ---------- */
+async function loadUsers(){
+  const box=$("users");box.replaceChildren(empty("Loading…"));
+  try{
+    const acc={};(await getDocs(collection(db,"access"))).forEach(d=>acc[d.id]=d.data());
+    const us=(await getDocs(query(collection(db,"users"),limit(300)))).docs.map(d=>d.data());
+    const q=h("input",{type:"search",placeholder:"Email / naam search"}),out=h("div");
+    const draw=()=>{const t=q.value.toLowerCase(),list=us.filter(u=>!t||((u.email||"")+" "+(u.phone||"")+" "+(u.name||"")).toLowerCase().includes(t));
+      out.replaceChildren(!list.length?empty("Koi user nahi mila."):table(["Student","Status","Actions"],list.map(u=>{const a=acc[u.uid]||{};return [
+        h("div",{},h("b",{},u.name||"—"),h("br"),h("small",{class:"muted"},u.email||u.phone||u.uid)),
+        h("div",{},a.blocked?h("span",{class:"pill bad"},"BLOCKED"):"",a.paid?h("span",{class:"pill ok"},"PAID"):"",!a.blocked&&!a.paid?h("span",{class:"pill"},"free"):""),
+        h("div",{class:"mini-actions"},
+          h("button",{class:"outline",onclick:()=>save(async()=>{await setDoc(doc(db,"access",u.uid),{blocked:!a.blocked},{merge:true});a.blocked=!a.blocked;acc[u.uid]=a;draw()})},a.blocked?"Unblock":"Block"),
+          h("button",{class:"outline",onclick:()=>save(async()=>{const on=!a.paid;await setDoc(doc(db,"access",u.uid),{paid:on,untilMs:on?nextUntil({}):0},{merge:true});a.paid=on;acc[u.uid]=a;draw()})},a.paid?"Revoke paid":"Give paid"))]})))};
+    q.oninput=draw;box.replaceChildren(card("Students ("+us.length+")",h("p",{class:"muted"},"Student list mein tab aata hai jab wo ek baar login kare."),field("Search",q),out));draw();
+  }catch(e){err(box,e)}
+}
+
+/* ---------- PAGES & CONTROL ---------- */
+const PAGES=[["index","🏠 Home page"],["notes","📚 Notes / Vault"],["mocktest","📝 Mock Test / Quiz"],["dashboard","👤 Dashboard"],["community","💬 Community Help"]];
+const FEATS=[["leaderboard","🏆 Leaderboard"],["progress","📈 My Progress / Analysis"],["history","🕘 Test History"],["bookmarks","🔖 Bookmarks"],["planner","🗓️ Study Planner"]];
+function renderPages(){
+  const pg=cfg.pages||{},pn=cfg.pageNotice||{},ft=cfg.features||{};
+  const an=h("input",{type:"text",maxLength:200,value:cfg.announcement||"",placeholder:"Sab pages par banner (khali = hata do)"}),
+    mt=chk("🔧 Maintenance mode (poori site band)",cfg.maintenance),mm=h("input",{type:"text",maxLength:200,value:cfg.maintenanceMsg||"",placeholder:"Maintenance message"});
+  const P={},N={},F={};
+  PAGES.forEach(([k])=>{P[k]=chk("ON",pg[k]!==false);N[k]=h("input",{type:"text",maxLength:200,value:pn[k]||"",placeholder:"Sirf is page ka notice (optional)"})});
+  FEATS.forEach(([k])=>F[k]=chk("Dikhao",k==="leaderboard"?cfg.leaderboard!==false:ft[k]!==false));
+  const saveAll=()=>save(()=>saveCfg({
+    announcement:an.value.trim(),maintenance:mt.i.checked,maintenanceMsg:mm.value.trim(),leaderboard:F.leaderboard.i.checked,
+    pages:Object.fromEntries(PAGES.map(([k])=>[k,P[k].i.checked])),pageNotice:Object.fromEntries(PAGES.map(([k])=>[k,N[k].value.trim()])),
+    features:Object.fromEntries(FEATS.filter(([k])=>k!=="leaderboard").map(([k])=>[k,F[k].i.checked]))}),"Saved ✅ students ko turant dikhega");
+  const btn=()=>h("div",{class:"form-actions"},h("button",{class:"btn",onclick:saveAll},"Save"));
+  $("pages").replaceChildren(
+    card("Poori site",mt.el,field("Maintenance message",mm),field("Global banner (har page par)",an),h("p",{class:"muted"},"Admin ko ye restrictions kabhi nahi lagti. Login page hamesha khula rehta hai."),btn()),
+    card("Har page ka control",...PAGES.map(([k,l])=>h("div",{style:"border-top:1px solid var(--b);padding-top:6px;margin-top:8px"},h("b",{},l),P[k].el,N[k]) ),btn()),
+    card("Features (dashboard / quiz)",...FEATS.map(([k,l])=>h("div",{class:"row",style:"display:flex;justify-content:space-between;align-items:center"},h("span",{},l),F[k].el)),btn()));
+}
+
+/* ---------- SETTINGS ---------- */
+function renderSettings(){
+  const py=cfg.payment||{},
+    upi=h("input",{type:"text",value:py.upiId||"",placeholder:"yourname@upi"}),pn=h("input",{type:"text",value:py.payeeName||"MedRise"}),
+    pr=h("input",{type:"number",min:0,value:py.price||""}),dy=h("input",{type:"number",min:0,value:py.days||0}),nt=h("textarea",{value:py.note||""});
+  $("settings").replaceChildren(
+    card("💳 Payment (UPI) & pricing",h("div",{class:"grid2"},field("UPI ID",upi),field("Payee name",pn),field("Price (₹) — paid notes",pr),field("Access kitne din (0 = lifetime)",dy)),field("Student ko instruction",nt),
+      h("div",{class:"form-actions"},h("button",{class:"btn",onclick:()=>save(()=>{
+        const id=upi.value.trim();if(id&&!/^[\w.\-]{2,}@[\w.\-]{2,}$/.test(id))throw new Error("UPI ID galat lag rahi hai");
+        return saveCfg({payment:{upiId:id,payeeName:pn.value.trim(),price:Number(pr.value)||0,days:Number(dy.value)||0,note:nt.value.trim()}})})},"Save payment settings"))));
+}
+</script></body></html>
