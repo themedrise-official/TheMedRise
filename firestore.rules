@@ -1,0 +1,137 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isOwner(uid) { return signedIn() && request.auth.uid == uid; }
+
+    // Admin = a document admins/{uid} created by hand in Firebase Console (or a custom claim admin:true).
+    // Nobody can become admin from the app itself.
+    function isAdmin() { return signedIn() && (request.auth.token.get('admin', false) == true
+      || exists(/databases/$(database)/documents/admins/$(request.auth.uid))); }
+
+    function hasAccessDoc() { return signedIn() && exists(/databases/$(database)/documents/access/$(request.auth.uid)); }
+    function myAccess() { return get(/databases/$(database)/documents/access/$(request.auth.uid)).data; }
+
+    // "All access" pass (admin gives it from the Users tab)
+    function hasPaid() {
+      let a = myAccess();
+      return a.get('paid', false) == true && a.get('blocked', false) != true
+        && (a.get('untilMs', 0) == 0 || a.get('untilMs', 0) > request.time.toMillis());
+    }
+    // Bought one item ("3_short", "3_full", "t_<testId>") or a combo pack that contains it.
+    // Stored value 0 = lifetime, otherwise the expiry time in ms.
+    function hasItem(key) {
+      let a = myAccess();
+      let v = a.get('items', {}).get(key, null);
+      return a.get('blocked', false) != true && ((v != null && (v == 0 || v > request.time.toMillis()))
+        || key in a.get('owned', [])
+        || a.get('ownedUntil', {}).get(key, 0) > request.time.toMillis());
+    }
+
+
+    // Leaderboard attempt: score must stay inside the test's limits; free test, or test bought / all-access / admin.
+    function attemptOk(d) {
+      let t = get(/databases/$(database)/documents/tests/$(d.testId)).data;
+      return d.max > 0 && d.max <= t.count * t.get('correct', 4)
+        && d.score <= d.max && d.score >= -(t.count * t.get('wrong', 1))
+        && (t.get('active', false) == true || isAdmin())
+        && (t.get('price', 'Free') == 'Free' || isAdmin()
+            || (hasAccessDoc() && (hasPaid() || hasItem('t_' + d.testId))));
+    }
+
+    match /admins/{uid} { allow read: if isOwner(uid) || isAdmin(); allow write: if false; }
+    match /config/{d}   { allow read: if true; allow write: if isAdmin(); }
+
+    // Public catalogue (no secrets here): chapters {short:{...},full:{...}}, combo packs, test list
+    match /chapters/{d} { allow read: if true; allow write: if isAdmin(); }
+    match /bundles/{d}  { allow read: if true; allow write: if isAdmin(); }
+    // Home page banners (poster / sample paper / time table) and notices / schedule / alerts: public read (home page works without login)
+    match /banners/{d}  { allow read: if true; allow write: if isAdmin(); }
+    match /notices/{d}  { allow read: if true; allow write: if isAdmin(); }
+    match /tests/{d}    { allow read: if true; allow write: if isAdmin(); }
+
+    // REAL PDF links of PAID notes. Document id = "<chapterId>_<short|full>".
+    // Only admin, or a student who bought that item / has the all-access pass, can read.
+    match /chapterFiles/{d} {
+      allow read: if isAdmin() || (hasAccessDoc() && (hasPaid() || hasItem(d)));
+      allow write: if isAdmin();
+    }
+
+    // Questions of a test. Document id = test id.
+    // Free tests: any signed-in student. Paid tests: only who bought item "t_<id>" / all-access / admin.
+    match /testQuestions/{d} {
+      allow read: if isAdmin() || (signedIn() && (
+        get(/databases/$(database)/documents/tests/$(d)).data.get('price', 'Free') == 'Free'
+        || (hasAccessDoc() && (hasPaid() || hasItem('t_' + d)))));
+      allow write: if isAdmin();
+    }
+
+    // access/{uid}: paid / blocked / items. A student can only READ his own; only admin writes.
+    match /access/{uid} { allow read: if isOwner(uid) || isAdmin(); allow write: if isAdmin(); }
+
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create, update: if isOwner(uid) && request.resource.data.uid == uid
+        && request.resource.data.keys().hasOnly(['uid','email','phone','name','lastSeen']);
+      allow delete: if false;
+    }
+
+    // Payment requests (UTR). The student can only create a "pending" request; the admin approves.
+    // The admin panel re-checks the amount and the items against the current catalogue before approving.
+    match /payments/{id} {
+      allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid
+        && request.resource.data.status == 'pending'
+        && request.resource.data.keys().hasOnly(['uid','email','phone','name','utr','amount','status','createdAt','items','bundleId','label','days'])
+        && request.resource.data.utr is string && request.resource.data.utr.size() >= 6 && request.resource.data.utr.size() <= 30
+        && request.resource.data.amount is number
+        && request.resource.data.items is list && request.resource.data.items.size() >= 1 && request.resource.data.items.size() <= 80;
+      allow update: if isAdmin();
+      allow delete: if false;
+    }
+
+    // Community help: posts (public to signed-in students unless private) + replies.
+    match /posts/{id} {
+      allow read: if isAdmin() || (signedIn() && (resource.data.uid == request.auth.uid || resource.data.private == false));
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['uid','name','title','body','private','status','createdAt'])
+        && request.resource.data.title is string && request.resource.data.title.size() >= 3 && request.resource.data.title.size() <= 100
+        && request.resource.data.body is string && request.resource.data.body.size() >= 3 && request.resource.data.body.size() <= 1500
+        && request.resource.data.private is bool && request.resource.data.status == 'open';
+      allow update: if isAdmin() || (isOwner(resource.data.uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+        && request.resource.data.status in ['open','solved']);
+      allow delete: if isAdmin() || isOwner(resource.data.uid);
+      match /replies/{rid} {
+        function postOk() { let p = get(/databases/$(database)/documents/posts/$(id)).data;
+          return isAdmin() || (signedIn() && (p.uid == request.auth.uid || p.private == false)); }
+        allow read: if postOk();
+        allow create: if postOk() && request.resource.data.uid == request.auth.uid
+          && request.resource.data.keys().hasOnly(['uid','name','body','isAdmin','createdAt'])
+          && request.resource.data.body is string && request.resource.data.body.size() >= 1 && request.resource.data.body.size() <= 1000
+          && (request.resource.data.isAdmin == false || isAdmin());
+        allow delete: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      }
+    }
+
+    // Leaderboard: ONE ranked attempt per student per test (doc id = "<testId>_<uid>", create-only, server time).
+    match /attempts/{id} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['uid','name','testId','title','score','max','correct','wrong','skip','timeSec','createdAt'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.testId is string
+        && id == request.resource.data.testId + '_' + request.auth.uid
+        && request.resource.data.name is string && request.resource.data.name.size() <= 40
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.score is number && request.resource.data.max is number
+        && request.resource.data.timeSec is number
+        && attemptOk(request.resource.data);
+      allow update: if false;
+      allow delete: if isAdmin();
+    }
+
+    match /{document=**} { allow read, write: if false; }
+  }
+}
