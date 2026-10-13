@@ -9,7 +9,7 @@ import {
 
 const firebaseConfig = {
   apiKey: "AIzaSyAhgPy7737Ax8XkN9L6yUoAbMlWdoC_xug",
-  authDomain: "themedrise.web.app",
+  authDomain: "medrise-82c20.firebaseapp.com",
   projectId: "medrise-82c20",
   storageBucket: "medrise-82c20.firebasestorage.app",
   messagingSenderId: "315166631216",
