@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06101f">
+  <meta name="robots" content="noindex">
+  <title>Unlock Notes | MedRise</title>
+  <script>
+(function(){try{document.documentElement.dataset.theme=localStorage.getItem("medrise-theme")==="light"?"light":"dark"}catch(e){document.documentElement.dataset.theme="dark"}})();
+</script>
+  <script>
+(function(){var d=document.documentElement;d.style.visibility="hidden";window.__mrReveal=setTimeout(function(){d.style.visibility=""},8000)})();
+</script>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    :root{color-scheme:dark;--bg:#050c16;--surface:#0a1625;--surface2:#0d1d30;--text:#f3f7ff;--muted:#a9bdd8;--border:#1d3652;--blue:#168bff;--cyan:#08d5ed;--green:#11d6a0;--gold:#ffbd45;--red:#ff5263}
+    [data-theme="light"]{color-scheme:light;--bg:#f5f8fd;--surface:#fff;--surface2:#edf4ff;--text:#101c31;--muted:#5e7395;--border:#d9e6f7;--blue:#0878f9;--cyan:#00aeca;--green:#079e78;--gold:#a66a00;--red:#d6213a}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.5}
+    a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:pointer}
+    .wrap{width:min(560px,100% - 28px);margin:auto;padding-bottom:40px}
+    .top{height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);margin-bottom:18px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px}
+    .logo{height:40px;width:40px;display:flex;align-items:center;justify-content:center;line-height:1;border:1px solid var(--cyan);border-radius:12px;background:#06101f;color:#fff;font-weight:800;letter-spacing:-1.5px}
+    .logo span{color:var(--cyan)}
+    .back{border:1px solid var(--border);background:var(--surface);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:700}
+    h1{font-size:26px;margin:4px 0 4px;letter-spacing:-.6px}
+    .muted{color:var(--muted);font-size:13px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:16px;margin:14px 0}
+    .card h2{font-size:15px;margin:0 0 8px}
+    .price{font-size:30px;font-weight:800;letter-spacing:-1px}
+    .items{margin:8px 0 0;padding-left:18px;font-size:13px;color:var(--muted);max-height:180px;overflow:auto}
+    .btn{display:inline-block;border:0;border-radius:12px;padding:12px 16px;font-weight:800;font-size:14px;background:linear-gradient(115deg,var(--cyan),var(--blue));color:#fff;text-align:center}
+    .btn.block{display:block;width:100%}
+    .btn:disabled{opacity:.55}
+    .outline{border:1px solid var(--border);background:var(--surface2);color:var(--text);border-radius:12px;padding:11px 14px;font-weight:700;font-size:13px}
+    .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    input[type=text]{width:100%;padding:13px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);outline:none;font-size:15px;letter-spacing:.5px}
+    input[type=text]:focus{border-color:var(--cyan)}
+    .step{display:flex;gap:10px;align-items:flex-start;margin:6px 0;font-size:13px}
+    .step b{flex:0 0 24px;height:24px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:grid;place-items:center;color:var(--cyan);font-size:12px}
+    .pill{display:inline-block;border-radius:999px;padding:3px 9px;font-size:11px;font-weight:700;border:1px solid var(--border)}
+    .pill.ok{color:var(--green)}.pill.bad{color:var(--red)}.pill.warn{color:var(--gold)}
+    .pay{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--border);font-size:13px}
+    .pay:first-child{border-top:0}
+    .msg{padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);font-size:13px;margin:12px 0}
+    .msg.ok{border-color:var(--green)}.msg.bad{border-color:var(--red)}
+    [hidden]{display:none!important}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="index.html"><span class="logo">M<span>R</span></span><span>MedRise</span></a>
+    <a class="back" href="notes.html">← Notes</a>
+  </header>
+
+  <div id="loading" class="msg">⏳ Loading…</div>
+  <div id="bad" class="msg bad" hidden></div>
+
+  <main id="main" hidden>
+    <div class="muted">Unlock karo</div>
+    <h1 id="title">—</h1>
+    <div class="muted" id="validity"></div>
+
+    <section class="card">
+      <div class="price" id="amount">₹0</div>
+      <ul class="items" id="itemList"></ul>
+    </section>
+
+    <section class="card" id="owned" hidden>
+      <h2>✅ Ye already unlock hai</h2>
+      <p class="muted">Is order ke sab items aapke account me khule hain.</p>
+      <a class="btn block" href="notes.html">Notes kholo →</a>
+    </section>
+
+    <section id="payBox">
+      <section class="card">
+        <h2>Payment kaise karein</h2>
+        <div class="step"><b>1</b><div>Neeche <b>Pay with UPI</b> dabao (ya UPI ID copy karke kisi bhi UPI app se bhejo). Amount bilkul <b id="amt2">₹0</b> bhejo.</div></div>
+        <div class="step"><b>2</b><div>Payment ke baad app me <b>UTR / Reference number</b> milega (12 digit).</div></div>
+        <div class="step"><b>3</b><div>Wo UTR neeche daalo aur Submit karo. Admin verify karke notes unlock kar dega.</div></div>
+        <div class="row">
+          <a class="btn" id="upiLink" href="#">📲 Pay with UPI</a>
+          <button class="outline" id="copyUpi" type="button">Copy UPI ID</button>
+        </div>
+        <p class="muted" id="upiShow" style="margin:10px 0 0"></p>
+        <p class="muted" id="payNote" style="margin:6px 0 0"></p>
+      </section>
+
+      <section class="card">
+        <h2>UTR / Transaction ID</h2>
+        <input id="utr" type="text" inputmode="text" autocomplete="off" maxlength="30" placeholder="jaise 412345678901">
+        <div class="row"><button class="btn block" id="submit" type="button">Submit payment request</button></div>
+        <p class="muted" id="submitHint" style="margin:8px 0 0">Galat / nakli UTR dene par request reject hoti hai.</p>
+      </section>
+    </section>
+  </main>
+
+  <section class="card" id="mine" hidden>
+    <h2>Meri payment requests</h2>
+    <div id="mineList"></div>
+  </section>
+</div>
+
+<script src="chapters-data.js"></script>
+<script>
+  const $ = id => document.getElementById(id);
+  const M = () => window.medrise || {};
+  const rupee = n => "₹" + (Number(n) || 0);
+  const KEY = /^(\d+_(short|full)|t_[A-Za-z0-9]+)$/;
+  let order = null, started = false;
+
+  function fail(msg) { $("loading").hidden = true; $("main").hidden = true; $("bad").hidden = false; $("bad").textContent = msg; }
+
+  // Build the order from the URL and from the CURRENT catalogue (price is never taken from the URL).
+  function buildOrder() {
+    const q = new URLSearchParams(location.search), m = M(), tests = m.tests || {};
+    if (q.get("bundle")) {
+      const id = q.get("bundle"), b = (m.bundles || {})[id];
+      if (!b || b.active === false || !Array.isArray(b.items) || !b.items.length) return { err: "Ye combo pack ab available nahi hai." };
+      const items = b.items.filter(k => KEY.test(k));
+      return { items, bundleId: id, label: "🎁 " + b.name, amount: Number(b.price) || 0, days: b.days === "" || b.days == null ? null : Number(b.days) || 0 };
+    }
+    if (q.get("batch")) {
+      const b = (m.config || {}).batch || {};
+      if (b.active !== true || !(Number(b.price) > 0)) return { err: "Full Batch abhi available nahi hai." };
+      return { items: ["batch"], bundleId: "__batch", label: "🎓 " + (b.name || "Full Batch"), amount: Number(b.price), days: Number(b.days) || 0 };
+    }
+    const key = q.get("item") || "";
+    if (!KEY.test(key)) return { err: "Kuch kharidne ke liye Notes page se Buy dabao." };
+    let o;
+    if (key.startsWith("t_")) { const t = tests[key.slice(2)]; o = t && t.active === true && t.price === "Paid" ? { amount: t.amount } : null; }
+    else { const [id, kind] = key.split("_"); const c = ((m.chapters || {})[id] || {})[kind]; o = c && c.available === true && c.price === "Paid" ? { amount: c.amount } : null; }
+    if (!o || !(Number(o.amount) > 0)) return { err: "Ye item abhi kharidne ke liye available nahi hai (free hai ya live nahi)." };
+    return { items: [key], bundleId: "", label: window.mrLabel(key, tests), amount: Number(o.amount), days: null };
+  }
+
+  function start() {
+    if (started) return; started = true;
+    const m = M(), py = (m.config || {}).payment || {};
+    order = buildOrder();
+    $("loading").hidden = true;
+    loadMine();
+    if (order.err) return fail(order.err);
+    const days = order.days == null ? (Number(py.days) || 0) : order.days;
+    $("main").hidden = false;
+    $("title").textContent = order.label;
+    $("amount").textContent = rupee(order.amount);
+    $("amt2").textContent = rupee(order.amount);
+    $("validity").textContent = days ? "Access " + days + " din ke liye" : "Lifetime access";
+    const ul = $("itemList"); ul.replaceChildren();
+    order.items.slice(0, 80).forEach(k => { const li = document.createElement("li"); li.textContent = window.mrLabel(k, m.tests); ul.append(li); });
+    const all = order.items.length && order.items.every(k => typeof m.owns === "function" && m.owns(k));
+    $("owned").hidden = !all; $("payBox").hidden = !!all;
+    const upi = py.upiId || "";
+    if (!upi) { $("upiLink").hidden = true; $("copyUpi").hidden = true; $("upiShow").textContent = "Payment abhi setup nahi hai. Admin se sampark karo."; $("submit").disabled = true; }
+    else {
+      const p = new URLSearchParams({ pa: upi, pn: py.payeeName || "MedRise", am: String(order.amount), cu: "INR", tn: "MedRise notes" });
+      $("upiLink").href = "upi://pay?" + p.toString();
+      $("upiShow").textContent = "UPI ID: " + upi + " · " + (py.payeeName || "MedRise");
+      $("copyUpi").onclick = () => navigator.clipboard && navigator.clipboard.writeText(upi).then(() => { $("copyUpi").textContent = "Copied ✓"; });
+    }
+    $("payNote").textContent = py.note || "";
+    $("submit").onclick = submit;
+  }
+
+  async function submit() {
+    const utr = $("utr").value.replace(/[\s-]/g, "");
+    if (!/^[A-Za-z0-9]{8,30}$/.test(utr)) { $("submitHint").textContent = "⚠ UTR galat lag raha hai (8–30 letters/digits, jaise 12 digit number)."; return; }
+    const btn = $("submit"); btn.disabled = true; btn.textContent = "Submitting…";
+    try {
+      await M().submitOrder(utr, order);
+      $("payBox").hidden = true;
+      const ok = document.createElement("section"); ok.className = "card"; ok.innerHTML = "";
+      const h = document.createElement("h2"); h.textContent = "✅ Request mil gayi";
+      const p = document.createElement("p"); p.className = "muted"; p.textContent = "Admin payment verify karke notes unlock karega. Approve hote hi Notes page par 'Open' dikhega.";
+      const a = document.createElement("a"); a.className = "btn block"; a.href = "notes.html"; a.textContent = "Notes page par wapas";
+      ok.append(h, p, a); $("payBox").after(ok);
+      loadMine();
+    } catch (e) {
+      console.error(e); btn.disabled = false; btn.textContent = "Submit payment request";
+      $("submitHint").textContent = "⚠ Submit nahi hua (" + (e.code || e.message) + "). Internet check karke dobara try karo.";
+    }
+  }
+
+  async function loadMine() {
+    if (typeof M().myPayments !== "function") return;
+    const list = await M().myPayments();
+    if (!list.length) { $("mine").hidden = true; return; }
+    $("mine").hidden = false; const box = $("mineList"); box.replaceChildren();
+    list.slice(0, 10).forEach(p => {
+      const r = document.createElement("div"); r.className = "pay";
+      const l = document.createElement("div"); l.textContent = (p.label || "Notes") + " · ₹" + p.amount;
+      const s = document.createElement("span"); s.className = "pill " + (p.status === "approved" ? "ok" : p.status === "rejected" ? "bad" : "warn"); s.textContent = p.status;
+      r.append(l, s); box.append(r);
+    });
+  }
+
+  document.addEventListener("medrise:control", start);
+  if (M().controlReady) start();
+  setTimeout(() => { if (!started) { $("loading").textContent = "Load nahi hua. Internet check karke refresh karo."; } }, 12000);
+</script>
+<script type="module" src="./auth-guard.js"></script>
+</body>
+</html>
