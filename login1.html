@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#06101f">
+  <title>Login | MedRise</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050c16; --s: #0a1625; --s2: #112235; --b: #1e3855;
+      --t: #f3f7ff; --m: #a7bad3; --cyan: #08d5ed; --blue: #168bff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--t);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: radial-gradient(circle at 0% 0%, #168bff15 0%, transparent 40%), 
+                        radial-gradient(circle at 100% 100%, #08d5ed10 0%, transparent 40%);
+    }
+    .nav { padding: 20px; display: flex; justify-content: center; }
+    .logo { font-size: 24px; font-weight: 800; letter-spacing: -1px; }
+    .logo span { color: var(--cyan); }
+
+    main { flex: 1; display: grid; place-items: center; padding: 20px; }
+    .login-card {
+      width: 100%; max-width: 420px;
+      background: rgba(10, 22, 37, 0.7);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--b);
+      border-radius: 28px;
+      padding: 35px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+    h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
+    p.sub { color: var(--m); font-size: 14px; margin-bottom: 30px; }
+
+    .btn-google {
+      width: 100%; padding: 14px;
+      background: white; color: #1f2937;
+      border: none; border-radius: 14px;
+      font-weight: 700; font-size: 15px;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      cursor: pointer; transition: 0.2s;
+    }
+    .btn-google:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,255,255,0.1); }
+    .btn-google img { width: 20px; height: 20px; }
+
+    .divider { display: flex; align-items: center; gap: 10px; margin: 25px 0; color: var(--b); font-size: 12px; font-weight: 700; }
+    .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--b); }
+
+    .input-grp { text-align: left; margin-bottom: 15px; }
+    .input-grp label { display: block; font-size: 12px; font-weight: 700; color: var(--m); margin: 0 0 6px 5px; }
+    input {
+      width: 100%; padding: 14px; background: var(--bg);
+      border: 1px solid var(--b); border-radius: 12px;
+      color: white; outline: none; transition: 0.2s;
+    }
+    input:focus { border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(8, 213, 237, 0.1); }
+
+    .btn-primary {
+      width: 100%; padding: 14px; margin-top: 10px;
+      background: linear-gradient(115deg, var(--cyan), var(--blue));
+      color: white; border: none; border-radius: 12px;
+      font-weight: 800; cursor: pointer; transition: 0.2s;
+    }
+    .btn-primary:active { transform: scale(0.98); }
+
+    .footer-text { margin-top: 25px; font-size: 13px; color: var(--m); }
+    .footer-text span { color: var(--cyan); cursor: pointer; font-weight: 700; }
+
+    #error-box {
+      background: rgba(255, 82, 99, 0.1);
+      color: var(--red);
+      padding: 10px; border-radius: 10px;
+      font-size: 13px; margin-bottom: 15px;
+      display: none; border: 1px solid var(--red);
+    }
+    .loading-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; justify-content: center; align-items: center; z-index: 100; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+
+<div id="loader" class="loading-overlay">
+    <div class="logo">Med<span>Rise</span></div>
+</div>
+
+<header class="nav">
+    <div class="logo">Med<span>Rise</span></div>
+</header>
+
+<main>
+    <section class="login-card">
+        <h1>Welcome Back</h1>
+        <p class="sub">Start your NEET preparation journey</p>
+
+        <div id="error-box"></div>
+
+        <button class="btn-google" id="googleLogin">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_\"G\"_Logo.svg" alt="Google">
+            Continue with Google
+        </button>
+
+        <div class="divider">OR USE EMAIL</div>
+
+        <div id="email-section">
+            <div class="input-grp">
+                <label>Email Address</label>
+                <input type="email" id="email" placeholder="you@example.com">
+            </div>
+            <div class="input-grp">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="••••••••">
+            </div>
+            <button class="btn-primary" id="loginBtn">Sign In</button>
+        </div>
+
+        <p class="footer-text">Don't have an account? <span onclick="alert('Google se login karein, account apne aap ban jayega!')">Sign Up</span></p>
+    </section>
+</main>
+
+<script type="module">
+    import { auth, googleProvider } from "./firebase.js";
+    import { onAuthStateChanged, signInWithPopup, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+    const errorBox = document.getElementById('error-box');
+    const loader = document.getElementById('loader');
+
+    // 1. Instant Redirect Logic
+    const params = new URLSearchParams(window.location.search);
+    const destination = params.get('redirect') || 'dashboard.html';
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            window.location.replace(destination);
+        } else {
+            loader.style.display = 'none'; // Only show login if NOT logged in
+        }
+    });
+
+    // 2. Google Login
+    document.getElementById('googleLogin').onclick = async () => {
+        try {
+            await signInWithPopup(auth, googleProvider);
+        } catch (err) {
+            errorBox.style.display = 'block';
+            errorBox.textContent = "Google Login Failed. Browser change karke try karein.";
+        }
+    };
+
+    // 3. Email Login
+    document.getElementById('loginBtn').onclick = async () => {
+        const e = document.getElementById('email').value;
+        const p = document.getElementById('password').value;
+        if(!e || !p) return;
+        
+        document.getElementById('loginBtn').disabled = true;
+        document.getElementById('loginBtn').textContent = "Authenticating...";
+
+        try {
+            await signInWithEmailAndPassword(auth, e, p);
+        } catch (err) {
+            errorBox.style.display = 'block';
+            errorBox.textContent = "Invalid email or password.";
+            document.getElementById('loginBtn').disabled = false;
+            document.getElementById('loginBtn').textContent = "Sign In";
+        }
+    };
+</script>
+</body>
+</html>
