@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#06101f">
+<title>Mock Test | MedRise</title>
+<script>
+/* Apply saved theme before first paint (no dark->light flash) */
+(function(){try{document.documentElement.dataset.theme=localStorage.getItem("medrise-theme")==="light"?"light":"dark"}catch(e){document.documentElement.dataset.theme="dark"}})();
+</script>
+<script>
+/* Hide protected page until login is confirmed (auth-guard.js reveals it) */
+(function(){var d=document.documentElement;d.style.visibility="hidden";window.__mrReveal=setTimeout(function(){d.style.visibility=""},8000)})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#050c16;--surface:#0a1625;--surface2:#0e2034;--text:#f3f7ff;--muted:#a7bad3;--border:#1e3855;--blue:#168bff;--cyan:#08d5ed;--green:#11d6a0;--red:#ff5263;--gold:#ffbd45}
+[data-theme="light"]{color-scheme:light;--bg:#f4f8ff;--surface:#fff;--surface2:#edf4ff;--text:#101c31;--muted:#5e7395;--border:#d9e6f7;--blue:#0878f9;--cyan:#00aeca;--green:#079e78;--red:#d93649;--gold:#a66a00}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.5}button,select{font:inherit}button,a{-webkit-tap-highlight-color:transparent}a{color:inherit;text-decoration:none}button{cursor:pointer}.wrap{width:min(1080px,calc(100% - 28px));margin:auto}
+.topbar{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--border)}.top-inner{height:68px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px}.logo{height:40px;width:40px;border:1px solid var(--cyan);border-radius:12px;background:#06101f;display:flex;align-items:center;justify-content:center;line-height:1;color:white;font-weight:800}.logo span,.brand-name span{color:var(--cyan)}.brand-name{font-size:21px;font-weight:800;line-height:1.1}.brand-tag{font-size:10px;color:var(--muted);margin-top:3px}.icon-btn{height:42px;width:42px;border:1px solid var(--border);border-radius:13px;background:var(--surface);color:var(--text);font-size:19px}
+.hero{padding:25px 0 18px;display:flex;justify-content:space-between;align-items:center;gap:16px}.eyebrow{font-size:11px;color:var(--cyan);font-weight:800;letter-spacing:1.4px;text-transform:uppercase}h1{font-size:clamp(30px,5vw,42px);line-height:1.1;margin:7px 0}.hero p{margin:0;color:var(--muted);font-size:14px}.target{font-size:54px}.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 0 12px}.section-title h2{font-size:19px;margin:0}.muted{color:var(--muted);font-size:12px}
+.mode-tabs,.seg-tabs{display:flex;gap:7px;overflow-x:auto;padding:3px 0 10px}.mode-tabs button,.seg-tabs button{white-space:nowrap;border:1px solid var(--border);border-radius:11px;padding:10px 13px;background:var(--surface);color:var(--text);font-size:12px;font-weight:700}.mode-tabs button.active,.seg-tabs button.active{background:linear-gradient(115deg,var(--cyan),var(--blue));border-color:transparent;color:#fff}
+.subject-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:8px 0 20px}.subject-card{background:var(--surface);border:1px solid var(--border);border-radius:15px;padding:13px 8px;text-align:center}.subject-card .emoji{font-size:23px}.subject-card strong{display:block;font-size:12px;margin-top:5px}.subject-card small{color:var(--muted);font-size:10px}
+.tools-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 20px}.tool-card{border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:13px 8px;text-align:center;color:var(--text)}.tool-card span{display:block;font-size:22px}.tool-card strong{display:block;font-size:12px;margin-top:5px}.tool-card small{display:block;font-size:10px;color:var(--muted)}
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}.filters select{width:100%;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:12px;font-size:12px}
+.test-list{display:grid;gap:10px}.test-card{border:1px solid var(--border);background:var(--surface);border-radius:16px;padding:15px;display:flex;justify-content:space-between;align-items:center;gap:12px}.test-card h3{font-size:14px;margin:0 0 4px}.test-card p{font-size:11px;color:var(--muted);margin:0 0 9px}.meta{display:flex;flex-wrap:wrap;gap:10px;color:var(--muted);font-size:10px}.btn{border:0;border-radius:11px;background:linear-gradient(115deg,var(--cyan),var(--blue));color:#fff;padding:10px 13px;font-size:12px;font-weight:800;white-space:nowrap}.btn-outline{border:1px solid var(--blue);border-radius:11px;background:transparent;color:var(--blue);padding:9px 12px;font-size:12px;font-weight:800}.btn:disabled{opacity:.5;cursor:not-allowed}
+.panel{border:1px solid var(--border);background:var(--surface);border-radius:18px;padding:17px;margin:18px 0}.panel h2{font-size:18px;margin:0}.leader-intro{display:flex;align-items:center;justify-content:space-between;gap:12px}.leader-note{font-size:11px;color:var(--muted);margin:10px 0 0}.table-wrap{overflow-x:auto;margin-top:13px}table{width:100%;border-collapse:collapse;min-width:300px;font-size:12px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid var(--border)}th{color:var(--muted);font-size:10px;text-transform:uppercase}tbody tr:last-child td{border-bottom:0}.you-row{background:#168bff20}.rank{font-weight:800;color:var(--gold)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:9;border-top:1px solid var(--border);background:var(--bg);padding:8px 14px calc(8px + env(safe-area-inset-bottom));display:flex;justify-content:center}.nav-inner{width:min(520px,100%);display:grid;grid-template-columns:repeat(5,1fr);gap:4px}.nav-link{display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 3px;color:var(--muted);font-size:10px;font-weight:600}.nav-link span:first-child{font-size:21px}.nav-link.active{color:var(--cyan)}
+.screen{display:none;padding-bottom:85px}.screen.active{display:block}.quiz-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:15px 0}.timer{font-variant-numeric:tabular-nums;color:var(--red);border:1px solid var(--red);border-radius:10px;padding:8px 10px;font-weight:800;font-size:14px}.progress-track{height:5px;background:var(--border);border-radius:9px;overflow:hidden;margin:10px 0 18px}.progress-track div{height:100%;background:linear-gradient(90deg,var(--cyan),var(--blue));width:0}.q-layout{display:grid;grid-template-columns:minmax(0,1fr) 245px;gap:14px}.question-box,.palette-box{background:var(--surface);border:1px solid var(--border);border-radius:17px;padding:17px}.q-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11px;color:var(--muted)}.question-text{font-size:17px;font-weight:700;margin:20px 0}.option{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:12px;margin:9px 0;color:var(--text);font-size:13px}.option .letter{width:25px;height:25px;display:grid;place-items:center;border-radius:50%;background:var(--border);font-weight:800;flex-shrink:0}.option.selected{border-color:var(--cyan);background:#08d5ed18}.q-actions{display:flex;gap:9px;margin-top:18px}.q-actions button{flex:1}.palette-title{font-weight:800;font-size:14px}.palette{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:12px 0}.qnum{border:1px solid var(--border);border-radius:8px;background:var(--surface2);color:var(--text);padding:8px 0;font-size:11px;font-weight:700}.qnum.answered{background:var(--green);color:#032b21}.qnum.marked{background:var(--gold);color:#382300}.qnum.current{outline:2px solid var(--cyan)}.legend{font-size:10px;color:var(--muted);line-height:1.9}.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:17px 0}.stat{border:1px solid var(--border);border-radius:13px;padding:13px 7px;text-align:center;background:var(--surface2)}.stat strong{display:block;font-size:22px;color:var(--cyan)}.stat span{font-size:10px;color:var(--muted)}.result-score{border:1px solid var(--border);border-radius:16px;background:var(--surface2);text-align:center;padding:20px}.result-score strong{font-size:38px;color:var(--green)}.subject-results{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.subject-result,.review-item{border:1px solid var(--border);border-radius:13px;padding:13px;background:var(--surface2);margin:10px 0}.subject-result strong{font-size:13px}.subject-result p,.review-item p{margin:5px 0;color:var(--muted);font-size:12px}.bar{height:6px;background:var(--border);border-radius:8px;overflow:hidden}.bar div{height:100%;background:var(--blue)}.review-item h3{font-size:13px;margin:0 0 8px}.correct-text{color:var(--green)!important}.wrong-text{color:var(--red)!important}.toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,10px);width:min(430px,calc(100% - 30px));padding:12px 15px;border:1px solid var(--border);border-radius:13px;background:var(--surface2);color:var(--text);font-size:13px;opacity:0;pointer-events:none;transition:.2s;z-index:30}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:720px){.q-layout{grid-template-columns:1fr}.palette{grid-template-columns:repeat(8,1fr)}.question-box,.palette-box{padding:14px}.question-text{font-size:16px}.subject-grid{gap:7px}.subject-card{padding:10px 4px}.tools-grid{gap:7px}.tool-card{padding:11px 4px}.test-card{padding:13px}.hero{padding-top:22px}.target{font-size:45px}}
+@media(max-width:400px){.subject-grid{grid-template-columns:repeat(2,1fr)}.filters{grid-template-columns:1fr}.palette{grid-template-columns:repeat(6,1fr)}.test-card{align-items:flex-start;flex-direction:column}.test-card .btn{align-self:stretch}.summary-grid{gap:5px}}
+
+/* ===== v2: dashboard-style hub + standard exam layout ===== */
+[hidden]{display:none!important}
+.hub{position:sticky;top:68px;z-index:9;background:var(--bg);border-bottom:1px solid var(--border)}
+.hub-inner{display:flex;gap:6px;overflow-x:auto;padding:9px 0;scrollbar-width:none}.hub-inner::-webkit-scrollbar{display:none}
+.hub-inner button{flex:1 0 auto;white-space:nowrap;border:1px solid var(--border);border-radius:11px;padding:10px 14px;background:var(--surface);color:var(--text);font-size:12px;font-weight:700}
+.hub-inner button.active{background:linear-gradient(115deg,var(--cyan),var(--blue));border-color:transparent;color:#fff}
+.exam .hub,.exam .bottom-nav{display:none}
+.page-head{padding:18px 0 6px}.page-head h1{font-size:clamp(26px,5vw,36px);margin:4px 0}.page-head p{margin:0;color:var(--muted);font-size:13px}
+.chips{display:flex;gap:7px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chips button{white-space:nowrap;border:1px solid var(--border);border-radius:999px;padding:8px 13px;background:var(--surface);color:var(--text);font-size:12px;font-weight:600}
+.chips button.active{border-color:var(--cyan);color:var(--cyan);background:#08d5ed18}
+.filter-row{display:flex;gap:9px;align-items:center;margin-bottom:6px}.filter-row select{flex:0 0 130px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:10px;font-size:12px}
+.empty{border:1px dashed var(--border);border-radius:16px;padding:26px 16px;text-align:center;color:var(--muted);font-size:13px}
+.chip{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:3px 9px;font-size:10px;font-weight:700;color:var(--muted)}
+.chip.ok{color:var(--green);border-color:var(--green)}.chip.bad{color:var(--red);border-color:var(--red)}.chip.warn{color:var(--gold);border-color:var(--gold)}
+/* instructions */
+.ins-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0}.ins-grid div{border:1px solid var(--border);background:var(--surface2);border-radius:13px;padding:12px 8px;text-align:center}.ins-grid strong{display:block;font-size:17px;color:var(--cyan)}.ins-grid span{font-size:10px;color:var(--muted)}
+.ins-list{margin:10px 0 14px;padding-left:18px;font-size:13px;color:var(--muted)}.ins-list li{margin:7px 0}
+.legend-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;margin:10px 0}.legend-grid span{display:flex;align-items:center;gap:8px}
+/* exam */
+.exam-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:12px 0 8px}.exam-head .t{min-width:0}.exam-head .t strong{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.exam-head .r{display:flex;align-items:center;gap:8px}
+.timer{display:flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums;color:var(--text);border:1px solid var(--border);background:var(--surface);border-radius:10px;padding:8px 11px;font-weight:800;font-size:15px}.timer.low{color:var(--red);border-color:var(--red)}
+.btn-danger{border:1px solid var(--red);background:transparent;color:var(--red);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:800}
+.sec-tabs{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}.sec-tabs::-webkit-scrollbar{display:none}
+.sec-tabs button{white-space:nowrap;border:1px solid var(--border);border-radius:10px 10px 0 0;padding:9px 13px;background:var(--surface);color:var(--muted);font-size:12px;font-weight:700}
+.sec-tabs button.active{color:var(--cyan);border-color:var(--cyan);background:#08d5ed14}.sec-tabs small{font-weight:600;opacity:.8}
+.q-layout{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:14px;align-items:start}
+.question-box{min-height:320px}.q-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.q-top .l{display:flex;align-items:center;gap:8px}
+.qno{font-weight:800;font-size:13px}.option{align-items:center}.option .letter{background:var(--border)}.option.selected{border-color:var(--cyan);background:#08d5ed18}.option.selected .letter{background:var(--cyan);color:#03202a}
+.exam-bar{position:fixed;left:0;right:0;bottom:0;z-index:15;background:var(--bg);border-top:1px solid var(--border);padding:8px 12px calc(8px + env(safe-area-inset-bottom))}
+.exam-bar .in{width:min(1080px,100%);margin:auto;display:grid;grid-template-columns:auto auto 1fr 1fr auto;gap:7px}
+.exam-bar button{padding:11px 10px;font-size:12px}.exam-bar .btn-outline{white-space:nowrap}
+.palette-box{padding:14px}.pal-sec{margin:10px 0 4px;font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.palette{grid-template-columns:repeat(5,1fr);margin:6px 0}.qnum{position:relative;padding:9px 0;font-size:12px;border-radius:9px}
+.qnum.na{background:#ff526328;border-color:var(--red)}.qnum.an{background:var(--green);color:#032b21;border-color:var(--green)}.qnum.mk{background:#8b5cf6;color:#fff;border-color:#8b5cf6}.qnum.am{background:#8b5cf6;color:#fff;border-color:#8b5cf6}.qnum.am::after{content:"";position:absolute;right:3px;bottom:3px;width:7px;height:7px;border-radius:50%;background:var(--green);border:1px solid #fff}.qnum.current{outline:2px solid var(--cyan);outline-offset:1px}
+.legend span{display:inline-flex;align-items:center;gap:6px;margin-right:10px}.dot{display:inline-block;width:11px;height:11px;border-radius:3px;border:1px solid var(--border);background:var(--surface2)}.dot.na{background:#ff526355;border-color:var(--red)}.dot.an{background:var(--green)}.dot.mk{background:#8b5cf6}
+#palToggle{display:none}
+@media(max-width:899px){.q-layout{grid-template-columns:1fr}.palette-box{position:fixed;left:0;right:0;bottom:0;z-index:20;max-height:68vh;overflow:auto;border-radius:18px 18px 0 0;transform:translateY(105%);transition:transform .25s;box-shadow:0 -10px 30px #0008}.palette-box.open{transform:none}#palToggle{display:inline-flex}.palette{grid-template-columns:repeat(7,1fr)}.exam-bar .in{grid-template-columns:auto 1fr 1fr auto}.exam-bar #clearBtn{display:none}.pal-close{display:block!important}}
+@media(min-width:900px){.palette-box{position:sticky;top:132px;max-height:calc(100vh - 150px);overflow:auto}.pal-close{display:none!important}}
+.pal-close{display:none;margin:0 0 6px auto;border:1px solid var(--border);background:var(--surface2);color:var(--text);border-radius:9px;padding:6px 12px;font-size:12px}
+#quizScreen.screen{padding-bottom:96px}
+/* analysis */
+.score-hero{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;border:1px solid var(--border);background:linear-gradient(135deg,var(--surface2),var(--surface));border-radius:18px;padding:18px;margin:10px 0 14px}
+.score-hero .big{font-size:42px;font-weight:800;line-height:1;color:var(--green)}.score-hero .big small{font-size:18px;color:var(--muted);font-weight:700}.score-hero .sub{font-size:12px;color:var(--muted);margin-top:6px}
+.score-hero .side{text-align:right;font-size:12px;color:var(--muted)}.score-hero .side strong{display:block;font-size:20px;color:var(--cyan)}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:10px 0 14px}.stat-grid .stat strong{font-size:20px}.stat strong.g{color:var(--green)}.stat strong.r{color:var(--red)}.stat strong.y{color:var(--gold)}
+.donut-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap}.donut-row svg{flex:0 0 auto}.donut-row .lg{font-size:12px;line-height:2}.sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
+.insight{border-left:3px solid var(--cyan);background:var(--surface2);border-radius:0 12px 12px 0;padding:10px 12px;margin:8px 0;font-size:12.5px}.insight.bad{border-color:var(--red)}.insight.ok{border-color:var(--green)}.insight.warn{border-color:var(--gold)}
+.tbl{width:100%;border-collapse:collapse;font-size:12px;min-width:430px}.tbl th,.tbl td{padding:10px 8px;border-bottom:1px solid var(--border);text-align:left}.tbl th{font-size:10px;text-transform:uppercase;color:var(--muted)}.tbl td.n{font-variant-numeric:tabular-nums}
+.weak{color:var(--red);font-weight:700}.strong-t{color:var(--green);font-weight:700}
+.rv{border:1px solid var(--border);border-radius:14px;background:var(--surface);margin:10px 0;overflow:hidden}.rv-h{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 13px;background:var(--surface2);font-size:12px;font-weight:700;flex-wrap:wrap}.rv-b{padding:13px}.rv-q{font-size:14px;font-weight:600;margin:0 0 10px;white-space:pre-wrap}
+.opt-row{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--border);border-radius:10px;padding:9px 11px;margin:6px 0;font-size:13px}.opt-row .lt{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--border);font-size:11px;font-weight:800;flex:0 0 auto}
+.opt-row.ok{border-color:var(--green);background:#11d6a016}.opt-row.ok .lt{background:var(--green);color:#032b21}.opt-row.no{border-color:var(--red);background:#ff526316}.opt-row.no .lt{background:var(--red);color:#fff}.opt-row .tag{margin-left:auto;font-size:10px;font-weight:800;white-space:nowrap}
+.expl{margin-top:10px;border:1px solid var(--border);border-left:3px solid var(--blue);border-radius:10px;background:var(--surface2);padding:10px 12px;font-size:12.5px}.expl b{color:var(--cyan)}
+.hist-card{border:1px solid var(--border);background:var(--surface);border-radius:16px;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:12px}.hist-card h3{font-size:14px;margin:0 0 4px}.hist-card .meta{margin-top:4px}
+.paper-card{border:1px solid var(--border);background:var(--surface);border-radius:16px;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.paper-card h3{font-size:14px;margin:0 0 4px}.paper-card .btns{display:flex;gap:8px;flex-wrap:wrap}.paper-card a{display:inline-block}
+.sel-wrap select{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:11px;padding:9px;font-size:12px;max-width:100%}
+@media(max-width:560px){.score-hero{grid-template-columns:1fr}.score-hero .side{text-align:left}.stat-grid{gap:6px}.hist-card{flex-direction:column;align-items:stretch}.test-card{flex-direction:column;align-items:stretch}.filter-row{flex-direction:column;align-items:stretch}.filter-row select{flex:0 0 auto;width:100%}}
+
+.tsearch{margin:4px 0 8px}.tsearch input{width:100%;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:12px;padding:11px 14px;font-size:14px;font-family:inherit}
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:2px 0 12px}.crumbs:empty{display:none}
+.crumbs button{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:999px;padding:6px 11px;font-size:12px;font-weight:600}.crumbs button.cur{border-color:var(--cyan);color:var(--cyan);background:var(--surface2)}.crumbs .sep{color:var(--muted);font-size:12px}
+.fold-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin:4px 0 14px}.fold-grid:empty{display:none}
+.fold{display:flex;align-items:center;gap:12px;text-align:left;width:100%;border:1px solid var(--border);border-left:4px solid var(--fc,var(--cyan));background:var(--surface);color:var(--text);border-radius:14px;padding:14px;font-family:inherit}
+.fold .ic{font-size:24px}.fold .tx{flex:1;min-width:0}.fold .tx b{display:block;font-size:14px}.fold .tx small{color:var(--muted);font-size:11px}.fold .ch{color:var(--muted);font-size:22px}
+.test-card.locked,.paper-card.locked{border-color:var(--gold)}.test-card .btns{display:flex;gap:8px;flex-wrap:wrap}
+.hint{font-size:10px;color:var(--muted);margin:0 0 4px}.tag{display:inline-block;font-size:10px;font-weight:800;border-radius:999px;padding:2px 8px;margin-left:6px;vertical-align:middle}.tag.free{color:var(--green);border:1px solid var(--green)}.tag.lock{color:var(--gold);border:1px solid var(--gold)}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="wrap top-inner"><a class="brand" href="index.html"><div class="logo">M<span>R</span></div><div><div class="brand-name">Med<span>Rise</span></div><div class="brand-tag">Get Your Dream with MedRise</div></div></a><button class="icon-btn" id="themeToggle" aria-label="Switch theme" type="button">☼</button></div></header>
+<nav class="hub" id="hub"><div class="wrap hub-inner">
+<button data-hub="tests" class="active" type="button">🧪 Tests</button><button data-hub="leader" id="leaderShortcut" type="button">🏆 Leaderboard</button><button data-hub="analysis" id="analysisShortcut" type="button">📊 Analysis</button><button data-hub="history" id="historyShortcut" type="button">🗂 History</button></div></nav>
+<main class="wrap">
+
+<section id="testsScreen" class="screen active">
+ <div class="page-head"><div class="eyebrow">Practice · Analyse · Improve</div><h1>Med<span style="color:var(--blue)">Rise</span> Tests</h1><p>Folder kholo, apna test chuno, analysis dekho.</p></div>
+ <div class="seg-tabs" id="kindTabs"><button class="active" data-kind="live" type="button">🧪 Live MCQ Tests</button><button data-kind="papers" type="button">📄 PDF Papers</button></div>
+ <div class="tsearch"><input id="tSearch" type="search" placeholder="Test, chapter ya paper dhundo…" autocomplete="off"></div>
+ <div class="crumbs" id="crumbs"></div>
+ <div class="fold-grid" id="folderGrid"></div>
+ <div class="section-title"><h2 id="listTitle"></h2><span class="muted" id="testCount"></span></div>
+ <div id="testList" class="test-list"></div>
+</section>
+
+<section id="leaderScreen" class="screen">
+ <div class="page-head"><div class="eyebrow">Live ranking</div><h1>🏆 Leaderboard</h1><p>Har test ka pehla attempt rank me count hota hai.</p></div>
+ <div class="panel" id="leaderPanel"><div class="leader-intro"><div class="seg-tabs" id="leaderTabs" style="padding:0"><button class="active" data-leader="this">This Test</button><button data-leader="all">All Tests</button><button data-leader="me">My Rank</button></div><button class="btn-outline" id="leaderRefresh">Refresh</button></div><div id="leaderContent">Loading…</div><p class="leader-note">Rank score ke hisaab se; barabari par kam time wala upar. Naam short form me dikhta hai.</p></div>
+</section>
+
+<section id="analysisScreen" class="screen">
+ <div class="page-head" style="display:flex;justify-content:space-between;gap:12px;align-items:flex-end;flex-wrap:wrap"><div><div class="eyebrow" id="anEyebrow">Attempt analysis</div><h1 id="anTitle" style="font-size:clamp(22px,4.5vw,30px)">Analysis</h1></div><div class="sel-wrap"><select id="attSel" aria-label="Choose attempt"></select></div></div>
+ <div id="anEmpty" class="empty" hidden>Abhi koi attempt nahi hai. Pehle ek test do, phir yahan poori analysis milegi.<br><br><button class="btn" data-hub-go="tests" type="button">Tests dekho →</button></div>
+ <div id="anMain">
+  <div class="score-hero"><div><div class="muted">Your Score</div><div class="big"><span id="anScore">0</span> <small id="anMax">/ 0</small></div><div class="sub" id="anSub"></div></div><div class="side"><strong id="anRank">—</strong><span id="anRankSub">Rank</span></div></div>
+  <div class="seg-tabs" id="anTabs"><button class="active" data-at="overview">Overview</button><button data-at="subjects">Subjects</button><button data-at="time">Time</button><button data-at="questions">Questions</button></div>
+  <div id="anBody"></div>
+ </div>
+</section>
+
+<section id="historyScreen" class="screen">
+ <div class="page-head"><div class="eyebrow">Your attempts</div><h1>🗂 Test History</h1><p>Kisi bhi attempt par tap karke poori analysis aur explanation dekho.</p></div>
+ <div id="historyList" class="test-list"></div>
+</section>
+
+<section id="instructionsScreen" class="screen">
+ <div class="page-head"><div class="eyebrow">Before you begin</div><h1 id="insTitle" style="font-size:clamp(22px,4.5vw,30px)">Test Instructions</h1></div>
+ <div class="panel"><div class="ins-grid"><div><strong id="insQ">0</strong><span>Questions</span></div><div><strong id="insT">0</strong><span>Minutes</span></div><div><strong id="insM">+4 / −1</strong><span>Marking</span></div></div>
+  <p class="muted" id="instructionQuestions" hidden></p><p class="muted" id="instructionTime" hidden></p><p class="muted" id="markingScheme"></p>
+  <div id="langBox" hidden style="margin:12px 0"><div class="muted" style="margin-bottom:6px">Test ki bhasha chuno · भाषा चुनें</div><div class="seg-tabs" id="langTabs" style="padding:0"><button data-lang="en" type="button">English</button><button data-lang="hi" type="button">हिन्दी</button></div><p class="muted" style="margin-top:6px">Test ke beech bhi upar button se bhasha badal sakte ho. Test, marks aur rank ek hi rahte hain.</p></div>
+  <ol class="ins-list"><li>Timer test start hote hi chalu ho jata hai; time khatam hone par test <b>auto-submit</b> ho jayega.</li><li>Har question me ek hi option sahi hai. Galat answer par negative marking lagti hai, unattempted par 0.</li><li>Upar <b>subject tabs</b> se Physics / Chemistry / Botany / Zoology ke beech jump kar sakte ho.</li><li><b>Mark for Review</b> se kisi question ko baad ke liye chhod sakte ho. Review ke liye marked answer bhi count hota hai.</li><li>Test ke beech page refresh ya back mat karo, progress chala jayega.</li><li>Test ke baad <b>subject-wise, time-wise aur question-wise analysis</b> explanation ke saath milega.</li></ol>
+  <div class="legend-grid"><span><i class="dot"></i> Not visited</span><span><i class="dot na"></i> Not answered</span><span><i class="dot an"></i> Answered</span><span><i class="dot mk"></i> Marked for review</span></div>
+  <label style="display:flex;gap:10px;font-size:12px;margin:15px 0"><input id="agreeInstructions" type="checkbox"> I have read and understood the instructions.</label>
+  <button class="btn" id="startTestBtn" style="width:100%" type="button">I Understand — Start Test</button><button class="btn-outline" data-hub-go="tests" style="width:100%;margin-top:9px" type="button">← Back to Tests</button></div>
+</section>
+
+<section id="quizScreen" class="screen">
+ <div class="exam-head"><div class="t"><strong id="quizTitle">Test</strong><span class="muted" id="quizProgressText"></span></div><div class="r"><button class="btn-outline" id="langBtn" type="button" hidden>हिन्दी</button><div class="timer" id="timer">00:00</div><button class="btn-danger" id="submitBtn" type="button">Submit</button></div></div>
+ <div class="sec-tabs" id="secTabs"></div>
+ <div class="q-layout">
+  <div class="question-box"><div class="q-top"><div class="l"><span class="qno" id="qNo">Q1</span><span class="chip" id="questionSubject"></span><span class="chip ok" id="qMarks"></span></div><button class="btn-outline" id="markBtn" type="button">☆ Mark for Review</button></div>
+   <div class="question-text" id="questionText"></div><div id="options"></div></div>
+  <aside class="palette-box" id="paletteBox"><button class="pal-close" id="palClose" type="button">✕ Close</button><div class="palette-title">Question Palette</div><div id="palette"></div>
+   <div class="legend" style="margin-top:10px"><span><i class="dot"></i>Not visited</span><span><i class="dot na"></i>Not answered</span><span><i class="dot an"></i>Answered</span><span><i class="dot mk"></i>Marked</span></div></aside>
+ </div>
+ <div class="exam-bar"><div class="in"><button class="btn-outline" id="prevBtn" type="button">← Prev</button><button class="btn-outline" id="clearBtn" type="button">Clear</button><button class="btn-outline" id="markNextBtn" type="button">★ Mark &amp; Next</button><button class="btn" id="nextBtn" type="button">Save &amp; Next →</button><button class="btn-outline" id="palToggle" type="button">☰</button></div></div>
+</section>
+
+<section id="submitScreen" class="screen">
+ <div class="page-head"><div class="eyebrow">Almost done</div><h1 style="font-size:clamp(22px,4.5vw,30px)">Submit Test?</h1></div>
+ <div class="panel"><div class="summary-grid"><div class="stat"><strong id="submitAnswered">0</strong><span>Answered</span></div><div class="stat"><strong id="submitUnanswered">0</strong><span>Unanswered</span></div><div class="stat"><strong id="submitMarked">0</strong><span>Marked</span></div></div><p class="muted" id="submitTime"></p>
+ <button class="btn" id="confirmSubmit" style="width:100%" type="button">Confirm Submit</button><button class="btn-outline" id="backToQuiz" style="width:100%;margin-top:9px" type="button">Go Back to Test</button></div>
+</section>
+</main>
+<nav class="bottom-nav"><div class="nav-inner"><a class="nav-link" href="index.html"><span>⌂</span><span>Home</span></a><a class="nav-link" href="notes.html"><span>▤</span><span>Vault</span></a><a class="nav-link active" href="mocktest.html"><span>◴</span><span>Tests</span></a><a class="nav-link" href="community.html"><span>💬</span><span>Help</span></a><a class="nav-link" href="dashboard.html" id="profileLink"><span>♙</span><span>Profile</span></a></div></nav><div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+const QUESTIONS=[
+{subject:"Physics",q:"Which of the following is the SI unit of force?",options:["Joule","Newton","Watt","Pascal"],answer:1,explanation:"The SI unit of force is the newton (N).",hi:{q:"बल का SI मात्रक निम्नलिखित में से कौन-सा है?",options:["जूल", "न्यूटन", "वाट", "पास्कल"],explanation:"बल का SI मात्रक न्यूटन (N) है।"}},
+{subject:"Physics",q:"The dimensional formula of Planck’s constant is:",options:["ML²T⁻¹","ML²T⁻²","MLT⁻¹","ML⁻¹T⁻²"],answer:0,explanation:"Planck’s constant = energy × time, so its dimensions are ML²T⁻¹.",hi:{q:"प्लांक नियतांक का विमीय सूत्र है:",options:["ML²T⁻¹", "ML²T⁻²", "MLT⁻¹", "ML⁻¹T⁻²"],explanation:"प्लांक नियतांक = ऊर्जा × समय, इसलिए इसकी विमाएँ ML²T⁻¹ हैं।"}},
+{subject:"Physics",q:"A convex lens is also known as a:",options:["Diverging lens","Converging lens","Plane lens","Cylindrical mirror"],answer:1,explanation:"A convex lens converges parallel rays of light.",hi:{q:"उत्तल लेंस को और किस नाम से जाना जाता है?",options:["अपसारी लेंस", "अभिसारी लेंस", "समतल लेंस", "बेलनाकार दर्पण"],explanation:"उत्तल लेंस समानांतर प्रकाश किरणों को अभिसरित करता है।"}},
+{subject:"Chemistry",q:"The atomic number of an element equals the number of:",options:["Neutrons","Protons","Nucleons","Shells"],answer:1,explanation:"Atomic number is the number of protons in the nucleus.",hi:{q:"किसी तत्व का परमाणु क्रमांक किसकी संख्या के बराबर होता है?",options:["न्यूट्रॉन", "प्रोटॉन", "न्यूक्लिऑन", "कोश"],explanation:"परमाणु क्रमांक नाभिक में प्रोटॉनों की संख्या होती है।"}},
+{subject:"Chemistry",q:"A solution with pH 3 is:",options:["Neutral","Basic","Acidic","Always a buffer"],answer:2,explanation:"At 25°C, a pH below 7 is acidic.",hi:{q:"pH 3 वाला विलयन होता है:",options:["उदासीन", "क्षारीय", "अम्लीय", "हमेशा बफर"],explanation:"25°C पर 7 से कम pH अम्लीय होता है।"}},
+{subject:"Chemistry",q:"Which is an electrolyte in aqueous solution?",options:["Sugar","Sodium chloride","Ethanol","Glucose"],answer:1,explanation:"Sodium chloride dissociates into ions in water.",hi:{q:"जलीय विलयन में कौन-सा विद्युत-अपघट्य है?",options:["चीनी", "सोडियम क्लोराइड", "एथेनॉल", "ग्लूकोज़"],explanation:"सोडियम क्लोराइड पानी में आयनों में वियोजित हो जाता है।"}},
+{subject:"Botany",q:"The basic structural and functional unit of life is the:",options:["Tissue","Organ","Cell","Organ system"],answer:2,explanation:"The cell is the basic structural and functional unit of life.",hi:{q:"जीवन की मूल संरचनात्मक एवं कार्यात्मक इकाई है:",options:["ऊतक", "अंग", "कोशिका", "अंग तंत्र"],explanation:"कोशिका जीवन की मूल संरचनात्मक एवं कार्यात्मक इकाई है।"}},
+{subject:"Botany",q:"Photosynthesis mainly occurs in which organelle?",options:["Mitochondrion","Chloroplast","Ribosome","Golgi apparatus"],answer:1,explanation:"Chloroplasts contain chlorophyll and photosynthetic machinery.",hi:{q:"प्रकाश संश्लेषण मुख्यतः किस कोशिकांग में होता है?",options:["माइटोकॉन्ड्रिया", "हरितलवक", "राइबोसोम", "गॉल्जी उपकरण"],explanation:"हरितलवक में क्लोरोफिल और प्रकाश संश्लेषण की मशीनरी होती है।"}},
+{subject:"Zoology",q:"Which blood cells primarily transport oxygen?",options:["Platelets","Red blood cells","Neurons","White blood cells"],answer:1,explanation:"Haemoglobin in red blood cells transports most oxygen.",hi:{q:"कौन-सी रक्त कोशिकाएँ मुख्यतः ऑक्सीजन का परिवहन करती हैं?",options:["प्लेटलेट्स", "लाल रक्त कोशिकाएँ", "न्यूरॉन", "श्वेत रक्त कोशिकाएँ"],explanation:"लाल रक्त कोशिकाओं में उपस्थित हीमोग्लोबिन अधिकांश ऑक्सीजन का परिवहन करता है।"}},
+{subject:"Zoology",q:"The functional unit of the kidney is the:",options:["Neuron","Alveolus","Nephron","Villus"],answer:2,explanation:"The nephron filters blood and helps form urine.",hi:{q:"वृक्क की कार्यात्मक इकाई है:",options:["न्यूरॉन", "कूपिका (एल्वियोलस)", "नेफ्रॉन", "दीर्घरोम (विलस)"],explanation:"नेफ्रॉन रक्त को छानता है और मूत्र निर्माण में सहायता करता है।"}}];
+const TESTS=[
+{id:"demo-full",title:"Demo Practice Test 01",mode:"Full Syllabus",cls:"All",subject:"All",count:10,minutes:15,description:"10 sample MCQs across Physics, Chemistry and Biology.",demo:true},
+{id:"demo-physics",title:"Physics Quick Practice",mode:"Chapter-wise",cls:"11",subject:"Physics",count:3,minutes:5,description:"Short demo set to practise the test interface.",demo:true},
+{id:"demo-biology",title:"Botany Quick Practice",mode:"Chapter-wise",cls:"12",subject:"Botany",count:2,minutes:5,description:"Short demo set to practise the test interface.",demo:true},
+{id:"premium-placeholder",title:"Full Syllabus Test 02",mode:"Full Syllabus",cls:"All",subject:"All",count:200,minutes:180,description:"Full test content has not been added yet.",demo:false}];
+const $=id=>document.getElementById(id);
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+const app={mode:"Full Syllabus",sub:"All",test:null,qs:[],i:0,answers:{},marked:new Set(),visited:new Set(),qt:{},qStart:0,t0:0,deadline:0,interval:null,cur:null,aTab:"overview",rFilter:"all",leaderTab:"this",finished:true};let toastTimer;
+function toast(s){$("toast").textContent=s;$("toast").classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").classList.remove("show"),3200)}
+/* ---- per-user storage (each logged-in student gets own history) ---- */
+let UID=(()=>{try{return localStorage.getItem("medrise-last-uid")||"guest"}catch(e){return"guest"}})();
+const K=name=>"medrise:"+UID+":"+name;
+const LEGACY_KEYS={history:"medrise-demo-history",bookmarks:"medrise-demo-bookmarks",tasks:"medrise-dashboard-tasks",profile:"medrise-dashboard-profile",notify:"medrise-demo-notifications"};
+function migrateLegacy(){if(UID==="guest")return;try{Object.entries(LEGACY_KEYS).forEach(([n,old])=>{const v=localStorage.getItem(old);if(v!==null){if(localStorage.getItem(K(n))===null)localStorage.setItem(K(n),v);localStorage.removeItem(old)}})}catch(e){}}
+function dayKey(d=new Date()){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function loadHist(){try{const h=JSON.parse(localStorage.getItem(K("history"))||"[]");return Array.isArray(h)?h:[]}catch(e){return[]}}
+function saveAttempt(r){
+  try{const d=JSON.parse(localStorage.getItem(K("days"))||"[]"),t=dayKey();if(!d.includes(t)){d.push(t);localStorage.setItem(K("days"),JSON.stringify(d.slice(-120)))}}catch(e){}
+  let h=loadHist();h.unshift(r);h=h.slice(0,15);
+  for(let n=h.length;n>0;n--){try{localStorage.setItem(K("history"),JSON.stringify(h.slice(0,n)));return}catch(e){}}
+  toast("Result is device par save nahi ho paya (storage full ya blocked).")}
+function watchAuth(cb){if(window.medrise&&window.medrise.ready)cb(window.medrise.user);document.addEventListener("medrise:auth",e=>cb(e.detail.user))}
+window.addEventListener("beforeunload",e=>{if(app.test&&!app.finished&&app.interval!==null){e.preventDefault();e.returnValue=""}});
+function themeSet(t){document.documentElement.dataset.theme=t;$("themeToggle").textContent=t==="dark"?"☼":"☾";try{localStorage.setItem("medrise-theme",t)}catch(e){}}
+let th="dark";try{th=localStorage.getItem("medrise-theme")||"dark"}catch(e){}themeSet(th==="light"?"light":"dark");$("themeToggle").onclick=()=>themeSet(document.documentElement.dataset.theme==="dark"?"light":"dark");
+/* ---- navigation ---- */
+const HUBMAP={testsScreen:"tests",leaderScreen:"leader",analysisScreen:"analysis",historyScreen:"history",instructionsScreen:"tests"};
+function screen(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));$(id).classList.add("active");document.body.classList.toggle("exam",id==="quizScreen"||id==="submitScreen");document.querySelectorAll("[data-hub]").forEach(b=>b.classList.toggle("active",b.dataset.hub===HUBMAP[id]));window.scrollTo({top:0})}
+function goHub(t){
+  if(app.test&&!app.finished&&app.interval!==null){toast("Test chal raha hai. Pehle submit karo.");return}
+  if(t==="tests")screen("testsScreen");
+  else if(t==="leader"){screen("leaderScreen");drawLeader()}
+  else if(t==="analysis")openAnalysis(null);
+  else if(t==="history"){drawHistory();screen("historyScreen")}
+  else if(t==="papers"){setKind("papers");screen("testsScreen")}}
+document.querySelectorAll("[data-hub]").forEach(b=>b.onclick=()=>goHub(b.dataset.hub));
+document.querySelectorAll("[data-hub-go]").forEach(b=>b.onclick=()=>goHub(b.dataset.hubGo));
+/* ---- tests list ---- */
+function normQ(raw){return(Array.isArray(raw)?raw:[]).map((q,k)=>{
+  if(!q||typeof q!=="object")return null;
+  const text=String(q.q??q.question??q.text??"").trim(),opts=q.options??q.opts??q.choices;
+  if(!text||!Array.isArray(opts)||opts.length<2||opts.length>6)return null;
+  let a=q.answer??q.ans??q.correctAnswer??q.correct;
+  if(typeof a==="string"){const v=a.trim();if(/^[A-F]$/i.test(v))a=v.toUpperCase().charCodeAt(0)-65;else if(/^\d+$/.test(v))a=Number(v)-1;else a=NaN}
+  if(!Number.isInteger(a)||a<0||a>=opts.length)return null;
+  const nc=q.ncert||{};
+  let hi=null;const H=(q.hi&&typeof q.hi==="object")?q.hi:{q:q.q_hi,options:q.options_hi,explanation:q.explanation_hi};
+  if(H&&String(H.q??"").trim()&&Array.isArray(H.options)&&H.options.length===opts.length&&H.options.every(x=>String(x??"").trim()))hi={q:String(H.q).trim(),options:H.options.map(x=>String(x)),explanation:String(H.explanation??H.exp??"")};
+  return{subject:String(q.subject||q.sub||"General"),chapter:String(q.chapter||q.ncertChapter||nc.chapter||"").trim().slice(0,80),q:text,options:opts.map(x=>String(x??"")),answer:a,
+    explanation:String(q.explanation??q.solution??q.exp??q.rationale??""),ncertPage:String(q.ncertPage??q.ncert_page??q.pageNo??q.page??nc.page??"").trim(),
+    ncertChapter:String(q.ncertChapter??q.chapter??nc.chapter??"").trim(),ncertTopic:String(q.ncertTopic??q.topic??nc.topic??"").trim(),hi,id:k+1}}).filter(Boolean)}
+let testsReady=false;
+function catalogue(){
+  const m=window.medrise||{},all=m.tests||{},ids=Object.keys(all);
+  if(ids.length)return ids.filter(id=>all[id]&&(all[id].active===true||m.isAdmin)).map(id=>({id,...all[id],local:false})).sort((a,b)=>(Number(a.order)||0)-(Number(b.order)||0)||String(a.title).localeCompare(String(b.title)));
+  return TESTS.filter(t=>t.demo).map(t=>({...t,price:"Free",amount:0,correct:4,wrong:1,active:true,local:true}));
+}
+/* ---- folder browser (Live tests + PDF papers) ---- */
+Object.assign(app,{kind:"live",path:[],lang:"en",hasHi:false});
+/* ---- language (English / हिन्दी): same test, same marks, same rank - sirf dikhne wali bhasha badalti hai ---- */
+const LANG_KEY="medrise-lang";
+function savedLang(){try{return localStorage.getItem(LANG_KEY)==="hi"?"hi":"en"}catch(e){return"en"}}
+function setLang(l){app.lang=l==="hi"&&app.hasHi?"hi":"en";try{if(app.hasHi)localStorage.setItem(LANG_KEY,app.lang)}catch(e){}drawLang()}
+function qv(q){const h=app.lang==="hi"&&q.hi?q.hi:null;return{q:h?h.q:q.q,options:h?h.options:q.options,explanation:h&&h.explanation&&h.explanation.trim()?h.explanation:q.explanation}}
+function drawLang(){$("langBox").hidden=!app.hasHi;$("langBtn").hidden=!app.hasHi;
+  document.querySelectorAll("#langTabs [data-lang]").forEach(b=>b.classList.toggle("active",b.dataset.lang===app.lang));
+  $("langBtn").textContent=app.lang==="hi"?"English":"हिन्दी"}
+document.querySelectorAll("#langTabs [data-lang]").forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
+$("langBtn").onclick=()=>{setLang(app.lang==="hi"?"en":"hi");if(app.qs[app.i]&&!app.finished)drawQ()};
+const MODE_LABEL={"Chapter-wise":"Chapter-wise Tests","Sunday Test":"Sunday Tests","Previous Year":"PYQs","Full Syllabus":"Full Syllabus"};
+const MODE_ICON={"Chapter-wise":"📘","Sunday Test":"🗓️","Previous Year":"🏆","Full Syllabus":"🎯"};
+const F_ICON={Biology:"🧬",Botany:"🌿",Zoology:"🧬",Physics:"⚡",Chemistry:"🧪",Physical:"⚗️",Organic:"🧫",Inorganic:"🧂","Class 11":"🎓","Class 12":"🎓","All Classes":"🎓"};
+const F_COLOR={Biology:"var(--green)",Botany:"var(--green)",Zoology:"var(--green)",Physics:"var(--blue)",Chemistry:"#a66bff",Physical:"#a66bff",Organic:"#a66bff",Inorganic:"#a66bff","Sunday Test":"var(--gold)","Previous Year":"var(--cyan)"};
+const BIO=["Botany","Zoology"],CHEM=["Physical","Organic","Inorganic"];
+const modeLabel=m=>MODE_LABEL[m]||m;
+function modeOf(x){if(x.mode&&MODE_LABEL[x.mode])return x.mode;const t=(x.paperType||"")+" "+(x.title||"");
+  if(/previous|pyq/i.test(t))return"Previous Year";if(/sunday/i.test(t))return"Sunday Test";if(x.subject==="Full"||/full/i.test(t))return"Full Syllabus";return"Chapter-wise"}
+function streamOf(x){const s=x.subject;if(BIO.includes(s)||s==="Biology")return"Biology";if(s==="Physics")return"Physics";if(s==="Chemistry")return"Chemistry";return"Other"}
+const clsLabel=c=>String(c)==="11"?"Class 11":String(c)==="12"?"Class 12":"All Classes";
+function keysOf(x){const m=modeOf(x);
+  if(m==="Chapter-wise"){const st=streamOf(x),k=[m,st];
+    if(st==="Biology")k.push(BIO.includes(x.subject)?x.subject:"Other");
+    else if(st==="Chemistry")k.push(CHEM.includes(x.branch)?x.branch:"Other");
+    k.push(clsLabel(x.cls));k.push(String(x.chapter||"").trim()||"General");return k}
+  if(m==="Previous Year")return[m,String(x.year||"").trim()||"Other years"];
+  return[m]}
+function fixedKids(p,all){
+  if(!p.length){const a=["Chapter-wise","Sunday Test","Previous Year"];if(all.some(x=>modeOf(x)==="Full Syllabus"))a.push("Full Syllabus");return a}
+  if(p[0]!=="Chapter-wise")return[];
+  if(p.length===1)return["Biology","Physics","Chemistry"];
+  const st=p[1];
+  if(p.length===2)return st==="Biology"?BIO:st==="Chemistry"?CHEM:["Class 11","Class 12"];
+  if(p.length===3&&(st==="Biology"||st==="Chemistry"))return["Class 11","Class 12"];
+  return[]}
+const byOrder=(a,b)=>(Number(a.order)||0)-(Number(b.order)||0)||String(a.title||"").localeCompare(String(b.title||""),undefined,{numeric:true});
+function browse(all,p){
+  const rows=all.map(x=>({x,k:keysOf(x)})).filter(r=>p.every((s,i)=>r.k[i]===s));
+  const leaves=rows.filter(r=>r.k.length===p.length).map(r=>r.x).sort(byOrder);
+  const fx=fixedKids(p,all),map=new Map();fx.forEach(n=>map.set(n,[]));
+  rows.filter(r=>r.k.length>p.length).forEach(r=>{const n=r.k[p.length];if(!map.has(n))map.set(n,[]);map.get(n).push(r.x)});
+  const folders=[...map.entries()].map(([name,xs])=>({name,xs}));
+  folders.sort((a,b)=>{const ia=fx.indexOf(a.name),ib=fx.indexOf(b.name);if(ia>=0||ib>=0)return(ia<0?99:ia)-(ib<0?99:ib);
+    if(p[0]==="Previous Year")return String(b.name).localeCompare(String(a.name));
+    const oa=Math.min(...a.xs.map(x=>Number(x.order)||0)),ob=Math.min(...b.xs.map(x=>Number(x.order)||0));return oa-ob||a.name.localeCompare(b.name,undefined,{numeric:true})});
+  return{folders,leaves}}
+const isFree=x=>x.price!=="Paid";
+const batchOn=()=>(((window.medrise||{}).config||{}).batch||{}).active===true;
+function isOpen(key){const m=window.medrise||{};return !!(m.isAdmin||(typeof m.entitled==="function"&&m.entitled())||(typeof m.owns==="function"&&m.owns(key)))}
+function joinBatchBtn(){const a=el("a","btn-outline","🎓 Join Batch");a.href="pay.html?batch=1";return a}
+function testCard(t,hint,hist){
+  const m=window.medrise||{},c=el("article","test-card"),info=el("div"),h=el("h3"),p=el("p"),mt=el("div","meta"),att=hist.filter(a=>a.testId===t.id);
+  const key="t_"+t.id,paid=t.price==="Paid"&&!t.local,locked=paid&&typeof m.owns==="function"&&!m.owns(key);
+  if(locked)c.classList.add("locked");
+  h.textContent=(locked?"🔒 ":"")+t.title+(t.active===false?" (hidden — sirf admin ko dikhta)":"");
+  const tg=el("span","tag "+(paid?"lock":"free"),paid?(locked?"PAID":"UNLOCKED"):"FREE");h.append(tg);
+  p.textContent=t.description||"";
+  mt.textContent=`▤ ${t.count||0} Questions   ◷ ${t.minutes} Minutes`+(paid?"   ₹"+(Number(t.amount)||0):"")+(t.hindi&&!t.local?"   🌐 हिन्दी + English":"")+(att.length?`   ✔ ${att.length}x attempted`:"");
+  if(hint)info.append(Object.assign(el("div","hint"),{textContent:hint}));
+  info.append(h,p,mt);
+  const bt=el("div","btns"),b=el("button");
+  if(locked){
+    if(m.pending&&m.pending.has(key)){b.className="btn-outline";b.textContent="⏳ Pending";b.onclick=()=>toast("Payment verification pending hai.")}
+    else{b.className="btn";b.textContent="🔒 Unlock ₹"+(Number(t.amount)||0);b.onclick=()=>{location.href="pay.html?item="+encodeURIComponent(key)}}
+    bt.append(b);if(batchOn())bt.append(joinBatchBtn())
+  }else if(!(t.count>0)&&!t.local){b.className="btn-outline";b.textContent="Coming Soon";b.disabled=true;bt.append(b)}
+  else{b.className="btn";b.textContent=att.length?"Start Again":"Start Test";b.onclick=()=>openInstructions(t,b);bt.append(b)}
+  c.append(info,bt);return c}
+const PF={};
+async function openPaperFile(p,which){
+  const legacy=which==="pdf"?(p.pdfUrl||p.pdf):(p.keyUrl||p.solution);
+  if(legacy&&/^https?:\/\//i.test(legacy)){window.open(legacy,"_blank","noopener");return}
+  const w=window.open("","_blank");
+  try{if(!PF[p.id]){const{fs,db}=await fsx();const sn_=await fs.getDoc(fs.doc(db,"paperFiles",p.id));PF[p.id]=sn_.exists()?sn_.data():{}}
+    const u=which==="pdf"?PF[p.id].pdfUrl:PF[p.id].keyUrl;
+    if(!u||!/^https?:\/\//i.test(u))throw new Error("nolink");
+    if(w){w.opener=null;w.location.href=u}else location.href=u}
+  catch(e){if(w)w.close();toast(e&&e.code==="permission-denied"?"Ye paper aapke account par unlock nahi hai (login ya Batch chahiye).":"Link nahi khula. Thodi der baad try karo.")}}
+function paperCard(p,hint){
+  const paid=p.price==="Paid",open=!paid||isOpen("p_"+p.id),c=el("article","paper-card"+(paid&&!open?" locked":"")),d=el("div"),h=el("h3","",(paid&&!open?"🔒 ":"")+(p.title||"Question Paper"));
+  h.append(el("span","tag "+(paid?"lock":"free"),paid?(open?"UNLOCKED":"BATCH"):"FREE"));
+  if(hint)d.append(Object.assign(el("div","hint"),{textContent:hint}));
+  d.append(h,el("div","muted",[p.subject,p.paperType,p.year].filter(Boolean).join(" · ")||"PDF Paper"));if(p.description)d.append(el("div","muted",p.description));
+  const bt=el("div","btns");
+  if(!open){if(batchOn())bt.append(joinBatchBtn());else{const b=el("button","btn-outline","🔒 Locked");b.onclick=()=>toast("Ye paper Batch students ke liye hai.");bt.append(b)}}
+  else{
+    if(p.hasPdf!==false){const b=el("button","btn","📄 Question Paper");b.onclick=()=>openPaperFile(p,"pdf");bt.append(b)}
+    if(p.hasKey===true||p.keyUrl||p.solution){const b=el("button","btn-outline","✅ Answer Key");b.onclick=()=>openPaperFile(p,"key");bt.append(b)}}
+  c.append(d,bt);return c}
+function folderStats(xs){const n=xs.length,f=xs.filter(isFree).length,k=n-f,u=app.kind==="live"?"test":"paper";
+  return n?(n+" "+u+(n>1?"s":"")+" · "+f+" free"+(k?" · 🔒 "+k:"")):"Jaldi aa raha hai"}
+function setKind(k){app.kind=k;app.path=[];$("tSearch").value="";document.querySelectorAll("[data-kind]").forEach(x=>x.classList.toggle("active",x.dataset.kind===k));renderTests()}
+function setPath(p){app.path=p;renderTests();window.scrollTo({top:0})}
+function renderTests(){
+  const list=$("testList"),grid=$("folderGrid"),cr=$("crumbs");list.replaceChildren();grid.replaceChildren();cr.replaceChildren();$("testCount").textContent="";$("listTitle").textContent="";
+  const live=app.kind==="live";
+  if(live&&!testsReady){list.append(el("div","empty","⏳ Loading tests…"));return}
+  if(!live&&PAPERS===null){list.append(el("div","empty","⏳ Loading papers…"));loadPapers();return}
+  if(!live&&paperErr){list.append(el("div","empty",paperErr));return}
+  const all=live?catalogue():(PAPERS||[]),hist=live?loadHist():[],card=(x,h)=>live?testCard(x,h,hist):paperCard(x,h);
+  const q=($("tSearch").value||"").trim().toLowerCase();
+  if(q.length>=2){
+    const rows=all.filter(x=>[x.title,x.chapter,x.subject,x.description,x.year,modeLabel(modeOf(x))].join(" ").toLowerCase().includes(q)).sort(byOrder);
+    $("listTitle").textContent="Search results";$("testCount").textContent=rows.length+" mile";
+    rows.forEach(x=>list.append(card(x,keysOf(x).map(k=>modeLabel(k)).join(" › "))));
+    if(!rows.length)list.append(el("div","empty","Kuch nahi mila. Chapter ka naam ya test ka naam try karo."));return}
+  const p=app.path,{folders,leaves}=browse(all,p);
+  if(p.length){
+    const home=el("button","","🏠 "+(live?"Live Tests":"PDF Papers"));home.onclick=()=>setPath([]);cr.append(home);
+    p.forEach((s,i)=>{cr.append(el("span","sep","›"));const b=el("button",i===p.length-1?"cur":"",i===0?modeLabel(s):s);b.onclick=()=>setPath(p.slice(0,i+1));cr.append(b)})}
+  folders.forEach(f=>{const b=el("button","fold"),nm=p.length?f.name:modeLabel(f.name);b.style.setProperty("--fc",F_COLOR[f.name]||"var(--cyan)");
+    const ic=el("span","ic",(p.length?F_ICON[f.name]:MODE_ICON[f.name])||(p.length===4||(p[1]==="Physics"&&p.length===3)?"📖":(p[0]==="Previous Year"?"📅":"📁"))),tx=el("div","tx"),bb=el("b","",nm),sm=el("small","",folderStats(f.xs));
+    tx.append(bb,sm);b.append(ic,tx,el("span","ch","›"));b.onclick=()=>setPath([...p,f.name]);grid.append(b)});
+  if(leaves.length){$("listTitle").textContent=live?"Tests":"Papers";$("testCount").textContent=leaves.length+(live?" test(s)":" paper(s)");leaves.forEach(x=>list.append(card(x)))}
+  else if(!folders.length)list.append(el("div","empty","Is folder mein abhi koi "+(live?"test":"paper")+" nahi aaya. Jaldi aayega."))}
+document.querySelectorAll("[data-kind]").forEach(b=>b.onclick=()=>setKind(b.dataset.kind));
+{let st;$("tSearch").oninput=()=>{clearTimeout(st);st=setTimeout(renderTests,180)}}
+async function openInstructions(t,btn){
+  btn.disabled=true;const old=btn.textContent;btn.textContent="Loading…";
+  try{
+    let qs;
+    if(t.local){qs=normQ((t.subject==="All"?QUESTIONS:QUESTIONS.filter(q=>q.subject===t.subject)).slice(0,t.count))}
+    else qs=normQ(await window.medrise.getTestQuestions(t.id));
+    if(!qs.length)throw new Error("empty");
+    const n=Math.min(qs.length,Number(t.count)||qs.length);qs=qs.slice(0,n);
+    app.test={...t,cor:Number(t.correct??4),wr:Number(t.wrong??1)};app.qs=qs;app.hasHi=qs.some(q=>q.hi);app.lang=app.hasHi?savedLang():"en";drawLang();
+    $("insTitle").textContent=t.title;$("insQ").textContent=qs.length;$("insT").textContent=t.minutes;$("insM").textContent=`+${app.test.cor} / −${app.test.wr}`;
+    $("markingScheme").textContent=`Correct: +${app.test.cor} · Incorrect: −${app.test.wr} · Unattempted: 0`;
+    $("agreeInstructions").checked=false;screen("instructionsScreen");
+  }catch(e){
+    const denied=e&&(e.code==="permission-denied"||/permission/i.test(e.message||""));
+    toast(denied?"Ye test aapke account par unlock nahi hai.":"Test load nahi hua. Internet check karke dobara try karo.");
+  }
+  btn.disabled=false;btn.textContent=old}
+/* ---- exam ---- */
+$("startTestBtn").onclick=()=>{if(!$("agreeInstructions").checked){toast("Pehle instructions confirm karo.");return}
+  clearInterval(app.interval);app.finished=false;app.answers={};app.marked=new Set();app.visited=new Set();app.qt={};app.t0=Date.now();app.deadline=Date.now()+app.test.minutes*60000;
+  $("quizTitle").textContent=app.test.title;screen("quizScreen");buildSecTabs();app.i=-1;go(0);tick();app.interval=setInterval(tick,250)};
+function tick(){const rem=Math.max(0,Math.ceil((app.deadline-Date.now())/1000)),h=Math.floor(rem/3600),m=Math.floor(rem%3600/60),s=rem%60;
+  $("timer").textContent=(h?String(h).padStart(2,"0")+":":"")+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");$("timer").classList.toggle("low",rem<300);
+  if(rem<=0){clearInterval(app.interval);app.interval=null;toast("Time khatam. Test submit ho raha hai.");finish()}}
+function commitTime(){if(app.qStart&&app.qs[app.i]){const id=app.qs[app.i].id;app.qt[id]=(app.qt[id]||0)+(Date.now()-app.qStart)/1000}app.qStart=Date.now()}
+function go(i){if(i<0||i>=app.qs.length)return;if(app.i>=0)commitTime();app.i=i;app.qStart=Date.now();app.visited.add(app.qs[i].id);drawQ()}
+function subjectsOf(){const o=[];app.qs.forEach(q=>{if(!o.includes(q.subject))o.push(q.subject)});return o}
+function buildSecTabs(){const box=$("secTabs");box.replaceChildren();subjectsOf().forEach(s=>{const b=el("button");b.dataset.s=s;b.onclick=()=>{const k=app.qs.findIndex(q=>q.subject===s);if(k>=0)go(k)};box.append(b)})}
+function drawSecTabs(){const cur=app.qs[app.i].subject;document.querySelectorAll("#secTabs button").forEach(b=>{const s=b.dataset.s,all=app.qs.filter(q=>q.subject===s),a=all.filter(q=>app.answers[q.id]!==undefined).length;b.replaceChildren(document.createTextNode(s+" "),Object.assign(el("small"),{textContent:a+"/"+all.length}));b.classList.toggle("active",s===cur)})}
+function drawQ(){const q=app.qs[app.i];
+  $("quizProgressText").textContent=`Question ${app.i+1} of ${app.qs.length}`;$("qNo").textContent="Q"+(app.i+1);$("questionSubject").textContent=q.subject;$("qMarks").textContent=`+${app.test.cor} / −${app.test.wr}`;
+  const v=qv(q);$("questionText").textContent=v.q;$("markBtn").textContent=app.marked.has(q.id)?"★ Marked for Review":"☆ Mark for Review";
+  const opts=$("options");opts.replaceChildren();
+  v.options.forEach((s,i)=>{const b=el("button","option"+(app.answers[q.id]===i?" selected":""));b.type="button";b.append(el("span","letter",String.fromCharCode(65+i)),el("span","",s));b.onclick=()=>{app.answers[q.id]=i;drawQ()};opts.append(b)});
+  $("prevBtn").disabled=app.i===0;$("nextBtn").textContent=app.i===app.qs.length-1?"Save":"Save & Next →";drawSecTabs();drawPalette()}
+function drawPalette(){const p=$("palette");p.replaceChildren();
+  subjectsOf().forEach(s=>{p.append(el("div","pal-sec",s));const g=el("div","palette");
+    app.qs.forEach((q,i)=>{if(q.subject!==s)return;const a=app.answers[q.id]!==undefined,m=app.marked.has(q.id),v=app.visited.has(q.id);
+      const b=el("button","qnum"+(m&&a?" am":m?" mk":a?" an":v?" na":"")+(i===app.i?" current":""),String(i+1));b.type="button";b.onclick=()=>{go(i);$("paletteBox").classList.remove("open")};g.append(b)});p.append(g)})}
+$("markBtn").onclick=()=>{const id=app.qs[app.i].id;app.marked.has(id)?app.marked.delete(id):app.marked.add(id);drawQ()};
+$("prevBtn").onclick=()=>go(app.i-1);
+$("nextBtn").onclick=()=>{if(app.i<app.qs.length-1)go(app.i+1);else{toast("Last question. Ab Submit kar sakte ho.");drawQ()}};
+$("markNextBtn").onclick=()=>{app.marked.add(app.qs[app.i].id);if(app.i<app.qs.length-1)go(app.i+1);else drawQ()};
+$("clearBtn").onclick=()=>{delete app.answers[app.qs[app.i].id];drawQ()};
+$("palToggle").onclick=()=>$("paletteBox").classList.toggle("open");$("palClose").onclick=()=>$("paletteBox").classList.remove("open");
+$("submitBtn").onclick=()=>{commitTime();const n=app.qs.filter(q=>app.answers[q.id]!==undefined).length;$("submitAnswered").textContent=n;$("submitUnanswered").textContent=app.qs.length-n;$("submitMarked").textContent=app.marked.size;
+  const rem=Math.max(0,Math.ceil((app.deadline-Date.now())/1000));$("submitTime").textContent=`Bacha hua time: ${fmtSec(rem)}`;$("paletteBox").classList.remove("open");screen("submitScreen")};
+$("backToQuiz").onclick=()=>screen("quizScreen");$("confirmSubmit").onclick=finish;
+function finish(){
+  if(!app.test||!app.qs.length||app.finished)return;
+  commitTime();app.finished=true;clearInterval(app.interval);app.interval=null;
+  const T=app.test;let correct=0,wrong=0,skip=0,score=0;const subjects={},chapters={};
+  const qsOut=app.qs.map(q=>{const u=app.answers[q.id]===undefined?null:app.answers[q.id],time=Math.round((app.qt[q.id]||0)*10)/10;
+    const s=subjects[q.subject]||(subjects[q.subject]={correct:0,wrong:0,skip:0,total:0,score:0,time:0});s.total++;s.time+=time;
+    let cg=null;if(q.chapter){cg=chapters[q.subject+"|"+q.chapter]||(chapters[q.subject+"|"+q.chapter]={subject:q.subject,chapter:q.chapter,correct:0,wrong:0,skip:0,total:0});cg.total++}
+    if(u===null){skip++;s.skip++;if(cg)cg.skip++}else if(u===q.answer){correct++;score+=T.cor;s.correct++;s.score+=T.cor;if(cg)cg.correct++}else{wrong++;score-=T.wr;s.wrong++;s.score-=T.wr;if(cg)cg.wrong++}
+    const v=qv(q);return{id:q.id,subject:q.subject,chapter:q.chapter,q:v.q,options:v.options,answer:q.answer,explanation:v.explanation,ncertPage:q.ncertPage||"",ncertChapter:q.ncertChapter||"",ncertTopic:q.ncertTopic||"",user:u,time,marked:app.marked.has(q.id)}});
+  Object.values(subjects).forEach(s=>{s.time=Math.round(s.time)});
+  const used=Math.max(1,Math.min(Math.round((Date.now()-app.t0)/1000),T.minutes*60));
+  const r={v:2,id:Date.now(),title:T.title,mode:T.mode,testId:T.id,score,max:app.qs.length*T.cor,cor:T.cor,wr:T.wr,correct,wrong,skip,attempted:correct+wrong,subjects,chapters,timeSec:used,limitSec:T.minutes*60,questions:qsOut,date:new Date().toISOString(),lang:app.hasHi?app.lang:"en"};
+  saveAttempt(r);submitRemote(r);openAnalysis(r,"overview")}
+/* ---- helpers ---- */
+function fmtSec(s){s=Math.max(0,Math.round(Number(s)||0));const m=Math.floor(s/60);return m>=60?Math.floor(m/60)+"h "+String(m%60).padStart(2,"0")+"m":m+"m "+String(s%60).padStart(2,"0")+"s"}
+const pct=(a,b)=>b>0?Math.round(a/b*100):0;
+const SVGNS="http://www.w3.org/2000/svg";
+function svg(w,h){const s=document.createElementNS(SVGNS,"svg");s.setAttribute("viewBox",`0 0 ${w} ${h}`);return s}
+function sn(p,t,a){const e=document.createElementNS(SVGNS,t);Object.entries(a).forEach(([k,v])=>e.setAttribute(k,v));p.append(e);return e}
+function statBox(v,l,c){const d=el("div","stat"),s=el("strong",c||"",String(v));d.append(s,el("span","",l));return d}
+function panel(title){const p=el("div","panel");if(title)p.append(el("h2","",title));return p}
+function tableWrap(){const w=el("div","table-wrap");return w}
+function mkTable(heads,rows){const t=el("table","tbl"),th=el("thead"),hr=el("tr");heads.forEach(x=>hr.append(el("th","",x)));th.append(hr);t.append(th);const tb=el("tbody");
+  rows.forEach(r=>{const tr=el("tr");r.forEach((x,i)=>{const td=el("td",i?"n":"");if(x&&x.nodeType)td.append(x);else td.textContent=x;tr.append(td)});tb.append(tr)});t.append(tb);const w=tableWrap();w.append(t);return w}
+/* ---- analysis ---- */
+function openAnalysis(r,tab){
+  const h=loadHist();
+  if(!r){r=app.cur&&h.some(x=>x.id===app.cur.id)?app.cur:h[0]}
+  screen("analysisScreen");
+  const sel=$("attSel");sel.replaceChildren();
+  if(!r){$("anEmpty").hidden=false;$("anMain").hidden=true;sel.hidden=true;$("anTitle").textContent="Analysis";return}
+  $("anEmpty").hidden=true;$("anMain").hidden=false;sel.hidden=h.length<2;
+  const list=h.some(x=>x.id===r.id)?h:[r,...h];
+  list.forEach((x,i)=>{const o=el("option","",`${x.title} · ${new Date(x.date).toLocaleDateString()}`);o.value=String(i);sel.append(o)});
+  sel.value=String(Math.max(0,list.findIndex(x=>x.id===r.id)));sel.onchange=()=>openAnalysis(list[Number(sel.value)],app.aTab);
+  app.cur=r;if(tab)app.aTab=tab;
+  $("anTitle").textContent=r.title;$("anScore").textContent=r.score;$("anMax").textContent="/ "+r.max;
+  $("anSub").textContent=`${pct(Math.max(0,r.score),r.max)}% marks · ${new Date(r.date).toLocaleString()}`+(r.lang==="hi"?" · हिन्दी":"");
+  $("anRank").textContent="—";$("anRankSub").textContent=r.timeSec?"Time: "+fmtSec(r.timeSec):"";
+  if(r.rank)setRank(r.rank.i,r.rank.n,r.rank.counted);
+  document.querySelectorAll("#anTabs [data-at]").forEach(b=>b.classList.toggle("active",b.dataset.at===app.aTab));
+  renderAnTab()}
+function setRank(i,n,counted){$("anRank").textContent="#"+i;$("anRankSub").textContent="of "+n+" students"+(counted?"":" (pehle attempt ki)")}
+document.querySelectorAll("#anTabs [data-at]").forEach(b=>b.onclick=()=>{app.aTab=b.dataset.at;document.querySelectorAll("#anTabs [data-at]").forEach(x=>x.classList.toggle("active",x===b));renderAnTab()});
+function renderAnTab(){const r=app.cur,box=$("anBody");box.replaceChildren();if(!r)return;
+  try{({overview:anOverview,subjects:anSubjects,time:anTime,questions:anQuestions}[app.aTab]||anOverview)(r,box)}catch(e){console.error(e);box.append(el("div","empty","Analysis dikhane me dikkat aayi. Page refresh karke dobara try karo."))}}
+function qStatus(q){return q.user===null||q.user===undefined?"skip":q.user===q.answer?"ok":"bad"}
+function donut(r){const s=svg(120,120),C=2*Math.PI*40,parts=[[r.correct,"#11d6a0"],[r.wrong,"#ff5263"],[r.skip,"#7b8ba5"]],tot=Math.max(1,r.correct+r.wrong+r.skip);let off=0;
+  sn(s,"circle",{cx:60,cy:60,r:40,fill:"none",stroke:"#7b8ba522","stroke-width":16});
+  parts.forEach(([n,c])=>{if(!n)return;const len=n/tot*C;sn(s,"circle",{cx:60,cy:60,r:40,fill:"none",stroke:c,"stroke-width":16,"stroke-dasharray":`${len} ${C-len}`,"stroke-dashoffset":-off,transform:"rotate(-90 60 60)"});off+=len});
+  const t=sn(s,"text",{x:60,y:58,"text-anchor":"middle","font-size":20,"font-weight":800,fill:"currentColor"});t.textContent=pct(r.correct,r.attempted||0)+"%";
+  const t2=sn(s,"text",{x:60,y:74,"text-anchor":"middle","font-size":8,fill:"#8aa0bd"});t2.textContent="accuracy";s.style.cssText="width:130px;height:130px;color:var(--text)";return s}
+function insights(r){const out=[],add=(c,t)=>out.push([c,t]);const tot=r.correct+r.wrong+r.skip,acc=pct(r.correct,r.attempted),att=pct(r.attempted,tot),neg=r.wrong*(r.wr||1);
+  const subs=Object.entries(r.subjects||{}).map(([n,s])=>({n,acc:pct(s.correct,s.correct+s.wrong),att:s.correct+s.wrong,sc:s.score,tot:s.total,time:s.time||0,wrong:s.wrong,skip:s.skip}));
+  if(r.attempted){add(acc>=80?"ok":acc>=55?"warn":"bad",`Accuracy ${acc}% hai (${r.correct}/${r.attempted} attempted sahi). ${acc>=80?"Bahut badhiya, isi ko banaye rakho.":acc>=55?"Theek hai, par galat options ko dhyan se review karo.":"Accuracy kam hai, guess karne se pehle concept check karo."}`)}
+  if(neg>0)add("bad",`Negative marking se ${neg} marks gaye (${r.wrong} galat answers). Pakka na ho to question skip karna behtar hai.`);
+  if(att<70&&tot>0)add("warn",`Sirf ${att}% questions attempt kiye (${r.skip} skip). Chhode hue questions me se jo aate the unhe pehle solve karne ki practice karo.`);
+  const ok=subs.filter(s=>s.att>=1).sort((a,b)=>b.acc-a.acc);
+  if(ok.length>1){add("ok",`Sabse strong subject: ${ok[0].n} (${ok[0].acc}% accuracy).`);const w=ok[ok.length-1];if(w.acc<ok[0].acc)add("bad",`Sabse weak subject: ${w.n} (${w.acc}% accuracy, ${w.wrong} galat). Pehle isi par mehnat karo.`)}
+  const qs=r.questions||[];
+  if(r.timeSec&&qs.length&&qs.some(q=>q.time)){const ideal=r.limitSec/qs.length,avg=qs.reduce((a,q)=>a+(q.time||0),0)/qs.length;
+    const slow=qs.filter(q=>q.time>ideal*2),fast=qs.filter(q=>qStatus(q)==="bad"&&q.time>0&&q.time<8);
+    add(avg<=ideal?"ok":"warn",`Average ${Math.round(avg)}s per question (ideal ~${Math.round(ideal)}s).`);
+    if(slow.length)add("warn",`${slow.length} question(s) me ideal time se 2x zyada laga. Aise questions ko baad ke liye mark karke aage badho.`);
+    if(fast.length>=2)add("bad",`${fast.length} galat answers 8 second se kam me diye (jaldbaazi). Option ko ek baar dhyan se padho.`)}
+  const mk=qs.filter(q=>q.marked&&qStatus(q)==="bad").length;if(mk)add("warn",`Marked for review wale ${mk} question(s) phir bhi galat nikle. Unke explanation zaroor dekho.`);
+  if(!out.length)add("ok","Test complete. Questions tab me jaakar har explanation padho.");return out}
+function anOverview(r,box){
+  const tot=r.correct+r.wrong+r.skip,neg=r.wrong*(r.wr||1),gain=r.correct*(r.cor||4);
+  const g=el("div","stat-grid");g.append(statBox(r.correct,"Correct","g"),statBox(r.wrong,"Incorrect","r"),statBox(r.skip,"Unattempted","y"),statBox(pct(r.correct,r.attempted)+"%","Accuracy"),statBox(pct(r.attempted,tot)+"%","Attempt rate"),statBox(r.timeSec?fmtSec(r.timeSec):"—","Time used"));box.append(g);
+  const p=panel("Marks & accuracy"),row=el("div","donut-row");row.append(donut(r));
+  const lg=el("div","lg");[["#11d6a0","Correct",r.correct],["#ff5263","Incorrect",r.wrong],["#7b8ba5","Unattempted",r.skip]].forEach(([c,n,v])=>{const d=el("div");const sw=el("i","sw");sw.style.background=c;d.append(sw,document.createTextNode(`${n}: ${v}`));lg.append(d)});
+  const m=el("div");m.style.marginTop="6px";m.textContent=`Gained +${gain}  ·  Negative −${neg}  ·  Net ${r.score}`;m.className="muted";lg.append(m);row.append(lg);p.append(row);box.append(p);
+  const ip=panel("Insights");insights(r).forEach(([c,t])=>ip.append(el("div","insight "+c,t)));box.append(ip);
+  const a=el("div","q-actions");const b1=el("button","btn","Questions & explanation dekho");b1.onclick=()=>{app.aTab="questions";openAnalysis(app.cur,"questions")};const b2=el("button","btn-outline","🏆 Leaderboard");b2.onclick=()=>{app.leaderTab="this";app.leaderTestId=r.testId;goHub("leader")};a.append(b1,b2);box.append(a)}
+function anSubjects(r,box){
+  const rows=Object.entries(r.subjects||{}).map(([n,s])=>[n,s.score+" / "+s.total*(r.cor||4),s.correct,s.wrong,s.skip,pct(s.correct,s.correct+s.wrong)+"%",s.time?fmtSec(s.time):"—",s.time&&s.total?Math.round(s.time/s.total)+"s":"—"]);
+  const p=panel("Subject-wise performance");p.append(mkTable(["Subject","Marks","✔","✘","Skip","Accuracy","Time","Avg/Q"],rows));
+  Object.entries(r.subjects||{}).forEach(([n,s])=>{const d=el("div");d.style.margin="12px 0";d.append(el("div","muted",`${n} — ${s.correct} sahi, ${s.wrong} galat, ${s.skip} skip`));const bar=el("div","bar"),f=el("div");f.style.width=Math.max(0,pct(s.score,s.total*(r.cor||4)))+"%";bar.append(f);d.append(bar);p.append(d)});box.append(p);
+  const ch=Object.values(r.chapters||{});
+  if(ch.length){const cp=panel("Chapter-wise performance");cp.append(mkTable(["Chapter","Subject","✔","✘","Skip","Accuracy"],ch.sort((a,b)=>pct(a.correct,a.correct+a.wrong)-pct(b.correct,b.correct+b.wrong)).map(c=>{const a=pct(c.correct,c.correct+c.wrong),t=el("span",a<50&&(c.wrong+c.correct)>0?"weak":a>=75?"strong-t":"",a+"%"+(a<50&&(c.wrong+c.correct)>0?" · weak":""));return[c.chapter,c.subject,c.correct,c.wrong,c.skip,t]})));box.append(cp)}}
+function anTime(r,box){
+  const qs=r.questions||[];if(!qs.length||!qs.some(q=>q.time>0)){box.append(el("div","empty","Is attempt me time data save nahi hai (purana attempt). Naya test dene par question-wise time dikhega."));return}
+  const ideal=r.limitSec/qs.length,avg=qs.reduce((a,q)=>a+(q.time||0),0)/qs.length,max=Math.max(ideal*3,...qs.map(q=>q.time||0));
+  const p=panel("Question-wise time");const W=600,H=140,s=svg(W,H+16),bw=W/qs.length;s.style.cssText="width:100%;height:auto";
+  qs.forEach((q,i)=>{const hh=Math.max(1.5,(q.time||0)/max*H),c={ok:"#11d6a0",bad:"#ff5263",skip:"#7b8ba5"}[qStatus(q)];sn(s,"rect",{x:i*bw+Math.min(1,bw*.1),y:H-hh,width:Math.max(1,bw-Math.min(2,bw*.2)),height:hh,fill:c,rx:Math.min(2,bw/3)})});
+  sn(s,"line",{x1:0,x2:W,y1:H-ideal/max*H,y2:H-ideal/max*H,stroke:"#ffbd45","stroke-dasharray":"4 3","stroke-width":1.2});const t=sn(s,"text",{x:W-4,y:H-ideal/max*H-4,"text-anchor":"end","font-size":9,fill:"#ffbd45"});t.textContent="ideal "+Math.round(ideal)+"s";
+  p.append(s,el("div","muted","Har bar = ek question. Hara: sahi · Laal: galat · Grey: skip. Average: "+Math.round(avg)+"s per question."));box.append(p);
+  const g=el("div","stat-grid");const av=st=>{const a=qs.filter(q=>qStatus(q)===st);return a.length?Math.round(a.reduce((x,q)=>x+(q.time||0),0)/a.length)+"s":"—"};g.append(statBox(av("ok"),"Avg on correct","g"),statBox(av("bad"),"Avg on wrong","r"),statBox(av("skip"),"Avg on skipped","y"));box.append(g);
+  const sp=panel("Subject-wise time");const tot=Object.values(r.subjects).reduce((a,x)=>a+(x.time||0),0)||1;
+  Object.entries(r.subjects).forEach(([n,x])=>{const d=el("div");d.style.margin="10px 0";d.append(el("div","muted",`${n}: ${fmtSec(x.time||0)} (${pct(x.time||0,tot)}%) · avg ${x.total?Math.round((x.time||0)/x.total):0}s/question`));const bar=el("div","bar"),f=el("div");f.style.width=pct(x.time||0,tot)+"%";bar.append(f);d.append(bar);sp.append(d)});box.append(sp);
+  const top=[...qs].sort((a,b)=>b.time-a.time).slice(0,5),tp=panel("Sabse zyada time lene wale 5 questions");
+  tp.append(mkTable(["Q","Subject","Time","Result"],top.map(q=>{const i=qs.indexOf(q)+1,st=qStatus(q);return["Q"+i,q.subject,Math.round(q.time)+"s",el("span","chip "+(st==="ok"?"ok":st==="bad"?"bad":"warn"),st==="ok"?"Sahi":st==="bad"?"Galat":"Skip")]})));box.append(tp)}
+function anQuestions(r,box){
+  const qs=r.questions||[],ideal=r.limitSec&&qs.length?r.limitSec/qs.length:0;
+  const F=[["all","All"],["ok","Correct"],["bad","Incorrect"],["skip","Unattempted"],["marked","Marked"],["slow","Slow"]];
+  const bar=el("div","chips");F.forEach(([k,l])=>{const b=el("button",app.rFilter===k?"active":"",l);b.onclick=()=>{app.rFilter=k;renderAnTab()};bar.append(b)});box.append(bar);
+  const rows=qs.map((q,i)=>({q,i})).filter(({q})=>app.rFilter==="all"||(app.rFilter==="marked"?q.marked:app.rFilter==="slow"?(ideal&&q.time>ideal*2):qStatus(q)===app.rFilter));
+  if(!rows.length){box.append(el("div","empty","Is category me koi question nahi."));return}
+  rows.forEach(({q,i})=>{const st=qStatus(q),c=el("article","rv"),h=el("div","rv-h"),l=el("span","",`Q${i+1} · ${q.subject}${q.chapter?" · "+q.chapter:""}`),rt=el("span");
+    if(q.time)rt.append(el("span","chip","⏱ "+Math.round(q.time)+"s"),document.createTextNode(" "));if(q.marked)rt.append(el("span","chip warn","★ Marked"),document.createTextNode(" "));rt.append(el("span","chip "+(st==="ok"?"ok":st==="bad"?"bad":"warn"),st==="ok"?"✔ Correct":st==="bad"?"✘ Incorrect":"— Unattempted"));h.append(l,rt);
+    const b=el("div","rv-b");b.append(el("p","rv-q",q.q));
+    q.options.forEach((o,k)=>{const isA=k===q.answer,isU=k===q.user,row=el("div","opt-row"+(isA?" ok":isU?" no":""));row.append(el("span","lt",String.fromCharCode(65+k)),el("span","",o));if(isA)row.append(el("span","tag",isU?"✔ Your answer (correct)":"✔ Correct answer"));else if(isU)row.append(el("span","tag","✘ Your answer"));b.append(row)});
+    if(q.user===null||q.user===undefined)b.append(el("p","muted","Aapne ye question attempt nahi kiya."));
+    const e=el("div","expl"),eb=el("b","","Explanation: ");e.append(eb,document.createTextNode(q.explanation&&q.explanation.trim()?q.explanation:"Is question ka explanation abhi available nahi hai."));b.append(e);const nref=[q.ncertChapter&&("Chapter: "+q.ncertChapter),q.ncertTopic&&("Topic: "+q.ncertTopic),q.ncertPage&&("NCERT page: "+q.ncertPage)].filter(Boolean);const nr=el("div","expl");nr.append(el("b","","📖 NCERT reference: "),document.createTextNode(nref.length?nref.join(" · "):"NCERT page / reference is question me add nahi hua."));b.append(nr);c.append(h,b);box.append(c)})}
+/* ---- history ---- */
+function drawHistory(){const list=$("historyList");list.replaceChildren();const h=loadHist();
+  if(!h.length){list.append(el("div","empty","Abhi koi attempt nahi hai. Ek test do, phir yahan history milegi."));return}
+  h.forEach(r=>{const c=el("article","hist-card"),d=el("div");d.append(el("h3","",r.title),el("div","muted",`${r.score}/${r.max} marks · ${r.correct} sahi · ${r.wrong} galat`+(r.skip!=null?` · ${r.skip} skip`:"")));
+    d.append(el("div","meta",new Date(r.date).toLocaleString()+(r.timeSec?"   ◷ "+fmtSec(r.timeSec):"")+(r.lang==="hi"?"   🌐 हिन्दी":"")));
+    const b=el("button","btn","📊 Analysis");b.onclick=()=>openAnalysis(r,"overview");c.append(d,b);list.append(c)})}
+/* ---- firebase (leaderboard, ranks, papers) ---- */
+let FSX=null;
+async function fsx(){if(FSX)return FSX;const [a,fs]=await Promise.all([import("./firebase.js"),import("https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js")]);FSX={fs,db:fs.getFirestore(a.default)};return FSX}
+function maskName(n){n=String(n||"").trim();if(!n)return"Student";const p=n.split(/\s+/);return p.length>1?p[0]+" "+p[p.length-1][0]+".":p[0]}
+async function boardFor(id){const {fs,db}=await fsx();const sn_=await fs.getDocs(fs.query(fs.collection(db,"attempts"),fs.where("testId","==",id),fs.limit(300)));const rows=sn_.docs.map(d=>d.data());rows.sort((a,b)=>(b.score-a.score)||((a.timeSec||0)-(b.timeSec||0)));return rows}
+async function submitRemote(r){
+  const t=app.test,me=window.medrise&&window.medrise.user;
+  if(!t||t.local||!me||!r.testId)return;
+  let ranked=false;
+  try{
+    const {fs,db}=await fsx();
+    await fs.setDoc(fs.doc(db,"attempts",r.testId+"_"+me.uid),{uid:me.uid,name:((me.displayName||"").trim().slice(0,40))||("Student "+me.uid.slice(0,4)),testId:r.testId,title:String(r.title).slice(0,100),score:r.score,max:r.max,correct:r.correct,wrong:r.wrong,skip:r.skip,timeSec:r.timeSec,createdAt:fs.serverTimestamp()});
+    ranked=true;
+  }catch(e){if(!(e&&e.code==="permission-denied")){toast("Rank save nahi hua. Internet check karke dobara try karo.");return}}
+  try{
+    const rows=await boardFor(r.testId),i=rows.findIndex(x=>x.uid===me.uid);
+    if(i>=0){r.rank={i:i+1,n:rows.length,counted:ranked};if(app.cur&&app.cur.id===r.id){app.cur.rank=r.rank;setRank(i+1,rows.length,ranked)}
+      try{const h=loadHist(),k=h.findIndex(x=>x.id===r.id);if(k>=0){h[k].rank=r.rank;localStorage.setItem(K("history"),JSON.stringify(h))}}catch(e){}}
+  }catch(e){}
+  if(!ranked)toast("Ye practice attempt hai. Rank sirf pehle attempt par count hoti hai.")}
+function lbTable(heads,rows,mineIdx){const w=el("div","table-wrap"),t=el("table"),th=el("thead"),hr=el("tr");heads.forEach(x=>hr.append(el("th","",x)));th.append(hr);t.append(th);const tb=el("tbody");rows.forEach((r,i)=>{const tr=el("tr",i===mineIdx?"you-row":"");r.forEach(x=>tr.append(el("td","",String(x))));tb.append(tr)});t.append(tb);w.append(t);return w}
+async function drawLeader(){
+  const box=$("leaderContent"),m=window.medrise||{};box.replaceChildren();
+  if(m.config&&m.config.leaderboard===false){box.textContent="Leaderboard abhi hidden hai.";return}
+  const me=m.user;if(!me){box.textContent="Login karke rank dekho.";return}
+  const tests=catalogue().filter(t=>!t.local&&t.count>0);
+  box.textContent="⏳ Loading…";
+  try{
+    const {fs,db}=await fsx(),out=el("div");
+    if(app.leaderTab==="this"){
+      if(!tests.length){box.textContent="Abhi koi live test nahi hai.";return}
+      const id=app.leaderTestId&&tests.some(t=>t.id===app.leaderTestId)?app.leaderTestId:(app.cur&&tests.some(t=>t.id===app.cur.testId)?app.cur.testId:tests[0].id);app.leaderTestId=id;
+      const sel=el("select");sel.style.cssText="width:100%;margin-top:12px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:11px;padding:10px";tests.forEach(t=>{const o=el("option","",t.title);o.value=t.id;sel.append(o)});sel.value=id;sel.onchange=()=>{app.leaderTestId=sel.value;drawLeader()};out.append(sel);
+      const rows=await boardFor(id),mi=rows.findIndex(x=>x.uid===me.uid),top=rows.slice(0,20);
+      if(!rows.length)out.append(el("p","muted","Is test mein abhi kisi ne attempt nahi kiya. Pehle tum bano!"));
+      else{const list=top.map((x,i)=>[i+1,maskName(x.name),x.score+" / "+x.max,fmtSec(x.timeSec)]);let idx=mi<20?mi:-1;if(mi>=20){list.push(["…","","",""]);list.push([mi+1,maskName(rows[mi].name),rows[mi].score+" / "+rows[mi].max,fmtSec(rows[mi].timeSec)]);idx=list.length-1}
+        out.append(lbTable(["Rank","Name","Score","Time"],list,idx),el("p","leader-note",rows.length+" student(s) ne attempt kiya"+(mi>=0?" · Tumhari rank #"+(mi+1):" · Tumne ye test abhi nahi diya")))}
+    }else{
+      const sn_=await fs.getDocs(fs.query(fs.collection(db,"attempts"),fs.orderBy("createdAt","desc"),fs.limit(300)));
+      const by={};sn_.docs.forEach(d=>{const x=d.data(),u=by[x.uid]||(by[x.uid]={uid:x.uid,name:x.name,total:0,n:0});u.total+=x.score;u.n++});
+      const arr=Object.values(by).sort((a,b)=>(b.total-a.total)||(b.n-a.n)),mi=arr.findIndex(x=>x.uid===me.uid);
+      if(app.leaderTab==="all"){
+        if(!arr.length){box.textContent="Abhi koi attempt nahi hai.";return}
+        const top=arr.slice(0,20).map((x,i)=>[i+1,maskName(x.name),x.total,x.n]);let idx=mi<20?mi:-1;if(mi>=20){top.push(["…","","",""]);top.push([mi+1,maskName(arr[mi].name),arr[mi].total,arr[mi].n]);idx=top.length-1}
+        out.append(lbTable(["Rank","Name","Total","Tests"],top,idx));
+      }else{
+        out.append(el("p","muted",mi>=0?"Overall rank #"+(mi+1)+" / "+arr.length+" · Total "+arr[mi].total+" marks · "+arr[mi].n+" test(s)":"Tumne abhi koi ranked test nahi diya."));
+        const mine=sn_.docs.map(d=>d.data()).filter(x=>x.uid===me.uid);if(mine.length)out.append(lbTable(["Test","Score","Time"],mine.map(x=>[x.title,x.score+" / "+x.max,fmtSec(x.timeSec)]),-1));
+      }
+    }
+    box.replaceChildren(out);
+  }catch(e){box.textContent=(e&&e.code==="permission-denied")?"Leaderboard abhi kholne ki permission nahi hai (rules publish kiye?).":"Leaderboard load nahi hua. Internet check karke Refresh dabao."}}
+function setLeaderTab(t){app.leaderTab=t;document.querySelectorAll("[data-leader]").forEach(x=>x.classList.toggle("active",x.dataset.leader===t))}
+document.querySelectorAll("[data-leader]").forEach(b=>b.onclick=()=>{setLeaderTab(b.dataset.leader);drawLeader()});$("leaderRefresh").onclick=()=>drawLeader();
+/* ---- test papers (admin uploads question paper + answer key; paid ones need Batch) ---- */
+let PAPERS=null,paperErr="";
+async function loadPapers(force){
+  if(PAPERS!==null&&!force)return;paperErr="";
+  try{const{fs,db}=await fsx();const sn_=await fs.getDocs(fs.query(fs.collection(db,"papers"),fs.where("active","==",true),fs.limit(300)));
+    PAPERS=sn_.docs.map(d=>({id:d.id,...d.data()})).filter(p=>p.active===true&&(p.hasPdf===true||p.pdfUrl||p.pdf))}
+  catch(e){PAPERS=[];paperErr=(e&&e.code==="permission-denied")?"Papers abhi kholne ki permission nahi hai (firestore.rules publish kiye?).":"Papers load nahi hue. Internet check karke dobara try karo."}
+  renderTests()}
+/* ---- init ---- */
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
+(function(){const q=new URLSearchParams(location.search),md=q.get("mode"),go_=q.get("go");
+  if(MODE_LABEL[md])app.path=[md];
+  if(go_==="papers"){app.kind="papers";document.querySelectorAll("[data-kind]").forEach(x=>x.classList.toggle("active",x.dataset.kind==="papers"))}
+  if(["leader","analysis","history"].includes(go_))setTimeout(()=>goHub(go_),0)})();
+renderTests();drawHistory();
+watchAuth(user=>{if(!user)return;UID=user.uid;migrateLegacy();drawHistory();renderTests()});
+document.addEventListener("medrise:control",()=>{testsReady=true;try{renderTests()}catch(e){}});
+if(window.medrise&&window.medrise.controlReady)testsReady=true;renderTests();
+setTimeout(()=>{if(!testsReady){testsReady=true;renderTests();toast("Tests load nahi hue. Internet check karke refresh karo.")}},9000);
+
+</script>
+<script type="module" src="./auth-guard.js"></script>
+</body></html>
