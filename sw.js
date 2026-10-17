@@ -1,4 +1,4 @@
-const CACHE_NAME = "medrise-cache-v11";
+const CACHE_NAME = "medrise-cache-v12";
 const FILES = ["./","./index.html","./notes.html","./mocktest.html","./dashboard.html","./login.html","./admin.html","./pay.html","./community.html",
   "./manifest.json","./firebase.js","./auth-guard.js","./site-control.js","./chapters-data.js",
   "./icons/medrise-192.png","./icons/medrise-512.png","./icons/medrise-maskable-512.png"];
